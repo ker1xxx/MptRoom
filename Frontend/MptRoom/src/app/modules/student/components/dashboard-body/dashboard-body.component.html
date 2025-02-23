@@ -1,0 +1,42 @@
+<div class="body">
+    <div class="block-with-name">
+        <p class="block-name">Недавние оценки</p>
+        <div class="recent-marks-block">
+            @for (grade of grades; track grade.id) {
+            <student-recent-mark-card [subject_name]="grade.subject" [task_name]="grade.task" [due_date]="grade.dueDate"
+                [mark]="grade.grade">
+
+            </student-recent-mark-card>
+            }
+        </div>
+        <div class="time-table-block">
+            <p class="block-name">Расписание на {{dayName}}, {{today}}</p>
+            <div class="time-table-main-block">
+                <div class="inner-time-tables-blocks">
+                    @for (lesson of time_table; track lesson.subject){
+                    <time-table-card [sidebar_color]="lesson.sidebarColor" [lesson_time]="lesson.time"
+                        [lesson_name]="lesson.subject" [teacher_name]="lesson.teacher">
+
+                    </time-table-card>
+                    }
+                </div>
+                <div class="inner-time-tables-blocks">
+                    @for (lesson of time_table; track lesson.subject){
+                    <time-table-card [sidebar_color]="lesson.sidebarColor" [lesson_time]="lesson.time"
+                        [lesson_name]="lesson.subject" [teacher_name]="lesson.teacher">
+
+                    </time-table-card>
+                    }
+                </div>
+                <div class="inner-time-tables-blocks">
+                    @for (lesson of time_table; track lesson.subject){
+                    <time-table-card [sidebar_color]="lesson.sidebarColor" [lesson_time]="lesson.time"
+                        [lesson_name]="lesson.subject" [teacher_name]="lesson.teacher">
+
+                    </time-table-card>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

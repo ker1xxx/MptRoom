@@ -1,0 +1,33 @@
+:host{
+    --purple-text-color: #5928AD;
+}
+
+header{
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr 0.5fr;
+    height: 15%;
+    align-items: center;
+    padding-left: 2.5%;
+}
+
+.header_block{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--purple-text-color);
+} 
+
+.header_navigation_buttons{
+    font-weight: 700;
+}
+
+.user_group{
+    font-weight: 400;
+    color: var(--text-dark-color);
+}
+
+.user_name{
+    font-weight: 500;
+    color: var(--text-black-color);
+}
