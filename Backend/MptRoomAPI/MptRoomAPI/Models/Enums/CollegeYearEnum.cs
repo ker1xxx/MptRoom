@@ -1,6 +1,6 @@
 ﻿namespace MptRoomAPI.Models.Enums
 {
-    public enum CourseNumberEnum
+    public enum CollegeYearEnum
     {
         First = 1,
         Second = 2,

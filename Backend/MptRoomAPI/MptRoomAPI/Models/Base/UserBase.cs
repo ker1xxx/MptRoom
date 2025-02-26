@@ -1,13 +1,14 @@
-﻿namespace MptRoomAPI.Models.Enums
+﻿namespace MptRoomAPI.Models.Base
 {
-    public class StudentModel
+    public class UserBase
     {
-        public int StudentId { get; set; }
+        public int? UserId { get; set; }
         public int PersonalDataId { get; set; }
-        public int GroupId { get; set; }
         public int AuthorizationDataId { get; set; }
         public PersonalDataModel PersonalData { get; set; }
-        public GroupModel Group { get; set; }
         public AuthorizationDataModel AuthorizationData { get; set; }
+        public List<AdditionalMaterialModel> Materials { get; set; }
+        public List<PostModel> Posts { get; set; }
+
     }
 }

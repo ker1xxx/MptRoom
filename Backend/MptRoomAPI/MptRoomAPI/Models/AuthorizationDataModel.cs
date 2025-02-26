@@ -1,6 +1,4 @@
-﻿using MptRoomAPI.Models.Enums;
-
-namespace MptRoomAPI.Models
+﻿namespace MptRoomAPI.Models
 {
     public class AuthorizationDataModel
     {
@@ -8,7 +6,5 @@ namespace MptRoomAPI.Models
         public string Login { get; set; }
         public string Password { get; set; }
         public string PasswordSalt { get; set; }
-        
-        public StudentModel? Student { get; set; }
     }
 }
