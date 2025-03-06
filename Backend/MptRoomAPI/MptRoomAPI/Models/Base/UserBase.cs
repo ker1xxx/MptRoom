@@ -10,5 +10,6 @@
         public List<AdditionalMaterialModel> Materials { get; set; }
         public List<PostModel> Posts { get; set; }
 
+        public RefreshTokenModel RefreshToken { get; set; }
     }
 }

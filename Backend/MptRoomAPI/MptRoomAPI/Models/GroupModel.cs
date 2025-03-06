@@ -5,6 +5,7 @@ namespace MptRoomAPI.Models
     public class GroupModel
     {
         public int? GroupId { get; set; }
+        public string GroupName { get; set; }
         public CollegeYearEnum CourseNumber { get; set; }
         public List<StudentModel> Students { get; set; }
         public List<CourseModel> Courses { get; set; }

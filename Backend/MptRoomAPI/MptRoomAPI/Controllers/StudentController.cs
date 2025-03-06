@@ -1,0 +1,185 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MptRoomAPI.DTO;
+using MptRoomAPI.Models;
+
+namespace MptRoomAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class StudentController : ControllerBase
+    {
+        private readonly MptRoomDbContext _context;
+        private readonly ILogger<StudentController> _logger;
+
+        public StudentController(MptRoomDbContext context, ILogger<StudentController> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
+        // GET: api/Student
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudents()
+        {
+            try
+            {
+                var students = await _context.Students
+                    .Select(s => new StudentDTO
+                    {
+                        UserId = s.UserId,
+                        PersonalDataId = s.PersonalDataId,
+                        AuthorizationDataId = s.AuthorizationDataId,
+                        GroupId = s.GroupId,
+                    })
+                    .ToListAsync();
+
+                return Ok(students);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving student records.");
+                return StatusCode(500, "An error occurred while retrieving student records.");
+            }
+        }
+
+        // GET: api/Student/5
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<ActionResult<StudentDTO>> GetStudentModel(int id)
+        {
+            try
+            {
+                var student = await _context.Students
+                    .Where(s => s.UserId == id)
+                    .Select(s => new StudentDTO
+                    {
+                        UserId = s.UserId,
+                        PersonalDataId = s.PersonalDataId,
+                        AuthorizationDataId = s.AuthorizationDataId,
+                        GroupId = s.GroupId,
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (student == null)
+                {
+                    return NotFound($"Student with ID {id} not found.");
+                }
+
+                return Ok(student);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving student with ID {id}.");
+                return StatusCode(500, "An error occurred while retrieving the student record.");
+            }
+        }
+
+        // PUT: api/Student/5
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator,Teacher")]
+        public async Task<IActionResult> PutStudentModel(int id, StudentDTO studentDTO)
+        {
+            if (id != studentDTO.UserId)
+            {
+                return BadRequest("Student ID mismatch.");
+            }
+
+            try
+            {
+                var student = await _context.Students.FindAsync(id);
+
+                if (student == null)
+                {
+                    return NotFound($"Student with ID {id} not found.");
+                }
+
+                student.PersonalDataId = studentDTO.PersonalDataId;
+                student.AuthorizationDataId = studentDTO.AuthorizationDataId;
+                student.GroupId = studentDTO.GroupId;
+
+                _context.Entry(student).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogError(ex, "Concurrency error while updating student record.");
+                return StatusCode(500, "An error occurred while updating the student record.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while updating student record.");
+                return StatusCode(500, "An error occurred while updating the student record.");
+            }
+        }
+
+        // POST: api/Student
+        [HttpPost]
+        [Authorize(Roles = "Administrator,Teacher")]
+        public async Task<ActionResult<StudentDTO>> PostStudentModel(StudentDTO studentDTO)
+        {
+            try
+            {
+                var student = new StudentModel
+                {
+                    UserId = studentDTO.UserId,
+                    PersonalDataId = studentDTO.PersonalDataId,
+                    AuthorizationDataId = studentDTO.AuthorizationDataId,
+                    GroupId = studentDTO.GroupId,
+                };
+
+                _context.Students.Add(student);
+                await _context.SaveChangesAsync();
+
+                studentDTO.UserId = student.UserId;  // Assuming UserId is autogenerated
+
+                return CreatedAtAction(nameof(GetStudentModel), new { id = studentDTO.UserId }, studentDTO);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating student record.");
+                return StatusCode(500, "An error occurred while creating the student record.");
+            }
+        }
+
+        // DELETE: api/Student/5
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator,Teacher")]
+        public async Task<IActionResult> DeleteStudentModel(int id)
+        {
+            try
+            {
+                var student = await _context.Students.FindAsync(id);
+                if (student == null)
+                {
+                    return NotFound($"Student with ID {id} not found.");
+                }
+
+                _context.Students.Remove(student);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while deleting student record.");
+                return StatusCode(500, "An error occurred while deleting the student record.");
+            }
+        }
+
+        private bool StudentModelExists(int id)
+        {
+            return _context.Students.Any(e => e.UserId == id);
+        }
+    }
+}

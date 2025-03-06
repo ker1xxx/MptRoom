@@ -1,0 +1,180 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MptRoomAPI.DTO;
+using MptRoomAPI.Models;
+
+namespace MptRoomAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class SurveyOptionController : ControllerBase
+    {
+        private readonly MptRoomDbContext _context;
+        private readonly ILogger<SurveyOptionController> _logger;
+
+        public SurveyOptionController(MptRoomDbContext context, ILogger<SurveyOptionController> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
+        // GET: api/SurveyOption
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<SurveyOptionDTO>>> GetSurveyOptions()
+        {
+            try
+            {
+                var surveyOptions = await _context.SurveyOptions
+                    .Select(so => new SurveyOptionDTO
+                    {
+                        SurveyOptionId = so.SurveyOptionId,
+                        PostId = so.PostId,
+                        OptionName = so.OptionName,
+                    })
+                    .ToListAsync();
+
+                return Ok(surveyOptions);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving survey options.");
+                return StatusCode(500, "An error occurred while retrieving survey options.");
+            }
+        }
+
+        // GET: api/SurveyOption/5
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<ActionResult<SurveyOptionDTO>> GetSurveyOptionModel(int id)
+        {
+            try
+            {
+                var surveyOption = await _context.SurveyOptions
+                    .Where(so => so.SurveyOptionId == id)
+                    .Select(so => new SurveyOptionDTO
+                    {
+                        SurveyOptionId = so.SurveyOptionId,
+                        PostId = so.PostId,
+                        OptionName = so.OptionName,
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (surveyOption == null)
+                {
+                    return NotFound($"Survey option with ID {id} not found.");
+                }
+
+                return Ok(surveyOption);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving survey option with ID {id}.");
+                return StatusCode(500, "An error occurred while retrieving the survey option.");
+            }
+        }
+
+        // PUT: api/SurveyOption/5
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator,Teacher")]
+        public async Task<IActionResult> PutSurveyOptionModel(int id, SurveyOptionDTO surveyOptionDTO)
+        {
+            if (id != surveyOptionDTO.SurveyOptionId)
+            {
+                return BadRequest("Survey Option ID mismatch.");
+            }
+
+            try
+            {
+                var surveyOption = await _context.SurveyOptions.FindAsync(id);
+
+                if (surveyOption == null)
+                {
+                    return NotFound($"Survey option with ID {id} not found.");
+                }
+
+                surveyOption.OptionName = surveyOptionDTO.OptionName;
+                surveyOption.PostId = surveyOptionDTO.PostId;
+
+                _context.Entry(surveyOption).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogError(ex, "Concurrency error while updating survey option.");
+                return StatusCode(500, "An error occurred while updating the survey option.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while updating survey option.");
+                return StatusCode(500, "An error occurred while updating the survey option.");
+            }
+        }
+
+        // POST: api/SurveyOption
+        [HttpPost]
+        [Authorize(Roles = "Administrator,Teacher")]
+        public async Task<ActionResult<SurveyOptionDTO>> PostSurveyOptionModel(SurveyOptionDTO surveyOptionDTO)
+        {
+            try
+            {
+                var surveyOption = new SurveyOptionModel
+                {
+                    PostId = surveyOptionDTO.PostId,
+                    OptionName = surveyOptionDTO.OptionName,
+                };
+
+                _context.SurveyOptions.Add(surveyOption);
+                await _context.SaveChangesAsync();
+
+                surveyOptionDTO.SurveyOptionId = surveyOption.SurveyOptionId; // Assuming SurveyOptionId is autogenerated
+
+                return CreatedAtAction(nameof(GetSurveyOptionModel), new { id = surveyOptionDTO.SurveyOptionId }, surveyOptionDTO);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating survey option.");
+                return StatusCode(500, "An error occurred while creating the survey option.");
+            }
+        }
+
+        // DELETE: api/SurveyOption/5
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteSurveyOptionModel(int id)
+        {
+            try
+            {
+                var surveyOption = await _context.SurveyOptions.FindAsync(id);
+                if (surveyOption == null)
+                {
+                    return NotFound($"Survey option with ID {id} not found.");
+                }
+
+                _context.SurveyOptions.Remove(surveyOption);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while deleting survey option.");
+                return StatusCode(500, "An error occurred while deleting the survey option.");
+            }
+        }
+
+        private bool SurveyOptionModelExists(int id)
+        {
+            return _context.SurveyOptions.Any(e => e.SurveyOptionId == id);
+        }
+    }
+}

@@ -9,6 +9,7 @@ namespace MptRoomAPI.Models
         public GroupModel Group { get; set; }
 
         public List<TaskAnswerModel> TaskAnswers { get; set; } = new();
+        public List<CourseModel> Courses { get; set; }
 
     }
 }

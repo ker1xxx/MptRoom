@@ -25,8 +25,4 @@ export class StudentService {
   getGrades(): Observable<GradesModel[]> {
     return this.http.get<GradesModel[]>(`${this.apiUrl}/grades`);
   }
-
-  getLessons(): Observable<LessonModel[]> {
-    return this.http.get<LessonModel[]>(`${this.apiUrl}/lessons`);
-  }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\MptRoomAPI.csproj": {}
+    "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\mptroomapi\\MptRoomAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\MptRoomAPI.csproj": {
+    "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\mptroomapi\\MptRoomAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\MptRoomAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\mptroomapi\\MptRoomAPI.csproj",
         "projectName": "MptRoomAPI",
-        "projectPath": "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\MptRoomAPI.csproj",
+        "projectPath": "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\mptroomapi\\MptRoomAPI.csproj",
         "packagesPath": "C:\\Users\\Kirill\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\obj\\",
+        "outputPath": "C:\\Users\\Kirill\\Desktop\\4 course\\Диплом\\Application\\Backend\\MptRoomAPI\\mptroomapi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -45,12 +45,24 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JWtBearer": {
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Versioning": {
+              "target": "Package",
+              "version": "[5.1.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.0, )"
@@ -78,6 +90,22 @@
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.21.0, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[7.3.1, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.6.0, )"
             }
           },
           "imports": [
@@ -99,7 +127,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

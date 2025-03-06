@@ -6,10 +6,9 @@ namespace MptRoomAPI.Models
     public class MptRoomDbContext : DbContext
     {
         public DbSet<UserBase> Users { get; set; }
-        public DbSet<AdditionalMaterialModel> AddtionalMaterials { get; set; }
+        public DbSet<AdditionalMaterialModel> AdditionalMaterials { get; set; }
         public DbSet<AdministratorModel> Administrators { get; set; }
         public DbSet<AuthorizationDataModel> AuthorizationDatas { get; set; }
-        public DbSet<LessonSlotModel> CollegeYears { get; set; }
         public DbSet<CourseModel> Courses { get; set; }
         public DbSet<GroupModel> Groups { get; set; }
         public DbSet<HousingModel> Housings { get; set; }
@@ -18,6 +17,7 @@ namespace MptRoomAPI.Models
         public DbSet<PersonalDataModel> PersonalDatas { get; set; }
         public DbSet<PostModel> Posts { get; set; }
         public DbSet<PostThemeModel> PostThemes { get; set; }
+        public DbSet<RefreshTokenModel> RefreshTokens { get; set; }
         public DbSet<StudentModel> Students { get; set; }
         public DbSet<SubjectModel> Subjects { get; set; }
         public DbSet<SurveyOptionModel> SurveyOptions { get; set; }
@@ -59,7 +59,7 @@ namespace MptRoomAPI.Models
             #region AdditionalMaterial
 
             modelBuilder.Entity<AdditionalMaterialModel>()
-                .HasKey(a => a.AddtionalMaterialId);
+                .HasKey(a => a.AdditionalMaterialId);
 
             modelBuilder.Entity<AdditionalMaterialModel>()
                 .HasOne(a => a.User)
@@ -75,8 +75,6 @@ namespace MptRoomAPI.Models
 
             #region AdministratorModel
 
-            modelBuilder.Entity<AdministratorModel>()
-                .HasKey(a => a.UserId);
 
             #endregion
 
@@ -87,11 +85,15 @@ namespace MptRoomAPI.Models
 
             #endregion
 
-
             #region CourseModel
 
             modelBuilder.Entity<CourseModel>()
                 .HasKey(c => c.CourseId);
+
+            modelBuilder.Entity<CourseModel>()
+                .Property(c => c.HexademicalColor)
+                .HasMaxLength(500)
+                .IsRequired();
 
             modelBuilder.Entity<CourseModel>()
                 .HasOne(c => c.Subject)
@@ -110,6 +112,10 @@ namespace MptRoomAPI.Models
                 .WithMany()
                 .HasForeignKey(c => c.TeacherId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CourseModel>()
+                .HasMany(c => c.Students)
+                .WithMany(s => s.Courses);
 
             #endregion
 
@@ -147,7 +153,7 @@ namespace MptRoomAPI.Models
             modelBuilder.Entity<LessonModel>()
                 .HasOne(l => l.LessonNumber)
                 .WithMany()
-                .HasForeignKey(l => l.LessonNumber)
+                .HasForeignKey(l => l.LessonNumberId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<LessonModel>()
@@ -210,10 +216,21 @@ namespace MptRoomAPI.Models
 
             #endregion
 
+            #region RefreshTokenModel
+
+            modelBuilder.Entity<RefreshTokenModel>()
+                .HasKey(rt => rt.RefreshTokenId);
+
+            modelBuilder.Entity<RefreshTokenModel>()
+                .HasOne(rt => rt.User)
+                .WithOne(u => u.RefreshToken)
+                .HasForeignKey<RefreshTokenModel>(rt => rt.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
             #region StudentModel
 
-            modelBuilder.Entity<StudentModel>()
-                .HasKey(s => s.UserId);
 
             #endregion
 
@@ -301,8 +318,6 @@ namespace MptRoomAPI.Models
 
             #region TeacherModel
 
-            modelBuilder.Entity<TeacherModel>()
-                .HasKey(t => t.UserId);
 
             #endregion
 

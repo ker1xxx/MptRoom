@@ -3,28 +3,184 @@
   "WorkspaceRootPath": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\authorizationdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\authorizationdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\dto\\authorizationdatadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\dto\\authorizationdatadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\authorizationdatamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\authorizationdatamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\mptroomdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\mptroomdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\base\\userbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\base\\userbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\services\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\services\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\additionalmaterialmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\additionalmaterialmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\teachercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\teachercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\taskcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\taskcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\taskanswercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\taskanswercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\surveyoptioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\surveyoptioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\administratorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\administratorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\subjectcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\subjectcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\postthemecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\postthemecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\personaldatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\personaldatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\lessonslotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\lessonslotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\lessoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\lessoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\housingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\housingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\groupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\groupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\controllers\\additionalmaterialcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\controllers\\additionalmaterialcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\dto\\additionalmaterialdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\dto\\additionalmaterialdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\dto\\teacherdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\dto\\teacherdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\dto\\administratordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\dto\\administratordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\taskmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\taskmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\taskanswermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\taskanswermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\teachermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\teachermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\surveyoptionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\surveyoptionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\subjectmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\subjectmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\coursemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\coursemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\groupmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\groupmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\dto\\groupdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\dto\\groupdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\dto\\coursedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\dto\\coursedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\administratormodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\administratormodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\mptroomapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\mptroomapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\studentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\studentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\mptroomapi.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\mptroomapi.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\taskanswermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\taskanswermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\subjectmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\subjectmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\postmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -35,44 +191,8 @@
       "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\postthememodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\base\\userbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\base\\userbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\teachermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\teachermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\coursemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\coursemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\lessonslotmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\lessonslotmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\groupmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\groupmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\authorizationdatamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\authorizationdatamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\administratormodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\administratormodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\personaldatamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\personaldatamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\additionalmaterialmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|solutionrelative:mptroomapi\\models\\additionalmaterialmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F70B6A6-83A2-43AC-B0FD-0EE6E2CB92F8}|MptRoomAPI\\MptRoomAPI.csproj|c:\\users\\kirill\\desktop\\4 course\\\u0434\u0438\u043F\u043B\u043E\u043C\\application\\backend\\mptroomapi\\mptroomapi\\models\\enums\\weektypeenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -98,30 +218,82 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MptRoomDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\MptRoomDbContext.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\MptRoomDbContext.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\MptRoomDbContext.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\MptRoomDbContext.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAkwC0AAAAZAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "AuthorizationDataDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\AuthorizationDataDTO.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\DTO\\AuthorizationDataDTO.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\AuthorizationDataDTO.cs",
+              "RelativeToolTip": "MptRoomAPI\\DTO\\AuthorizationDataDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T12:05:52.808Z",
+              "WhenOpened": "2025-03-05T23:08:17.907Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 1,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:57:30.277Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Services\\UserService.cs",
+              "RelativeToolTip": "MptRoomAPI\\Services\\UserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T10:15:11.906Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthorizationDataController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\AuthorizationDataController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\AuthorizationDataController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\AuthorizationDataController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\AuthorizationDataController.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAQwKIAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T08:55:25.835Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthorizationDataModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AuthorizationDataModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\AuthorizationDataModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AuthorizationDataModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\AuthorizationDataModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:40:44.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "UserBase.cs",
               "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\Base\\UserBase.cs",
               "RelativeDocumentMoniker": "MptRoomAPI\\Models\\Base\\UserBase.cs",
               "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\Base\\UserBase.cs",
               "RelativeToolTip": "MptRoomAPI\\Models\\Base\\UserBase.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAoAAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-24T10:30:37.29Z",
               "EditorCaption": ""
@@ -129,58 +301,487 @@
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "StudentModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\StudentModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\StudentModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\StudentModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\StudentModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAARAAAAAAAAAA==",
+              "Title": "MptRoomDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\MptRoomDbContext.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\MptRoomDbContext.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\MptRoomDbContext.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\MptRoomDbContext.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAtwFEAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-23T13:55:41.459Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "PostModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\PostModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\PostModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\PostModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\PostModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA4AAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T10:43:28.106Z",
+              "WhenOpened": "2025-03-05T10:55:47.912Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "PostThemeModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\PostThemeModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\PostThemeModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\PostThemeModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\PostThemeModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAAyAAAAAAAAAA==",
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Services\\IUserService.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Services\\IUserService.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Services\\IUserService.cs",
+              "RelativeToolTip": "MptRoomAPI\\Services\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T10:44:11.32Z",
+              "WhenOpened": "2025-03-03T10:14:46.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AdditionalMaterialModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AdditionalMaterialModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\AdditionalMaterialModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AdditionalMaterialModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\AdditionalMaterialModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T11:37:40.971Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TeacherController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\TeacherController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\TeacherController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\TeacherController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\TeacherController.cs",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAowKwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:05:43.954Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "TaskController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\TaskController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\TaskController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\TaskController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\TaskController.cs",
+              "ViewState": "AgIAALcAAAAAAAAAAAAowNcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:04:45.028Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "TaskAnswerController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\TaskAnswerController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\TaskAnswerController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\TaskAnswerController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\TaskAnswerController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:03:53.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "SurveyOptionController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\SurveyOptionController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\SurveyOptionController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\SurveyOptionController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\SurveyOptionController.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAowLQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:03:20.691Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "MptRoomAPI\\appsettings.json",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\appsettings.json",
+              "RelativeToolTip": "MptRoomAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-03T09:34:27.893Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AdministratorController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\AdministratorController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\AdministratorController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\AdministratorController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\AdministratorController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAUwK8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T08:54:55.065Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "SubjectController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\SubjectController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\SubjectController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\SubjectController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\SubjectController.cs",
+              "ViewState": "AgIAAJ4AAAAAAAAAAAAwwKwAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:02:48.533Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "StudentController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\StudentController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\StudentController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\StudentController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\StudentController.cs",
+              "ViewState": "AgIAALAAAAAAAAAAAAAwwLkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:02:19.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "PostThemeController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\PostThemeController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\PostThemeController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\PostThemeController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\PostThemeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-05T06:47:48.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "PostController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\PostController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\PostController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\PostController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\PostController.cs",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAAowL0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:00:55.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "PersonalDataController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\PersonalDataController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\PersonalDataController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\PersonalDataController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\PersonalDataController.cs",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAQwKUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:00:14.956Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "LessonSlotController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\LessonSlotController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\LessonSlotController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\LessonSlotController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\LessonSlotController.cs",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAowKsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T08:59:15.166Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "LessonController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\LessonController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\LessonController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\LessonController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\LessonController.cs",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAgwIQAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T08:58:42.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "HousingController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\HousingController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\HousingController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\HousingController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\HousingController.cs",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAowKsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T08:58:16.381Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "GroupController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\GroupController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\GroupController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\GroupController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\GroupController.cs",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAowJsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T08:56:55.553Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "CourseController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\CourseController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\CourseController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\CourseController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\CourseController.cs",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAowK8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T08:56:02.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "AdditionalMaterialController.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\AdditionalMaterialController.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Controllers\\AdditionalMaterialController.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Controllers\\AdditionalMaterialController.cs",
+              "RelativeToolTip": "MptRoomAPI\\Controllers\\AdditionalMaterialController.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAowKEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T08:54:24.297Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "AdditionalMaterialDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\AdditionalMaterialDTO.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\DTO\\AdditionalMaterialDTO.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\AdditionalMaterialDTO.cs",
+              "RelativeToolTip": "MptRoomAPI\\DTO\\AdditionalMaterialDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-04T23:31:51.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "TeacherDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\TeacherDTO.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\DTO\\TeacherDTO.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\TeacherDTO.cs",
+              "RelativeToolTip": "MptRoomAPI\\DTO\\TeacherDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-04T23:25:26.531Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "AdministratorDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\AdministratorDTO.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\DTO\\AdministratorDTO.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\AdministratorDTO.cs",
+              "RelativeToolTip": "MptRoomAPI\\DTO\\AdministratorDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-05T14:30:02.569Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
               "Title": "TeacherModel.cs",
               "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\TeacherModel.cs",
               "RelativeDocumentMoniker": "MptRoomAPI\\Models\\TeacherModel.cs",
               "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\TeacherModel.cs",
               "RelativeToolTip": "MptRoomAPI\\Models\\TeacherModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-24T10:28:35.43Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 29,
+              "Title": "TaskModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\TaskModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\TaskModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\TaskModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\TaskModel.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAA1wBgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T11:58:47.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "SurveyOptionModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\SurveyOptionModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\SurveyOptionModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\SurveyOptionModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\SurveyOptionModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T12:03:06.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "CourseModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\CourseModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\CourseModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\CourseModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\CourseModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T10:49:11.639Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "GroupModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\GroupModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\GroupModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\GroupModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\GroupModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:55:13.318Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "GroupDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\GroupDTO.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\DTO\\GroupDTO.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\GroupDTO.cs",
+              "RelativeToolTip": "MptRoomAPI\\DTO\\GroupDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-05T06:01:30.201Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "CourseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\CourseDTO.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\DTO\\CourseDTO.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\DTO\\CourseDTO.cs",
+              "RelativeToolTip": "MptRoomAPI\\DTO\\CourseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-04T23:25:24.524Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "AdministratorModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AdministratorModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\AdministratorModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AdministratorModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\AdministratorModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T12:04:36.261Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "StudentModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\StudentModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\StudentModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\StudentModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\StudentModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-23T13:55:41.459Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "MptRoomAPI",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\MptRoomAPI.csproj",
+              "RelativeDocumentMoniker": "MptRoomAPI\\MptRoomAPI.csproj",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\MptRoomAPI.csproj*",
+              "RelativeToolTip": "MptRoomAPI\\MptRoomAPI.csproj*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-03-04T23:25:23.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Program.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Program.cs",
+              "RelativeToolTip": "MptRoomAPI\\Program.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAIBJwA4AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T13:32:01.61Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "MptRoomAPI.http",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\MptRoomAPI.http",
+              "RelativeDocumentMoniker": "MptRoomAPI\\MptRoomAPI.http",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\MptRoomAPI.http",
+              "RelativeToolTip": "MptRoomAPI\\MptRoomAPI.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-03-03T09:16:43.879Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "MptRoomAPI\\Properties\\launchSettings.json",
+              "ViewState": "AgIAABgAAAAAAAAAAAAkwCkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-03T09:24:29.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Dockerfile",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Dockerfile",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Dockerfile",
+              "RelativeToolTip": "MptRoomAPI\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-03-03T09:16:04.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
               "Title": "SubjectModel.cs",
               "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\SubjectModel.cs",
               "RelativeDocumentMoniker": "MptRoomAPI\\Models\\SubjectModel.cs",
@@ -193,20 +794,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SurveyOptionModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\SurveyOptionModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\SurveyOptionModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\SurveyOptionModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\SurveyOptionModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 46,
+              "Title": "PostThemeModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\PostThemeModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\PostThemeModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\PostThemeModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\PostThemeModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T12:03:06.546Z",
+              "WhenOpened": "2025-02-24T10:44:11.32Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 45,
+              "Title": "PostModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\PostModel.cs",
+              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\PostModel.cs",
+              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\PostModel.cs",
+              "RelativeToolTip": "MptRoomAPI\\Models\\PostModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA4AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T10:43:28.106Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
               "Title": "TaskAnswerModel.cs",
               "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\TaskAnswerModel.cs",
               "RelativeDocumentMoniker": "MptRoomAPI\\Models\\TaskAnswerModel.cs",
@@ -219,98 +833,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TaskModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\TaskModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\TaskModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\TaskModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\TaskModel.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T11:58:47.953Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CourseModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\CourseModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\CourseModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\CourseModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\CourseModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA0AAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T10:49:11.639Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "LessonSlotModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\LessonSlotModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\LessonSlotModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\LessonSlotModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\LessonSlotModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T10:35:56.739Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Program.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Program.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Program.cs",
-              "RelativeToolTip": "MptRoomAPI\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T13:32:01.61Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "GroupModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\GroupModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\GroupModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\GroupModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\GroupModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAoAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-23T13:55:13.318Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "AuthorizationDataModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AuthorizationDataModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\AuthorizationDataModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AuthorizationDataModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\AuthorizationDataModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-23T13:40:44.831Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "AdministratorModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AdministratorModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\AdministratorModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AdministratorModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\AdministratorModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T12:04:36.261Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 47,
               "Title": "PersonalDataModel.cs",
               "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\PersonalDataModel.cs",
               "RelativeDocumentMoniker": "MptRoomAPI\\Models\\PersonalDataModel.cs",
@@ -323,20 +846,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "AdditionalMaterialModel.cs",
-              "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AdditionalMaterialModel.cs",
-              "RelativeDocumentMoniker": "MptRoomAPI\\Models\\AdditionalMaterialModel.cs",
-              "ToolTip": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\AdditionalMaterialModel.cs",
-              "RelativeToolTip": "MptRoomAPI\\Models\\AdditionalMaterialModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T11:37:40.971Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 48,
               "Title": "WeekTypeEnum.cs",
               "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\Enums\\WeekTypeEnum.cs",
               "RelativeDocumentMoniker": "MptRoomAPI\\Models\\Enums\\WeekTypeEnum.cs",
@@ -349,7 +859,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 50,
               "Title": "PostTypeEnum.cs",
               "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\Enums\\PostTypeEnum.cs",
               "RelativeDocumentMoniker": "MptRoomAPI\\Models\\Enums\\PostTypeEnum.cs",
@@ -357,11 +867,12 @@
               "RelativeToolTip": "MptRoomAPI\\Models\\Enums\\PostTypeEnum.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-23T13:50:05.389Z"
+              "WhenOpened": "2025-02-23T13:50:05.389Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 51,
               "Title": "TaskStatusEnum.cs",
               "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\Enums\\TaskStatusEnum.cs",
               "RelativeDocumentMoniker": "MptRoomAPI\\Models\\Enums\\TaskStatusEnum.cs",
@@ -369,11 +880,12 @@
               "RelativeToolTip": "MptRoomAPI\\Models\\Enums\\TaskStatusEnum.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-23T13:47:07.731Z"
+              "WhenOpened": "2025-02-23T13:47:07.731Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 49,
               "Title": "CollegeYearEnum.cs",
               "DocumentMoniker": "C:\\Users\\Kirill\\Desktop\\4 course\\\u0414\u0438\u043F\u043B\u043E\u043C\\Application\\Backend\\MptRoomAPI\\MptRoomAPI\\Models\\Enums\\CollegeYearEnum.cs",
               "RelativeDocumentMoniker": "MptRoomAPI\\Models\\Enums\\CollegeYearEnum.cs",
