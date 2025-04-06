@@ -5,8 +5,9 @@ import { max } from 'rxjs';
 @Component({
   selector: 'student-recent-mark-card',
   imports: [CommonModule],
+  standalone: true,
   templateUrl: './recent-mark-card.component.html',
-  styleUrl: './recent-mark-card.component.scss'
+  styleUrl: './recent-mark-card.component.scss',
 })
 export class RecentMarkCardComponent {
   status: string = 'good-mark';
@@ -16,16 +17,14 @@ export class RecentMarkCardComponent {
   @Input() mark: string = '';
 
   ngOnInit() {
-    console.log(this.subject_name, this.task_name, this.due_date, this.mark)
-    const current_mark = Number(this.mark.split('/')[0])
-    const max_mark = Number(this.mark.split('/')[1])
-    const mark_percentage = current_mark / max_mark
-    if (mark_percentage > 0.6)
-      this.status = 'good-mark'
+    console.log(this.subject_name, this.task_name, this.due_date, this.mark);
+    const current_mark = Number(this.mark.split('/')[0]);
+    const max_mark = Number(this.mark.split('/')[1]);
+    const mark_percentage = current_mark / max_mark;
+    if (mark_percentage > 0.6) this.status = 'good-mark';
     else if (0.6 >= mark_percentage && mark_percentage > 0.4)
-      this.status = 'satisfactorily-mark'
-    else
-      this.status = 'bad-mark'
-    console.log(mark_percentage)
+      this.status = 'satisfactorily-mark';
+    else this.status = 'bad-mark';
+    console.log(mark_percentage);
   }
 }

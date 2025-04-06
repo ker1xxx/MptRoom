@@ -1,0 +1,40 @@
+:host{
+    --purple-text-color: #5928AD;
+}
+
+header{
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr 0.5fr;
+    height: 15%;
+    align-items: center;
+    padding-left: 2.5%;
+}
+
+.header_block{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    font-size: 2em;
+    font-weight: 800;
+    color: var(--purple-text-color);
+    vertical-align: middle;
+} 
+
+.header_navigation_buttons{
+    font-weight: 700;
+}
+
+.user_group{
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+    font-weight: 400;
+    color: var(--text-dark-color);
+}
+
+.user_name{
+    padding-left: 10%;
+    padding-right: 10%;
+    font-weight: 500;
+    text-align: center;
+    color: var(--text-black-color);
+}

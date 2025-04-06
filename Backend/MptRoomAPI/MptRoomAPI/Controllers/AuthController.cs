@@ -21,10 +21,10 @@ namespace MptRoomAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         private readonly MptRoomDbContext _context;
 
-        public AuthController(IConfiguration config, UserService userService, MptRoomDbContext context)
+        public AuthController(IConfiguration config, IUserService userService, MptRoomDbContext context)
         {
             _config = config;
             _userService = userService;
@@ -40,11 +40,22 @@ namespace MptRoomAPI.Controllers
             {
                 return Unauthorized();
             }
-
             var accessToken = GenerateJwtToken(user);
             var refreshToken = GenerateRefreshToken();
+
+            var role = ((IUserService)_userService).GetUserRole(user);
+
             SaveRefreshToken(user, refreshToken);
-            return Ok(new { accessToken, refreshToken });
+
+            Response.Cookies.Append("access_token", (string)accessToken, new CookieOptions
+            {
+                HttpOnly = false, // Защищает от доступа через JS
+                Secure = false, // Только по HTTP
+                SameSite = SameSiteMode.Strict, // Запрещает отправку cookie на сторонние сайты
+                Expires = DateTime.UtcNow.AddHours(1) // Время жизни токена
+            });
+
+            return Ok(new { refreshToken, role });
         }
 
         [HttpPost("refresh")]
@@ -76,14 +87,30 @@ namespace MptRoomAPI.Controllers
 
         private void SaveRefreshToken(UserBase user, string refreshToken)
         {
-            var refreshTokenEntity = new RefreshTokenModel
-            {
-                UserId = (int)user.UserId,
-                Token = refreshToken,
-                ExpirationDate = DateTime.UtcNow.AddDays(30)
-            };
+            // Ищем существующий refresh token для этого пользователя
+            var existingToken = _context.RefreshTokens.FirstOrDefault(rt => rt.UserId == user.UserId);
 
-            _context.RefreshTokens.Add(refreshTokenEntity);
+            if (existingToken != null)
+            {
+                // Обновляем существующий refresh token
+                existingToken.Token = refreshToken;
+                existingToken.ExpirationDate = DateTime.UtcNow.AddDays(30);
+                _context.RefreshTokens.Update(existingToken);
+            }
+            else
+            {
+                // Добавляем новый refresh token
+                var refreshTokenEntity = new RefreshTokenModel
+                {
+                    UserId = (int)user.UserId,
+                    Token = refreshToken,
+                    ExpirationDate = DateTime.UtcNow.AddDays(30)
+                };
+
+                _context.RefreshTokens.Add(refreshTokenEntity);
+            }
+
+            // Сохраняем изменения в базе данных
             _context.SaveChanges();
         }
 
@@ -102,6 +129,7 @@ namespace MptRoomAPI.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.AuthorizationData.Login),
+                new Claim((string)ClaimTypes.SerialNumber, user.UserId.ToString()),
             };
 
             if (user is StudentModel)
@@ -115,7 +143,7 @@ namespace MptRoomAPI.Controllers
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "MptRoomBackendAPI",
+                issuer: "MptRoomBackendAPI", 
                 audience: "MptRoomClientApp",
                 claims: claims,
                 expires: DateTime.Now.AddHours(1),

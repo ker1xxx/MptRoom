@@ -1,17 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {StudentDashboardComponent} from './pages/student-dashboard/student-dashboard.component'
-import { StudentRoutingModule } from './student-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
+import { StudentDashboardComponent } from './pages/student-dashboard/student-dashboard.component';
 
+const routes: Routes = [{ path: '', component: StudentDashboardComponent }];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    StudentRoutingModule,
-    HttpClientModule
-  ]
+  imports: [CommonModule, RouterModule.forChild(routes)],
 })
-export class StudentModule {
-
- }
+export class StudentModule {}

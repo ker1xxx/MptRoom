@@ -1,0 +1,14 @@
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\TestTask.csproj.AssemblyReference.cache
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\Avalonia\Resources.Inputs.cache
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\Avalonia\resources
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\TestTask.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\TestTask.AssemblyInfoInputs.cache
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\TestTask.AssemblyInfo.cs
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\TestTask.csproj.CoreCompileInputs.cache
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\TestTask.sourcelink.json
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\Avalonia\TestTask.dll
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\Avalonia\TestTask.pdb
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\refint\Avalonia\TestTask.dll
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\TestTask.dll
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\refint\TestTask.dll
+C:\Users\Kirill\Desktop\4 course\Диплом\Application\Backend\TestTask\TestTask\obj\Debug\net9.0\TestTask.pdb

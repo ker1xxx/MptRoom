@@ -6,7 +6,7 @@ import {
   HttpHeaders,
   HttpEvent,
 } from '@angular/common/http';
-import { AuthorizationServiceService } from '../services/auth/authorization-service.service';
+import { AuthorizationServiceService } from '../modules/authorization/services/authorization-service.service';
 import { Observable } from 'rxjs';
 
 @Injectable()

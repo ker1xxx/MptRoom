@@ -91,11 +91,6 @@ namespace MptRoomAPI.Models
                 .HasKey(c => c.CourseId);
 
             modelBuilder.Entity<CourseModel>()
-                .Property(c => c.HexademicalColor)
-                .HasMaxLength(500)
-                .IsRequired();
-
-            modelBuilder.Entity<CourseModel>()
                 .HasOne(c => c.Subject)
                 .WithMany()
                 .HasForeignKey(c => c.SubjectId)
@@ -185,9 +180,9 @@ namespace MptRoomAPI.Models
             #endregion
 
             #region PostModel
-               
+
             modelBuilder.Entity<PostModel>()
-                .HasKey(p =>p.PostId);
+                .HasKey(p => p.PostId);
 
             modelBuilder.Entity<PostModel>()
                 .HasOne(p => p.PostTheme)
@@ -239,12 +234,17 @@ namespace MptRoomAPI.Models
             modelBuilder.Entity<SubjectModel>()
                 .HasKey(s => s.SubjectId);
 
+            modelBuilder.Entity<SubjectModel>()
+                .Property(c => c.HexademicalColor)
+                .HasMaxLength(500)
+                .IsRequired();
+
             #endregion
 
             #region SurveyOptionModel
 
             modelBuilder.Entity<SurveyOptionModel>()
-                .HasKey (s => s.SurveyOptionId);
+                .HasKey(s => s.SurveyOptionId);
 
             modelBuilder.Entity<SurveyOptionModel>()
                 .HasOne(so => so.Post)

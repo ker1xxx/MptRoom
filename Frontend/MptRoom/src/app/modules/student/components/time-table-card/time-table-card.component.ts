@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'time-table-card',
   imports: [],
+  standalone: true,
   templateUrl: './time-table-card.component.html',
   styleUrl: './time-table-card.component.scss',
 })

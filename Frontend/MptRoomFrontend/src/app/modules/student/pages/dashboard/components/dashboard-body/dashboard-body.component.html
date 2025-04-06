@@ -1,0 +1,47 @@
+<div class="body">
+    <div class="block-with-name">
+        <p class="block-name">Недавние оценки</p>
+        <div class="recent-marks-block">
+            <div *ngFor="let grade of grades$ | async; trackBy: trackByGradeId">
+                <student-recent-mark-card [subject_name]="grade.Subject" [task_name]="grade.Grade"
+                    [due_date]="grade.Duedate" [mark]="(grade.Grade).toString()" [sidebar_color]="">
+                </student-recent-mark-card>
+            </div>
+        </div>
+        <div class="mid-block">
+
+            <div class="time-table-block">
+                <p class="block-name">Расписание на {{ dayName }}, {{ today }}</p>
+                <div class="time-table-main-block">
+                    <div *ngIf="time_table$ | async as lessons; else loading">
+                        <div class="inner-tables-blocks"
+                            *ngFor="let lesson of time_table$ | async; trackBy: trackByLessonSubject">
+                            <time-table-card [sidebar_color]="lesson.HexademicalColor" [lesson_time]="lesson.LessonTime"
+                                [lesson_name]="lesson.SubjectName" [teacher_name]="lesson.TeacherName">
+                            </time-table-card>
+                        </div>
+                    </div>
+                    <ng-template #loading>Загрузка...</ng-template>
+                </div>
+            </div>
+
+            <div class="close-task-block">
+                <p class="block-name">Ближайшие задания</p>
+                <div class="time-table-main-block">
+                    <div *ngIf="tasks$ | async as tasks; else loading">
+                        <div *ngIf="tasks.length === 0" class="no-tasks">
+                            Нет ближайших заданий
+                        </div>
+                        <div class="inner-tables-blocks" *ngFor="let task of tasks; trackBy: trackByTaskId">
+                            <close-task-card [sidebar_color]="task.sidebarColor" [task_name]="task.taskName"
+                                [due_date]="task.dueTime" [task_status]="task.taskStatus"
+                                [subject_name]="task.subjectName">
+                            </close-task-card>
+                        </div>
+                    </div>
+                    <ng-template #loading>Загрузка...</ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

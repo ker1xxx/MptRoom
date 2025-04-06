@@ -132,11 +132,6 @@ namespace MptRoomAPI.Migrations
                     b.Property<int?>("GroupModelGroupId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("HexademicalColor")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
                     b.Property<int>("SubjectId")
                         .HasColumnType("integer");
 
@@ -278,6 +273,10 @@ namespace MptRoomAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PersonalDataId"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Lastname")
                         .IsRequired()
                         .HasColumnType("text");
@@ -398,6 +397,11 @@ namespace MptRoomAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SubjectId"));
 
+                    b.Property<string>("HexademicalColor")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
                     b.Property<string>("SubjectName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -471,6 +475,9 @@ namespace MptRoomAPI.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DueTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("LastUpdate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("Mark")

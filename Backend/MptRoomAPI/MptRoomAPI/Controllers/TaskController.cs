@@ -40,10 +40,11 @@ namespace MptRoomAPI.Controllers
                         SubjectId = t.SubjectId,
                         TeacherId = t.TeacherId,
                         CourseId = t.CourseId,
-                        TaskStatusEnum = t.TaskStatusEnum,
+                        TaskStatus = t.TaskStatusEnum,
                         StudentId = t.StudentId,
                         MaxMark = t.MaxMark,
                         Mark = t.Mark,
+                        LastUpdate = t.LastUpdate,
                     })
                     .ToListAsync();
 
@@ -72,10 +73,11 @@ namespace MptRoomAPI.Controllers
                         SubjectId = t.SubjectId,
                         TeacherId = t.TeacherId,
                         CourseId = t.CourseId,
-                        TaskStatusEnum = t.TaskStatusEnum,
+                        TaskStatus = t.TaskStatusEnum,
                         StudentId = t.StudentId,
                         MaxMark = t.MaxMark,
                         Mark = t.Mark,
+                        LastUpdate = t.LastUpdate,
                     })
                     .FirstOrDefaultAsync();
 
@@ -92,6 +94,38 @@ namespace MptRoomAPI.Controllers
                 return StatusCode(500, "An error occurred while retrieving the task.");
             }
         }
+
+        [HttpGet("student/{userId}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<TaskDTO>>> GetTasksByUser(int userId)
+        {
+            try
+            {
+                var tasks = await _context.Tasks
+                    .Where(t => t.StudentId == userId)
+                    .Select(t => new TaskDTO
+                    {
+                        PostId = t.PostId,
+                        DueTime = t.DueTime,
+                        SubjectId = t.SubjectId,
+                        TeacherId = t.TeacherId,
+                        CourseId = t.CourseId,
+                        TaskStatus = t.TaskStatusEnum,
+                        StudentId = t.StudentId,
+                        MaxMark = t.MaxMark,
+                        Mark = t.Mark,
+                        LastUpdate = t.LastUpdate,
+                    })
+                    .ToListAsync();
+
+                return Ok(tasks);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving tasks.");
+                return StatusCode(500, "An error occurred while retrieving tasks.");
+            }
+        } 
 
         // PUT: api/Task/5
         [HttpPut("{id}")]
@@ -116,10 +150,11 @@ namespace MptRoomAPI.Controllers
                 task.SubjectId = taskDTO.SubjectId;
                 task.TeacherId = taskDTO.TeacherId;
                 task.CourseId = taskDTO.CourseId;
-                task.TaskStatusEnum = taskDTO.TaskStatusEnum;
+                task.TaskStatusEnum = taskDTO.TaskStatus;
                 task.StudentId = taskDTO.StudentId;
                 task.MaxMark = taskDTO.MaxMark;
                 task.Mark = taskDTO.Mark;
+                task.LastUpdate = taskDTO.LastUpdate;
 
                 _context.Entry(task).State = EntityState.Modified;
 
@@ -153,10 +188,11 @@ namespace MptRoomAPI.Controllers
                     SubjectId = taskDTO.SubjectId,
                     TeacherId = taskDTO.TeacherId,
                     CourseId = taskDTO.CourseId,
-                    TaskStatusEnum = taskDTO.TaskStatusEnum,
+                    TaskStatusEnum = taskDTO.TaskStatus,
                     StudentId = taskDTO.StudentId,
                     MaxMark = taskDTO.MaxMark,
                     Mark = taskDTO.Mark,
+                    LastUpdate = taskDTO.LastUpdate,
                 };
 
                 _context.Tasks.Add(task);

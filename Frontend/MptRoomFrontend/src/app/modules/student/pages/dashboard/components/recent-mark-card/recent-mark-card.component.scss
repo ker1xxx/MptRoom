@@ -1,0 +1,60 @@
+div.recent-mark-card{
+    display: grid;
+    grid-row: auto auto auto;
+    width: 21vw;
+    height: 8vh;
+    align-items: center;
+    background-color: var(--card-background-color);
+    border-radius: 5px;
+    box-shadow: 0px 1px 2px 4px rgba(0,0,0,0.1);
+    padding: 0.6em 1.2em
+}
+
+div.task-name{
+    grid-row: 1/2;
+    width: 100%;
+}
+
+div.main-block{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+div.mark-info-block{
+    display: grid;
+    grid-column: auto auto auto;
+}
+
+div.light-text{
+    font-size: 1rem;
+    font-weight: 400px;
+}
+
+div.task-name-text{
+    font-size: 1rem;
+    font-weight: 500px;
+}
+
+div.mark-card{
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1.5rem;
+    align-items: center;
+    padding: 1.5% 5%;
+
+    &.good-mark{
+        background-color: var(--good-mark-light-color);
+        color: var(--good-mark-light-text-color);
+    }
+
+    &.satisfactorily-mark{
+        background-color: var(--satisfactorily-mark-light-color);
+        color: var(--satisfactorily-mark-light-text-color);
+    }
+    
+    &.bad-mark{
+        background-color: var(--bad-mark-light-color);
+        color: var(--bad-mark-light-text-color);
+    }
+}

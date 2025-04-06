@@ -13,6 +13,7 @@ namespace MptRoomAPI.Models
         public int StudentId { get; set; }
         public int MaxMark { get; set; }
         public int? Mark { get; set; }
+        public DateTime LastUpdate { get; set; }
 
         public PostModel Post { get; set; }
         public SubjectModel Subject { get; set; }

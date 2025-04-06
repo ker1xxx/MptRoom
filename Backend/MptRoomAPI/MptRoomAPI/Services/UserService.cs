@@ -22,6 +22,16 @@ namespace MptRoomAPI.Services
             }
             return user;
         }
+        public string GetUserRole(UserBase user)
+        {
+            return user switch
+            {
+                AdministratorModel => "Administrator",
+                TeacherModel => "Teacher",
+                StudentModel => "Student",
+                _ => "User"
+            };
+        }
 
         private bool VerifyPassword(string password, string storedPassword) => BCrypt.Net.BCrypt.Verify(password, storedPassword);
 

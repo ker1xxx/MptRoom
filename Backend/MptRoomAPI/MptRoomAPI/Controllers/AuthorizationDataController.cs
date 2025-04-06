@@ -35,7 +35,8 @@ namespace MptRoomAPI.Controllers
                     .Select(ad => new AuthorizationDataDTO
                     {
                         AuthorizationDataId = ad.AuthorizationDataId,
-                        Login = ad.Login
+                        Login = ad.Login,
+                        Password = ad.Password
                     })
                     .ToListAsync();
 
@@ -97,8 +98,11 @@ namespace MptRoomAPI.Controllers
                 if (authorizationData == null)
                     return NotFound();
 
+                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(authorizationDataDTO.Password);
+
+
                 authorizationData.Login = authorizationDataDTO.Login;
-                authorizationData.Password = authorizationDataDTO.Password;
+                authorizationData.Password = hashedPassword;
 
                 _context.Entry(authorizationData).State = EntityState.Modified;
                 await _context.SaveChangesAsync();

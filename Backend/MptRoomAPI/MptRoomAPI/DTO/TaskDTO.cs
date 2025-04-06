@@ -9,9 +9,10 @@ namespace MptRoomAPI.DTO
         public int SubjectId { get; set; }
         public int TeacherId { get; set; }
         public int CourseId { get; set; }
-        public TaskStatusEnum TaskStatusEnum { get; set; }
+        public TaskStatusEnum TaskStatus { get; set; }
         public int StudentId { get; set; }
         public int MaxMark { get; set; }
         public int? Mark { get; set; }
+        public DateTime LastUpdate { get; set; }
     }
 }

@@ -36,6 +36,7 @@ namespace MptRoomAPI.Controllers
                     {
                         SubjectId = s.SubjectId,
                         SubjectName = s.SubjectName,
+                        HexademicalColor = s.HexademicalColor
                     })
                     .ToListAsync();
 
@@ -61,6 +62,7 @@ namespace MptRoomAPI.Controllers
                     {
                         SubjectId = s.SubjectId,
                         SubjectName = s.SubjectName,
+                        HexademicalColor = s.HexademicalColor
                     })
                     .FirstOrDefaultAsync();
 
@@ -127,6 +129,7 @@ namespace MptRoomAPI.Controllers
                 var subject = new SubjectModel
                 {
                     SubjectName = subjectDTO.SubjectName,
+                    HexademicalColor = subjectDTO.HexademicalColor,
                 };
 
                 _context.Subjects.Add(subject);

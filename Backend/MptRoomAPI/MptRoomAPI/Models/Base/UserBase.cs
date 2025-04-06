@@ -1,4 +1,6 @@
-﻿namespace MptRoomAPI.Models.Base
+﻿using System.Text.Json.Serialization;
+
+namespace MptRoomAPI.Models.Base
 {
     public class UserBase
     {
@@ -9,7 +11,6 @@
         public AuthorizationDataModel AuthorizationData { get; set; }
         public List<AdditionalMaterialModel> Materials { get; set; }
         public List<PostModel> Posts { get; set; }
-
         public RefreshTokenModel RefreshToken { get; set; }
     }
 }

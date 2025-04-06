@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+:root {
+  --background-light-color: #fcfff2;
+  --text-dark-color: #5F5D5D;
+  --text-black-color: #000000;
+  --text-purple-color: #5928AD;
+  --good-mark-light-color: #CDFEC3;
+  --good-mark-light-text-color: #0E8512;
+  --satisfactorily-mark-light-color: #FEF9C3;
+  --satisfactorily-mark-light-text-color: #854D0E;
+  --bad-mark-light-color: #FEC3C3;
+  --bad-mark-light-text-color: #850E0E;
+  --task-submitted-light-color: #C5C3FE;
+  --task-submitted-light-text-color: #0E1485;
+  --card-background-color: #FCFFF2;
+  --block-background-color: #E9ECDF;
+  --task-appointed-light-color: #FEF9C3;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--background-light-color);
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Montserrat, "Helvetica Neue", sans-serif; }

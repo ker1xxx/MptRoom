@@ -8,7 +8,6 @@ namespace MptRoomAPI.Models
         public int GroupId { get; set; }
         public int SubjectId { get; set; }
         public int TeacherId { get; set; }
-        public string HexademicalColor { get; set; }
         
         public GroupModel Group { get; set; }
         public SubjectModel Subject { get; set; }

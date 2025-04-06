@@ -1,0 +1,126 @@
+@use '@angular/material' as mat;
+
+$my-primary-palette: (
+  50: #ede7f6,
+  100: #d1c4e9,
+  200: #b39ddb,
+  300: #9575cd,
+  400: #7e57c2,
+  500: #673ab7,
+  600: #5e35b1,
+  700: #512da8,
+  800: #4527a0,
+  900: #311b92,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white
+  )
+);
+
+$my-accent-palette: (
+  50: #fff3e0,
+  100: #ffe0b2,
+  200: #ffcc80,
+  300: #ffb74d,
+  400: #ffa726,
+  500: #ff9800, 
+  600: #fb8c00,
+  700: #f57c00,
+  800: #ef6c00,
+  900: #e65100,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: black,
+    500: black,
+    600: black,
+    700: white,
+    800: white,
+    900: white
+  )
+);
+
+$my-warn-palette: (
+  50: #ffebee,
+  100: #ffcdd2,
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: #f44336, 
+  600: #e53935,
+  700: #d32f2f,
+  800: #c62828,
+  900: #b71c1c,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white
+  )
+);
+
+$my-background-pallette: (
+  100: #fcfff2,
+  200: #E9ECDF,
+  300: #FFFDF2,
+  500: #343532,
+  600: #292926,
+  contrast: (
+    100: #000000,
+    300: #000000,
+    500: #ffffff,
+    600: #ffffff
+  )
+);
+
+
+
+// Определение палитр
+$primary-palette: mat.m2-define-palette($my-primary-palette);
+$accent-palette: mat.m2-define-palette($my-accent-palette);
+$warn-palette: mat.m2-define-palette($my-warn-palette);
+
+// Светлая тема
+$light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+    background: (
+      default: mat.color($my-background-pallette, 100),
+      paper: mat.color($my-background-pallette, 200),
+      card: mat.color($my-background-pallette, 300)
+    )
+  ),
+  typography: mat.m2-define-typography-config(),
+  density: 0,
+));
+
+// Тёмная тема
+$dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.m2-define-typography-config(),
+  density: 0,
+));
+
+
