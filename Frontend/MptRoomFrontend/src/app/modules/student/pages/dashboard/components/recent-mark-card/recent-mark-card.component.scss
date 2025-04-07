@@ -1,6 +1,7 @@
 div.recent-mark-card{
-    display: grid;
-    grid-row: auto auto auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 21vw;
     height: 8vh;
     align-items: center;
@@ -11,13 +12,16 @@ div.recent-mark-card{
 }
 
 div.task-name{
-    grid-row: 1/2;
     width: 100%;
 }
-
+div.side-bar{    
+    height: 100%;
+    width: 1%;
+    border-radius: 15px;
+}
 div.main-block{
     display:flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
 }
 

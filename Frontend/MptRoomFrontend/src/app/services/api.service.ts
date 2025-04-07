@@ -2,13 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
+  catchError,
+  filter,
   firstValueFrom,
   forkJoin,
   from,
   map,
   Observable,
+  of,
   switchMap,
+  take,
   tap,
+  throwError,
 } from 'rxjs';
 import { GroupDTO } from '../models/DTO/group.dto';
 import { LessonSlotDTO } from '../models/DTO/lesson-slot.dto';
@@ -35,95 +40,117 @@ export class ApiService {
   private studentSubject = new BehaviorSubject<StudentDTO | null>(null);
   student$ = this.studentSubject.asObservable();
 
+  private scheduleCache$ = new BehaviorSubject<LessonViewModel[] | null>(null);
+  private loading$ = new BehaviorSubject<boolean>(false);
+
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   async getStudent(): Promise<StudentDTO> {
-    return await firstValueFrom(
+    const current = this.studentSubject.getValue();
+    if (current) {
+      return current; // Вернем из кэша, если есть
+    }
+
+    const data = await firstValueFrom(
       this.http
         .get<StudentDTO>(`${this.apiUrl}/Student/${this.auth.getUserId()}`)
         .pipe(
           tap((data) => {
             if (data) {
-              console.log(`data ${data}`);
-              this.studentSubject.next(data);
+              this.studentSubject.next(data); // кэшируем
             } else {
               console.error('Данные студента пусты или не получены');
             }
           })
         )
     );
+
+    return data;
   }
 
-  getSchedule(): Observable<LessonViewModel[]> {
-    return this.http.get<LessonDTO[]>(`${this.apiUrl}/Lesson`).pipe(
-      switchMap((lessons) => {
-        if (!lessons) {
-          throw new Error('Уроки не получены');
-        }
+  getSchedule(forceRefresh: boolean = false): Observable<LessonViewModel[]> {
+    if (this.scheduleCache$.value && !forceRefresh) {
+      return of(this.scheduleCache$.value);
+    }
 
-        console.log('Lessons:', lessons); // Логирование всех уроков
+    if (this.loading$.value) {
+      // Если уже идет загрузка — ждём появления данных
+      return this.scheduleCache$.pipe(
+        filter((schedule): schedule is LessonViewModel[] => !!schedule),
+        take(1)
+      );
+    }
 
-        const subjectRequests = lessons.map((lesson) => {
-          console.log('LessonId:', lesson.subjectId); // Логирование LessonId
-          return this.getSubject(lesson.subjectId!); // Возможно, LessonId == undefined
-        });
-        const teacherRequests = lessons.map((lesson) => {
-          console.log('TeacherId:', lesson.teacherId); // Логирование TeacherId
-          return this.getTeacher(lesson.teacherId); // Возможно, TeacherId == undefined
-        });
+    this.loading$.next(true);
 
-        const housingRequests = lessons.map((lesson) => {
-          console.log('housingId:', lesson.housingId);
-          return this.getHousing(lesson.housingId);
-        });
+    return this.http
+      .get<LessonDTO[]>(`${this.apiUrl}/Lesson`, { withCredentials: true })
+      .pipe(
+        switchMap((lessons) => {
+          const subjectRequests = lessons.map((lesson) =>
+            this.getSubject(lesson.subjectId!)
+          );
+          const teacherRequests = lessons.map((lesson) =>
+            this.getTeacher(lesson.teacherId)
+          );
+          const housingRequests = lessons.map((lesson) =>
+            this.getHousing(lesson.housingId)
+          );
+          const lessonSlotRequests = this.getLessonSlots();
 
-        const lessonSlotRequests = this.getLessonSlots();
+          return forkJoin([
+            forkJoin(subjectRequests),
+            forkJoin(teacherRequests),
+            forkJoin(housingRequests),
+            lessonSlotRequests,
+          ]).pipe(
+            switchMap(([subjects, teachers, housings, lessonSlots]) => {
+              const viewModelRequests = lessons.map((lesson, index) =>
+                from(this.getPersonalData(teachers[index].personalDataId)).pipe(
+                  map((personalData) => {
+                    const matchingSlot = lessonSlots.find(
+                      (slot) => slot.lessonSlotId === lesson.lessonNumberId
+                    );
 
-        return forkJoin([
-          forkJoin(subjectRequests),
-          forkJoin(teacherRequests),
-          forkJoin(housingRequests),
-          lessonSlotRequests,
-        ]).pipe(
-          switchMap(([subjects, teachers, housings, lessonSlots]) => {
-            const lessonViewModelRequests = lessons.map((lesson, index) =>
-              from(this.getPersonalData(teachers[index].personalDataId)).pipe(
-                map((personalData) => {
-                  // Получаем соответствующий LessonSlot для данного урока
-                  const matchingLessonSlot = lessonSlots.find(
-                    (slot) => slot.lessonSlotId === lesson.lessonNumberId
-                  );
-                  console.log(housings);
+                    return {
+                      LessonId: lesson.lessonId!,
+                      SubjectName: subjects[index].subjectName,
+                      GroupName: `${lesson.groupId}`,
+                      TeacherName:
+                        `${personalData.lastname} ${personalData.name[0]}.` +
+                        (personalData.patronymic
+                          ? ` ${personalData.patronymic[0]}.`
+                          : ''),
+                      DayOfWeek: DayOfWeekEnum[lesson.dayOfWeek],
+                      WeekType: WeekTypeEnum[lesson.weekType],
+                      LessonNumber: lesson.lessonNumberId,
+                      HousingName: housings[index].housingName,
+                      HexademicalColor: subjects[index].hexademicalColor,
+                      LessonTime: matchingSlot
+                        ? `${matchingSlot.lessonStart} - ${matchingSlot.lessonEnd}`
+                        : 'Время не указано',
+                    };
+                  })
+                )
+              );
 
-                  return {
-                    LessonId: lesson.lessonId!,
-                    SubjectName: subjects[index].subjectName,
-                    GroupName: `${lesson.groupId}`,
-                    TeacherName: `${personalData.lastname} ${
-                      personalData.name[0]
-                    }. ${
-                      personalData.patronymic
-                        ? personalData.patronymic[0] + '.'
-                        : ''
-                    }`,
-                    DayOfWeek: DayOfWeekEnum[lesson.dayOfWeek],
-                    WeekType: WeekTypeEnum[lesson.weekType],
-                    LessonNumber: lesson.lessonNumberId,
-                    HousingName: housings[index].housingName,
-                    HexademicalColor: subjects[index].hexademicalColor,
-                    LessonTime: matchingLessonSlot
-                      ? `${matchingLessonSlot.lessonStart} - ${matchingLessonSlot.lessonEnd}`
-                      : 'Время не указано',
-                  };
-                })
-              )
-            );
+              return forkJoin(viewModelRequests);
+            })
+          );
+        }),
+        tap((schedule) => {
+          this.scheduleCache$.next(schedule);
+          this.loading$.next(false);
+        }),
+        catchError((err) => {
+          this.loading$.next(false);
+          return throwError(() => err);
+        })
+      );
+  }
 
-            return forkJoin(lessonViewModelRequests);
-          })
-        );
-      })
-    );
+  clearScheduleCache() {
+    this.scheduleCache$.next(null);
   }
 
   async getSubject(subject_id: number): Promise<SubjectDTO> {

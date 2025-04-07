@@ -14,5 +14,8 @@ export class AppComponent {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
     }
+    // if (authService.getUserRole() === 'Student') {
+    //   this.studentService.loadUser().subscribe();
+    // }
   }
 }

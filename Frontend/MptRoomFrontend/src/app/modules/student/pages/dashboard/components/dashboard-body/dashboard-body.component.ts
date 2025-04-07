@@ -41,7 +41,7 @@ export class DashboardBodyComponent implements OnChanges {
       this.time_table$ = this.schedule$.pipe(
         map((schedule) => {
           if (!schedule) return [];
-
+          //Поменять индекс потом
           const todayIndex = new Date().getDay();
           const dayMapping: { [key: string]: number } = {
             Sunday: 0,

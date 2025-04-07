@@ -541,4 +541,9 @@ C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\MptR
 C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\MptRoomAPI\obj\Debug\net9.0\MptRoomAPI.pdb
 C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\MptRoomAPI\obj\Debug\net9.0\MptRoomAPI.genruntimeconfig.cache
 C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\MptRoomAPI\obj\Debug\net9.0\ref\MptRoomAPI.dll
+C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\mptroomapi\bin\Debug\net9.0\grafana\plugins\grafana-lokiexplore-app\plugin.json
+C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\mptroomapi\bin\Debug\net9.0\grafana\plugins\grafana-pyroscope-app\plugin.json
+C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\mptroomapi\bin\Debug\net9.0\grafana\plugins\grafana-pyroscope-app\shared\infrastructure\profile-metrics\profile-metrics.json
+C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\mptroomapi\bin\Debug\net9.0\Prometheus.NetStandard.dll
+C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\mptroomapi\bin\Debug\net9.0\Prometheus.AspNetCore.dll
 C:\Users\Kirill\Desktop\4course\Диплом\Application\Backend\MptRoomAPI\MptRoomAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MptRoomAPI.Services;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -117,4 +118,25 @@ builder.WebHost.UseUrls("http://localhost:5198", "https://localhost:7198");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseHttpMetrics();
+
+
+var httpResponseCodes = Metrics.CreateCounter("http_response_codes", "Count of HTTP response codes", new CounterConfiguration
+{
+    LabelNames = new[] { "status_code" } // Добавляем метку для статуса
+});
+
+app.Use(async (context, next) =>
+{
+    // Выполняем запрос
+    await next.Invoke();
+
+    var statusCode = context.Response.StatusCode;
+
+    httpResponseCodes.Labels(statusCode.ToString()).Inc();
+
+});
+app.MapMetrics();
+
 app.Run();

@@ -2,18 +2,28 @@
     <div class="block-with-name">
         <p class="block-name">Недавние оценки</p>
         <div class="recent-marks-block">
-            <div *ngFor="let grade of grades$ | async; trackBy: trackByGradeId">
-                <student-recent-mark-card [subject_name]="grade.Subject" [task_name]="grade.Grade"
-                    [due_date]="grade.Duedate" [mark]="(grade.Grade).toString()" [sidebar_color]="">
-                </student-recent-mark-card>
+            <div *ngIf="grades$ | async as grade; else loading">
+                <div *ngIf="grade.length === 0" class="no-tasks">
+                    Нет последних оценок
+                </div>
+                <div *ngFor="let grade of grades$ | async; trackBy: trackByGradeId">
+                    <student-recent-mark-card [subject_name]="grade.Subject" [task_name]="grade.Task"
+                        [due_date]="grade.Duedate" [mark]="(grade.Grade).toString()"
+                        [sidebar_color]="grade.SidebarColor">
+                    </student-recent-mark-card>
+                </div>
             </div>
         </div>
-        <div class="mid-block">
+
+        <div class=" mid-block">
 
             <div class="time-table-block">
                 <p class="block-name">Расписание на {{ dayName }}, {{ today }}</p>
                 <div class="time-table-main-block">
                     <div *ngIf="time_table$ | async as lessons; else loading">
+                        <div *ngIf="lessons.length === 0" class="no-tasks">
+                            Нет расписания на текущую дату
+                        </div>
                         <div class="inner-tables-blocks"
                             *ngFor="let lesson of time_table$ | async; trackBy: trackByLessonSubject">
                             <time-table-card [sidebar_color]="lesson.HexademicalColor" [lesson_time]="lesson.LessonTime"

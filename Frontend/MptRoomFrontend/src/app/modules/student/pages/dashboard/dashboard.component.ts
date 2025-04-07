@@ -18,6 +18,8 @@ import { HeaderComponent } from '../../shared/header/header.component';
 import { DashboardBodyComponent } from './components/dashboard-body/dashboard-body.component';
 import { CommonModule } from '@angular/common';
 import { TaskViewModel } from '../../../../models/VM/task.viewmodel';
+import { LoaderService } from '../../../../services/loader.service';
+import { TaskDTO } from '../../../../models/DTO/task.dto';
 
 @Component({
   selector: 'student-dashboard',
@@ -28,85 +30,74 @@ import { TaskViewModel } from '../../../../models/VM/task.viewmodel';
 export class DashboardComponent {
   user$!: StudentDTO;
   schedule$ = new BehaviorSubject<LessonViewModel[] | null>(null);
-  grades$!: Observable<GradeViewModel[]>;
-  tasks$!: Observable<TaskViewModel[]>;
+  grades$ = new BehaviorSubject<GradeViewModel[]>([]);
+  tasks$ = new BehaviorSubject<TaskViewModel[]>([]); // Здесь уточняем тип
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private loaderService: LoaderService
+  ) {}
 
   async ngOnInit() {
     // Запрашиваем расписание
-    this.apiService
-      .getSchedule()
-      .pipe(
-        tap((lessons) => {
-          if (lessons && lessons.length > 0) {
-            console.log('Уроки получены:', lessons);
-          } else {
-            console.error('Нет уроков в расписании');
-          }
-        })
-      )
-      .subscribe({
-        next: (lessons) => {
-          if (lessons && lessons.length > 0) {
-            this.schedule$.next(lessons);
-          } else {
-            console.error('Ошибка: Расписание пустое');
-          }
-        },
-        error: (err) => {
-          console.error('Ошибка при получении расписания:', err);
-        },
-      });
-
-    this.user$ = await this.apiService.getStudent();
-    console.log('Пользователь загружен:', this.user$);
-
-    this.loadTasks();
-
-    this.apiService.getStudent().then((user) => {
-      this.user$ = user;
-      console.log('Пользователь загружен:', this.user$);
-      this.tasks$;
+    await this.loadSchedule();
+    // Запрашиваем задания и оценки
+    await this.apiService.student$.subscribe((student) => {
+      if (student) {
+        this.user$ = student;
+        console.log('Пользователь загружен:', this.user$);
+        this.loadTasks();
+        this.loadGrades();
+      }
     });
   }
 
-  // private loadSchedule() {
-  //   console.log(this.user);
-  //   if (!this.user?.userId) return; // Проверяем, что user и userId не пустые
+  private loadGrades() {
+    console.log(
+      'Запрос на загрузку оценок для пользователя:',
+      this.user$.userId
+    );
 
-  //   this.schedule$ = this.apiService.getSchedule();
-  // }
-
-  async loadGrades() {
     if (!this.user$?.userId) return;
 
-    // Получаем задания для текущего пользователя
-    this.grades$ = this.apiService.getTasksByUser(this.user$.userId).pipe(
-      switchMap((tasks) => {
-        // Запросы для получения информации по предмету для каждого задания
-        const subjectRequest = tasks.map((task) =>
-          this.apiService.getSubject(task.postId!)
-        );
+    this.loaderService.loadWithCache(this.grades$, () =>
+      this.apiService.getTasksByUser(this.user$.userId!).pipe(
+        switchMap((tasks) => {
+          console.log('Полученные задания:', tasks); // Логируем задания, которые пришли от API
 
-        const postRequest = tasks.map((task) =>
-          this.apiService.getPost(task.postId!)
-        );
+          const subjectRequests = tasks.map((task) =>
+            this.apiService.getSubject(task.postId!)
+          );
+          const postRequests = tasks.map((task) =>
+            this.apiService.getPost(task.postId!)
+          );
 
-        // Используем forkJoin для получения всех запросов
-        return forkJoin([forkJoin(subjectRequest), forkJoin(postRequest)]).pipe(
-          map(([subjects, posts]) => {
-            // Преобразуем массив TaskDTO в массив GradeViewModel
-            return tasks.map((task, index) => ({
-              SidebarColor: subjects[index].hexademicalColor,
-              Subject: subjects[index].subjectName, // Извлекаем данные о предмете
-              Task: posts[index].postTitle, // Делаем привязку к задаче
-              Grade: task.mark ? task.mark.toString() : '0', // Убедитесь, что grade это строка
-              Duedate: task.dueTime, // Дата сдачи задания
-            }));
-          })
-        );
-      })
+          return forkJoin([
+            forkJoin(subjectRequests),
+            forkJoin(postRequests),
+          ]).pipe(
+            map(([subjects, posts]) => {
+              const grades = tasks.map((task, index) => ({
+                SidebarColor: subjects[index].hexademicalColor,
+                Subject: subjects[index].subjectName,
+                Task: posts[index].postTitle,
+                Grade: task.mark
+                  ? `${task.mark} / ${task.maxMark}`
+                  : `0 / ${task.maxMark}`,
+                Duedate: task.dueTime,
+              }));
+
+              console.log('Загруженные оценки:', grades); // Логируем оценки перед отправкой в grades$
+              this.grades$.next(grades); // Обновляем поток grades$
+              return grades;
+            })
+          );
+        }),
+        catchError((error) => {
+          console.error('Ошибка при загрузке оценок:', error);
+          return of([]); // Возвращаем пустой массив в случае ошибки
+        })
+      )
     );
   }
 
@@ -122,63 +113,77 @@ export class DashboardComponent {
     return `${lastName} ${firstNameInitial}${patronymicInitial}`.trim();
   }
 
-  async loadTasks() {
-    this.tasks$ = from(this.apiService.getTasksByUser(this.user$.userId!)).pipe(
-      switchMap((tasks) => {
-        console.log('tasks loaded: ', tasks);
-        const postIds = tasks.map((t) => t.postId!);
-        const teacherIds = tasks.map((t) => t.teacherId);
+  private loadSchedule() {
+    this.loaderService.loadWithCache(this.schedule$, () =>
+      this.apiService.getSchedule()
+    );
+  }
 
-        return forkJoin({
-          subjects: forkJoin(
-            postIds.map((id) =>
-              from(this.apiService.getSubject(id)).pipe(
-                catchError(() =>
-                  of({ hexademicalColor: '#CCCCCC', subjectName: 'N/A' })
+  private loadTasks() {
+    if (!this.user$?.userId) return;
+
+    this.loaderService.loadWithCache(this.tasks$, () =>
+      this.apiService.getTasksByUser(this.user$.userId!).pipe(
+        switchMap((tasks) => {
+          const filteredTasks = tasks.filter((task) => task.taskStatus !== 3);
+          const postIds = filteredTasks.map((t) => t.postId!);
+          const teacherIds = filteredTasks.map((t) => t.teacherId);
+
+          if (filteredTasks.length === 0) {
+            return of([]); // Возвращаем пустой массив сразу
+          }
+
+          return forkJoin({
+            subjects: forkJoin(
+              postIds.map((id) =>
+                from(this.apiService.getSubject(id)).pipe(
+                  catchError(() =>
+                    of({ hexademicalColor: '#CCCCCC', subjectName: 'N/A' })
+                  )
                 )
               )
-            )
-          ),
-          posts: forkJoin(
-            postIds.map((id) =>
-              from(this.apiService.getPost(id)).pipe(
-                catchError(() => of({ postTitle: 'N/A' }))
+            ),
+            posts: forkJoin(
+              postIds.map((id) =>
+                from(this.apiService.getPost(id)).pipe(
+                  catchError(() => of({ postTitle: 'N/A' }))
+                )
               )
-            )
-          ),
-          personalData: forkJoin(
-            teacherIds.map((id) =>
-              from(this.apiService.getTeacher(id)).pipe(
-                switchMap((teacher) =>
-                  from(
-                    this.apiService.getPersonalData(teacher.personalDataId)
-                  ).pipe(
-                    catchError(() =>
-                      of({ lastname: 'N/A', name: ['N/A'], patronymic: '' })
+            ),
+            personalData: forkJoin(
+              teacherIds.map((id) =>
+                from(this.apiService.getTeacher(id)).pipe(
+                  switchMap((teacher) =>
+                    from(
+                      this.apiService.getPersonalData(teacher.personalDataId)
+                    ).pipe(
+                      catchError(() =>
+                        of({ lastname: 'N/A', name: ['N/A'], patronymic: '' })
+                      )
                     )
-                  )
-                ),
-                catchError(() => of({ personalDataId: '' }))
+                  ),
+                  catchError(() => of({ personalDataId: '' }))
+                )
               )
+            ),
+          }).pipe(
+            map(({ subjects, posts, personalData }) =>
+              filteredTasks.map((task, index) => ({
+                sidebarColor: subjects[index]?.hexademicalColor || '#CCCCCC',
+                dueTime: task.dueTime,
+                subjectName: subjects[index]?.subjectName || 'N/A',
+                taskName: posts[index]?.postTitle || 'N/A',
+                teacherName: this.formatTeacherName(personalData[index]),
+                taskStatus: task.taskStatus,
+              }))
             )
-          ),
-        }).pipe(
-          map(({ subjects, posts, personalData }) =>
-            tasks.map((task, index) => ({
-              sidebarColor: subjects[index]?.hexademicalColor || '#CCCCCC',
-              dueTime: task.dueTime,
-              subjectName: subjects[index]?.subjectName || 'N/A',
-              taskName: posts[index]?.postTitle || 'N/A',
-              teacherName: this.formatTeacherName(personalData[index]),
-              taskStatus: task.taskStatus,
-            }))
-          )
-        );
-      }),
-      catchError((err) => {
-        console.error('Error loading tasks:', err);
-        return of([]);
-      })
+          );
+        }),
+        catchError((err) => {
+          console.error('Error loading tasks:', err);
+          return of([]); // Пустой массив в случае ошибки
+        })
+      )
     );
   }
 }
