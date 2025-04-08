@@ -19,7 +19,6 @@ import { DashboardBodyComponent } from './components/dashboard-body/dashboard-bo
 import { CommonModule } from '@angular/common';
 import { TaskViewModel } from '../../../../models/VM/task.viewmodel';
 import { LoaderService } from '../../../../services/loader.service';
-import { TaskDTO } from '../../../../models/DTO/task.dto';
 
 @Component({
   selector: 'student-dashboard',

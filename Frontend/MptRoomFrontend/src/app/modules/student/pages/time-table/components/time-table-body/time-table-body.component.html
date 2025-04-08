@@ -1,0 +1,25 @@
+<div class="body">
+    <div class="block-with-name">
+            <div class="time-table-block">
+                <p class="block-name">Расписание</p>
+                <div class="time-table-main-block">
+                    <div class="week-parity">
+                        {{week_type$}}
+                    </div>
+                    <div *ngIf="time_table$ | async as lessons; else loading">
+                        <div *ngIf="lessons.length === 0" class="no-tasks">
+                            Нет расписания на текущую неделю
+                        </div>
+                        <div class="inner-tables-blocks"
+                            *ngFor="let lesson of time_table$ | async; trackBy: trackByLessonSubject">
+                            <time-table-card [sidebar_color]="lesson.HexademicalColor" [lesson_time]="lesson.LessonTime"
+                                [lesson_name]="lesson.SubjectName" [teacher_name]="lesson.TeacherName">
+                            </time-table-card>
+                        </div>
+                    </div>
+                    <ng-template #loading>Загрузка...</ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
