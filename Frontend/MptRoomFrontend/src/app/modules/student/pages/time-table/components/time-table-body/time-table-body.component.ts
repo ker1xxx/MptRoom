@@ -21,6 +21,8 @@ export class TimeTableBodyComponent {
       'Пятница',
       'Суббота',
     ];
+
+    this.time_table$.map()
     
   }
   trackByLessonSubject(index: number, lesson: LessonViewModel): string {
