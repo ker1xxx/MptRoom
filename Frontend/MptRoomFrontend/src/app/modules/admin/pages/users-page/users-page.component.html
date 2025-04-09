@@ -1,1 +1,99 @@
-<p>users-page works!</p>
+<admin-header></admin-header>
+<div class="p-4">
+    <div class="mb-4 flex items-center gap-4">
+        <select [(ngModel)]="selectedGroupId" (change)="onGroupChange(selectedGroupId)" class="p-2 border rounded w-64">
+            <option [ngValue]="undefined">Все группы</option>
+            <option *ngFor="let group of allGroups" [ngValue]="group.groupId">
+                {{ group.groupName }} ({{ collegeYear[group.courseNumber] }})
+            </option>
+        </select>
+
+        <button *ngIf="selectedGroupId" (click)="clearFilter()" class="px-3 py-2 bg-red-500 text-white rounded">
+            Сбросить фильтр
+        </button>
+        <button (click)="openModal()"
+            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">
+            + Добавить студента
+        </button>
+    </div>
+    <table class="min-w-full bg-white border">
+        <thead>
+            <tr>
+                <th *ngFor="let header of headers" class="py-2 px-4 border-b text-center">{{header.displayName}}</th>
+                <th class=" py-2 text-center px-4 border-b">
+                    Действия
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of filteredStudents" (click)="openModal(item)"
+                class="  text-center cursor-pointer hover:bg-gray-50">
+                <td *ngFor="let header of headers" class="py-2 text-center px-4 border-b">
+                    {{item[header.key]}}
+                </td>
+
+                <td class="p-2 text-center flex gap-2">
+                    <button (click)="deleteStudent(item.userId!)"
+                        class="bg-red-500 text-white text-center px-2 py-1 rounded">Удалить</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg w-96">
+            <h2 class="text-xl mb-4">{{ isEditMode ? 'Редактировать' : 'Создать' }} студента</h2>
+            <form (submit)="saveChanges()">
+                <div class="mb-4">
+                    <label class="block mb-2">Имя</label>
+                    <input [(ngModel)]="selectedItem!.name" name="name" required class="w-full p-2 border rounded" />
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">Фамилия</label>
+                    <input [(ngModel)]="selectedItem!.lastname" name="lastname" required
+                        class="w-full p-2 border rounded" />
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">Отчество</label>
+                    <input [(ngModel)]="selectedItem!.patronymic" name="patronymic" class="w-full p-2 border rounded" />
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">Телефон</label>
+                    <input [(ngModel)]="selectedItem!.phoneNumber" name="phoneNumber"
+                        class="w-full p-2 border rounded" />
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">Email</label>
+                    <input [(ngModel)]="selectedItem!.email" name="email" type="email"
+                        class="w-full p-2 border rounded" />
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">Логин</label>
+                    <input [(ngModel)]="selectedItem!.login" name="login" required class="w-full p-2 border rounded" />
+                </div>
+                <div class="mb-4" *ngIf="!isEditMode">
+                    <label class="block mb-2">Пароль</label>
+                    <input [(ngModel)]="selectedItem!.password" name="password" type="password" required
+                        class="w-full p-2 border rounded" />
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">Группа</label>
+                    <select [(ngModel)]="selectedItem!.groupId" name="groupId" required
+                        class="w-full p-2 border rounded">
+                        <option *ngFor="let group of allGroups" [value]="group.groupId">
+                            {{ group.groupName }}
+                        </option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" (click)="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded">
+                        Отмена
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">
+                        {{ isEditMode ? 'Сохранить' : 'Создать' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

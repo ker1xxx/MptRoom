@@ -10,19 +10,17 @@ import {
   map,
   Observable,
   of,
+  Subject,
   switchMap,
   take,
   tap,
   throwError,
 } from 'rxjs';
-import { GroupDTO } from '../models/DTO/group.dto';
 import { LessonSlotDTO } from '../models/DTO/lesson-slot.dto';
 import { LessonDTO } from '../models/DTO/lesson.dto';
 import { PersonalDataDTO } from '../models/DTO/personal-data.dto';
-import { PostDTO } from '../models/DTO/post.dto';
 import { StudentDTO } from '../models/DTO/student.dto';
 import { SubjectDTO } from '../models/DTO/subject.dto';
-import { TaskDTO } from '../models/DTO/task.dto';
 import { TeacherDTO } from '../models/DTO/teacher.dto';
 import { DayOfWeekEnum } from '../models/enums/day-of-week.enum';
 import { WeekTypeEnum } from '../models/enums/week-type.enum';
@@ -70,6 +68,7 @@ export class ApiService {
 
   getSchedule(forceRefresh: boolean = false): Observable<LessonViewModel[]> {
     if (this.scheduleCache$.value && !forceRefresh) {
+      console.log('scheduleCache', this.scheduleCache$.value);
       return of(this.scheduleCache$.value);
     }
 
@@ -84,19 +83,22 @@ export class ApiService {
     this.loading$.next(true);
 
     return this.http
-      .get<LessonDTO[]>(`${this.apiUrl}/Lesson`, { withCredentials: true })
+      .get<LessonDTO[]>(
+        `${this.apiUrl}/Lesson/student/${this.auth.getUserId()}`,
+        { withCredentials: true }
+      )
       .pipe(
         switchMap((lessons) => {
           const subjectRequests = lessons.map((lesson) =>
-            this.getSubject(lesson.subjectId!)
+            this.getById<SubjectDTO>('Subject', lesson.subjectId!)
           );
           const teacherRequests = lessons.map((lesson) =>
-            this.getTeacher(lesson.teacherId)
+            this.getById<TeacherDTO>('Teacher', lesson.teacherId)
           );
           const housingRequests = lessons.map((lesson) =>
-            this.getHousing(lesson.housingId)
+            this.getById<HousingDTO>('Housing', lesson.housingId)
           );
-          const lessonSlotRequests = this.getLessonSlots();
+          const lessonSlotRequests = this.get<LessonSlotDTO[]>('LessonSlot');
 
           return forkJoin([
             forkJoin(subjectRequests),
@@ -106,11 +108,17 @@ export class ApiService {
           ]).pipe(
             switchMap(([subjects, teachers, housings, lessonSlots]) => {
               const viewModelRequests = lessons.map((lesson, index) =>
-                from(this.getPersonalData(teachers[index].personalDataId)).pipe(
+                from(
+                  this.getById<PersonalDataDTO>(
+                    'PersonalData',
+                    teachers[index].personalDataId!
+                  )
+                ).pipe(
                   map((personalData) => {
                     const matchingSlot = lessonSlots.find(
                       (slot) => slot.lessonSlotId === lesson.lessonNumberId
                     );
+                    console.log(lesson);
 
                     return {
                       LessonId: lesson.lessonId!,
@@ -153,55 +161,27 @@ export class ApiService {
     this.scheduleCache$.next(null);
   }
 
-  async getSubject(subject_id: number): Promise<SubjectDTO> {
-    return await firstValueFrom(
-      this.http.get<SubjectDTO>(`${this.apiUrl}/Subject/${subject_id}`)
-    );
+  deleteSubject(subject_id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/Subject/${subject_id}`);
   }
 
-  async getTeacher(teacher_id: number): Promise<TeacherDTO> {
-    return await firstValueFrom(
-      this.http.get<TeacherDTO>(`${this.apiUrl}/Teacher/${teacher_id}`)
-    );
+  get<T>(endpoint: string): Observable<T> {
+    return this.http.get<T>(`${this.apiUrl}/${endpoint}`);
   }
 
-  async getPersonalData(personal_data_id: number): Promise<PersonalDataDTO> {
-    return await firstValueFrom(
-      this.http.get<PersonalDataDTO>(
-        `${this.apiUrl}/PersonalData/${personal_data_id}`
-      )
-    );
+  getById<T>(endpoint: string, id: number): Observable<T> {
+    return this.http.get<T>(`${this.apiUrl}/${endpoint}/${id}`);
   }
 
-  async getGroupData(group_id: number): Promise<GroupDTO> {
-    return await firstValueFrom(
-      this.http.get<GroupDTO>(`${this.apiUrl}/Group/${group_id}`)
-    );
+  put<T>(endopoint: string, data: T, id: number): Observable<any> {
+    return this.http.put<T>(`${this.apiUrl}/${endopoint}/${id}`, data);
   }
 
-  getTasksByUser(user_id: number): Observable<TaskDTO[]> {
-    return this.http.get<TaskDTO[]>(`${this.apiUrl}/Task/student/${user_id}`);
+  post<T>(endopoint: string, data: T): Observable<any> {
+    return this.http.post<T>(`${this.apiUrl}/${endopoint}`, data);
   }
 
-  async getPost(post_id: number): Promise<PostDTO> {
-    return await firstValueFrom(
-      this.http.get<PostDTO>(`${this.apiUrl}/Post/${post_id}`)
-    );
-  }
-
-  getLessonSlots(): Observable<LessonSlotDTO[]> {
-    return this.http.get<LessonSlotDTO[]>(`${this.apiUrl}/LessonSlot`);
-  }
-
-  async getHousing(housing_id: number): Promise<HousingDTO> {
-    return await firstValueFrom(
-      this.http.get<HousingDTO>(`${this.apiUrl}/Housing/${housing_id}`)
-    );
-  }
-
-  async getSujbectByLesson(lesson_id: number): Promise<SubjectDTO> {
-    return await firstValueFrom(
-      this.http.get<SubjectDTO>(`${this.apiUrl}/Subject/${lesson_id}`)
-    );
+  delete(endpoint: string, id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${endpoint}/${id}`);
   }
 }

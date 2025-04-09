@@ -1,0 +1,77 @@
+<admin-header></admin-header>
+<div class="p-4">
+    <!-- Кнопка добавления новой группы -->
+    <div class="mb-4 flex justify-between items-center">
+        <h2 class="text-2xl font-bold">Список групп</h2>
+        <button (click)="openModalForCreate()"
+            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">
+            + Добавить группу
+        </button>
+    </div>
+
+    <table class="min-w-full bg-white border">
+        <thead>
+            <tr>
+                <th *ngFor="let header of headers" class="py-2 px-4 border-b text-center font-medium text-gray-700">
+                    {{header.displayName}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of groups; trackBy: trackByGroupId" (click)="openModal(item)"
+                class="cursor-pointer hover:bg-gray-50 transition-colors">
+                <td *ngFor="let header of headers" class="py-2 px-4  border-b text-center">
+                    <ng-container [ngSwitch]="header.key">
+                        <span *ngSwitchCase="'groupName'">
+                            {{item.groupName}}
+                        </span>
+                        <span *ngSwitchCase="'courseNumber'">
+                            {{ collegeYear[item.courseNumber]}}
+                        </span>
+                    </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Модальное окно -->
+    <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg w-96">
+            <h2 class="text-xl mb-4">{{ isEditMode ? 'Редактировать' : 'Создать' }} группу</h2>
+            <form (submit)="handleSave()">
+                <div class="mb-4">
+                    <label class="block mb-2">Название группы</label>
+                    <input [(ngModel)]="selectedItem.groupName" name="groupName" required
+                        class="w-full p-2 border rounded">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block mb-2">Курс</label>
+                    <select [(ngModel)]="selectedItem.courseNumber" name="courseNumber" required
+                        class="w-full p-2 border rounded">
+                        <option *ngFor="let key of collegeYears" [value]="key">
+                            {{ collegeYear[key] }} <!-- Отображаем курс на русском языке -->
+                        </option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end gap-2">
+                    <button type="button" (click)="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded">
+                        Отмена
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">
+                        {{ isEditMode ? 'Сохранить' : 'Создать' }}
+                    </button>
+                    <div *ngIf="isEditMode else loading">
+                        <button (click)="showStudents(selectedItem!.groupId)"
+                            class="px-2 py-1 bg-blue-100 text-blue-800 rounded">
+                            Показать студентов
+                        </button>
+                    </div>
+                    <ng-template #loading style="display: none;"></ng-template>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

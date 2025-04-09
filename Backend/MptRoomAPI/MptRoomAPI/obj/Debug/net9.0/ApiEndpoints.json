@@ -796,6 +796,32 @@
   },
   {
     "ContainingType": "MptRoomAPI.Controllers.LessonController",
+    "Method": "GetLessonsForGroup",
+    "RelativePath": "api/Lesson/group/{group_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.LessonDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.LessonController",
     "Method": "GetLessonsForStudent",
     "RelativePath": "api/Lesson/student/{user_id}",
     "HttpMethod": "GET",
@@ -1366,6 +1392,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MptRoomAPI.Controllers.StudentController",
+    "Method": "GetStudentsForGroup",
+    "RelativePath": "api/Student/group/{group_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "group_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.StudentDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MptRoomAPI.Controllers.SubjectController",
     "Method": "GetSubjects",
     "RelativePath": "api/Subject",
@@ -1473,6 +1525,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.SubjectController",
+    "Method": "GetSubjects",
+    "RelativePath": "api/Subject/teacher/{teacher_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "teacher_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.SubjectDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "MptRoomAPI.Controllers.SurveyOptionController",

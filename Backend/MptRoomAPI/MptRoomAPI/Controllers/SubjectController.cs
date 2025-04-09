@@ -49,6 +49,33 @@ namespace MptRoomAPI.Controllers
             }
         }
 
+        [HttpGet("teacher/{teacher_id}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<SubjectDTO>>> GetSubjects(int teacher_id)
+        {
+            try
+            {
+                var subjects = await _context.Teachers
+                    .Where(t => t.UserId == teacher_id) 
+                    .SelectMany(t => t.Lessons)       
+                    .Select(l => new SubjectDTO
+                    {
+                        SubjectId = l.Subject.SubjectId,
+                        SubjectName = l.Subject.SubjectName,
+                        HexademicalColor = l.Subject.HexademicalColor
+                    })            
+                    .Distinct()                       
+                    .ToListAsync();
+
+                return Ok(subjects);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving subject records.");
+                return StatusCode(500, "An error occurred while retrieving subject records.");
+            }
+        }
+
         // GET: api/Subject/5
         [HttpGet("{id}")]
         [Authorize]

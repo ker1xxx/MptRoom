@@ -19,6 +19,11 @@ import { DashboardBodyComponent } from './components/dashboard-body/dashboard-bo
 import { CommonModule } from '@angular/common';
 import { TaskViewModel } from '../../../../models/VM/task.viewmodel';
 import { LoaderService } from '../../../../services/loader.service';
+import { TaskDTO } from '../../../../models/DTO/task.dto';
+import { SubjectDTO } from '../../../../models/DTO/subject.dto';
+import { PostDTO } from '../../../../models/DTO/post.dto';
+import { TeacherDTO } from '../../../../models/DTO/teacher.dto';
+import { PersonalDataDTO } from '../../../../models/DTO/personal-data.dto';
 
 @Component({
   selector: 'student-dashboard',
@@ -60,15 +65,15 @@ export class DashboardComponent {
     if (!this.user$?.userId) return;
 
     this.loaderService.loadWithCache(this.grades$, () =>
-      this.apiService.getTasksByUser(this.user$.userId!).pipe(
+      this.apiService.get<TaskDTO[]>(`Task/student/${this.user$.userId!}`).pipe(
         switchMap((tasks) => {
           console.log('Полученные задания:', tasks); // Логируем задания, которые пришли от API
 
           const subjectRequests = tasks.map((task) =>
-            this.apiService.getSubject(task.postId!)
+            this.apiService.getById<SubjectDTO>('Subject', task.subjectId!)
           );
           const postRequests = tasks.map((task) =>
-            this.apiService.getPost(task.postId!)
+            this.apiService.getById<PostDTO>('Post', task.postId!)
           );
 
           return forkJoin([
@@ -114,20 +119,67 @@ export class DashboardComponent {
 
   private loadSchedule() {
     this.loaderService.loadWithCache(this.schedule$, () =>
-      this.apiService.getSchedule()
+      this.apiService
+        .getSchedule()
+        .pipe(map((lessons) => this.processAndSortLessons(lessons)))
+    );
+  }
+
+  private processAndSortLessons(lessons: LessonViewModel[]): LessonViewModel[] {
+    const currentWeekType = this.getCurrentWeekType();
+    return lessons
+      .filter(
+        (lesson) =>
+          lesson.WeekType === 'any' || lesson.WeekType === currentWeekType
+      )
+      .sort((a, b) => {
+        // Сортировка по дням недели
+        const dayComparison =
+          this.daysOrder.indexOf(a.DayOfWeek) -
+          this.daysOrder.indexOf(b.DayOfWeek);
+
+        // Если дни одинаковые - сортировка по номеру урока
+        return dayComparison !== 0
+          ? dayComparison
+          : a.LessonNumber - b.LessonNumber;
+      });
+  }
+
+  // Предполагаемая структура (добавьте в код):
+  private daysOrder = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+
+  private getCurrentWeekType(): string {
+    // Реализация определения текущей недели
+    const weekNumber = this.getWeekNumber(new Date());
+    return weekNumber % 2 === 0 ? 'even' : 'odd';
+  }
+
+  private getWeekNumber(d: Date): number {
+    // Реализация расчета номера недели
+    const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const dayNum = date.getUTCDay() || 7;
+    date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    return Math.ceil(
+      ((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
     );
   }
 
   private loadTasks() {
     if (!this.user$?.userId) return;
-
     this.loaderService.loadWithCache(this.tasks$, () =>
-      this.apiService.getTasksByUser(this.user$.userId!).pipe(
+      this.apiService.get<TaskDTO[]>(`Task/student/${this.user$.userId!}`).pipe(
         switchMap((tasks) => {
           const filteredTasks = tasks.filter((task) => task.taskStatus !== 3);
           const postIds = filteredTasks.map((t) => t.postId!);
           const teacherIds = filteredTasks.map((t) => t.teacherId);
-
           if (filteredTasks.length === 0) {
             return of([]); // Возвращаем пустой массив сразу
           }
@@ -135,7 +187,7 @@ export class DashboardComponent {
           return forkJoin({
             subjects: forkJoin(
               postIds.map((id) =>
-                from(this.apiService.getSubject(id)).pipe(
+                from(this.apiService.getById<SubjectDTO>('Subject', id)).pipe(
                   catchError(() =>
                     of({ hexademicalColor: '#CCCCCC', subjectName: 'N/A' })
                   )
@@ -144,17 +196,20 @@ export class DashboardComponent {
             ),
             posts: forkJoin(
               postIds.map((id) =>
-                from(this.apiService.getPost(id)).pipe(
+                from(this.apiService.getById<PostDTO>('Post', id)).pipe(
                   catchError(() => of({ postTitle: 'N/A' }))
                 )
               )
             ),
             personalData: forkJoin(
               teacherIds.map((id) =>
-                from(this.apiService.getTeacher(id)).pipe(
+                from(this.apiService.getById<TeacherDTO>('Teacher', id)).pipe(
                   switchMap((teacher) =>
                     from(
-                      this.apiService.getPersonalData(teacher.personalDataId)
+                      this.apiService.getById<PersonalDataDTO>(
+                        'PersonalData',
+                        teacher.personalDataId!
+                      )
                     ).pipe(
                       catchError(() =>
                         of({ lastname: 'N/A', name: ['N/A'], patronymic: '' })

@@ -1,0 +1,31 @@
+<header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <img src="{{img}}" alt="MptRoom">
+        <div class="flex items-center space-x-6">
+            <div class="flex flex-col">
+                <span class="text-sm font-semibold text-gray-600">Панель Администратора</span>
+                <span class="text-2xl font-bold text-gray-800">МрtRoom</span>
+            </div>
+        </div>
+
+        <!-- Правая часть с навигацией -->
+        <nav class="flex space-x-8">
+            <a routerLink="/admin/groups"
+                class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-4 py-2 rounded transition-colors">
+                Группы
+            </a>
+            <a routerLink="/admin/subjects"
+                class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-4 py-2 rounded transition-colors">
+                Предметы
+            </a>
+            <a routerLink="/admin/teachers"
+                class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-4 py-2 rounded transition-colors">
+                Преподаватели
+            </a>
+            <a routerLink="/admin/lessons"
+                class="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-4 py-2 rounded transition-colors">
+                Расписание
+            </a>
+        </nav>
+    </div>
+</header>

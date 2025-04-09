@@ -1,0 +1,110 @@
+<admin-header></admin-header>
+
+<div class="p-6">
+    <h1 class="text-2xl font-bold mb-4">Курсы</h1>
+
+    <!-- Фильтрация -->
+    <div class="mb-4 flex gap-4">
+        <div>
+            <label class="block mb-1">Группа</label>
+            <select [(ngModel)]="filter.groupId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
+                <option value="">Все группы</option>
+                <option *ngFor="let group of groups" [value]="group.groupId">{{ group.groupName }}</option>
+            </select>
+        </div>
+        <div>
+            <label class="block mb-1">Преподаватель</label>
+            <select [(ngModel)]="filter.teacherId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
+                <option value="">Все преподаватели</option>
+                <option *ngFor="let teacher of teachers" [value]="teacher.userId">
+                    {{ teacher.lastname }} {{ teacher.name }}
+                </option>
+            </select>
+        </div>
+        <div>
+            <label class="block mb-1">Предмет</label>
+            <select [(ngModel)]="filter.subjectId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
+                <option value="">Все предметы</option>
+                <option *ngFor="let subject of subjects" [value]="subject.subjectId">{{ subject.subjectName }}</option>
+            </select>
+        </div>
+    </div>
+
+    <button (click)="openModal()" class="mb-4 px-4 py-2 bg-green-500 text-white rounded">
+        + Добавить курс
+    </button>
+
+    <table class="w-full border">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="p-2">ID</th>
+                <th class="p-2">Название курса</th>
+                <th class="p-2">Группа</th>
+                <th class="p-2">Предмет</th>
+                <th class="p-2">Преподаватель</th>
+                <th class="p-2">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let course of filteredCourses" class="border-t cursor-pointer items-center"
+                (click)="openModal(course)">
+                <td class="p-2  items-center">{{ course.courseId }}</td>
+                <td class="p-2  items-center">{{ course.courseName }}</td>
+                <td class="p-2  items-center">{{ course.groupName }}</td>
+                <td class="flex items-center gap-x-2 p-5">
+                    <div class="w-6 h-6 rounded" [style.background]="course.hexademicalColor"></div>
+                    {{course.subjectName
+                    }}
+                </td>
+                <td class="p-2  items-center">{{ course.teacherName }}</td>
+                <td class="p-2  items-center flex flex-wrap gap-2">
+                    <button (click)="deleteCourse(course.courseId!)"
+                        class="bg-red-500 text-white px-2 py-1 rounded">Удалить</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Модалка -->
+<div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+    <div class="bg-white p-6 rounded-lg w-96">
+        <h2 class="text-xl mb-4">{{ isEditMode ? 'Редактировать' : 'Создать' }} курс</h2>
+        <form (ngSubmit)="saveCourse()">
+            <div class="mb-4">
+                <label class="block mb-1">Группа</label>
+                <select [(ngModel)]="selectedCourse!.groupId" name="groupId" required class="w-full p-2 border rounded">
+                    <option *ngFor="let group of groups" [value]="group.groupId">{{ group.groupName }}</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1">Предмет</label>
+                <select [(ngModel)]="selectedCourse!.subjectId" name="subjectId" required
+                    class="w-full p-2 border rounded">
+                    <option *ngFor="let subject of subjects" [value]="subject.subjectId">{{ subject.subjectName }}
+                    </option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1">Преподаватель</label>
+                <select [(ngModel)]="selectedCourse!.teacherId" name="teacherId" required
+                    class="w-full p-2 border rounded">
+                    <option *ngFor="let teacher of teachers" [value]="teacher.userId">
+                        {{ teacher.lastname }} {{ teacher.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="mt-4 flex justify-between gap-2">
+                <button routerLink="/admin/subjects" class="px-4 py-2 bg-yellow-500 text-white rounded">
+                    Посты
+                </button>
+            </div>
+            <div class="flex justify-between gap-2">
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">
+                    {{ isEditMode ? 'Сохранить' : 'Создать' }}</button>
+                <button type="button" (click)="closeModal()"
+                    class="px-4 py-2 bg-gray-500 text-white rounded">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background-light-color: #fcfff2;
@@ -26,3 +29,9 @@ body {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Montserrat, "Helvetica Neue", sans-serif; }
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}
+.transition-all {
+  transition: all 0.3s ease;
+}

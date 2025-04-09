@@ -50,6 +50,32 @@ namespace MptRoomAPI.Controllers
             }
         }
 
+        [HttpGet("group/{group_id}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudentsForGroup (int group_id)
+        {
+            try
+            {
+                var students = await _context.Students
+                    .Where(s => s.GroupId == group_id)
+                    .Select(s => new StudentDTO
+                    {
+                        UserId = s.UserId,
+                        PersonalDataId = s.PersonalDataId,
+                        AuthorizationDataId = s.AuthorizationDataId,
+                        GroupId = s.GroupId,
+                    })
+                    .ToListAsync();
+
+                return Ok(students);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving student records.");
+                return StatusCode(500, "An error occurred while retrieving student records.");
+            }
+        }
+
         // GET: api/Student/5
         [HttpGet("{id}")]
         [Authorize]

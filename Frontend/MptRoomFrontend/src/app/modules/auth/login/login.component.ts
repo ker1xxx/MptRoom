@@ -47,14 +47,29 @@ export class LoginComponent {
       const { login, password } = this.loginForm.value;
       this.auth.login({ login, password }).subscribe({
         next: (res) => {
-          const role = this.auth.getUserRole();
-          if (role) {
-            this.router.navigate([role.toLowerCase()]);
-          } else {
-            console.error('Не удалось извлечь роль из токена');
+          // Получаем роль из ответа сервера
+          const role = this.auth.getUserRole(); // Предполагаем, что сервер возвращает роль в res.role
+
+          // Перенаправляем в зависимости от роли
+          switch (role?.toLowerCase()) {
+            case 'administrator':
+              this.router.navigate(['/admin/students']);
+              break;
+            case 'teacher':
+              this.router.navigate(['/teacher']);
+              break;
+            case 'student':
+              this.router.navigate(['/student']);
+              break;
+            default:
+              this.router.navigate(['/login']);
+              console.error('Неизвестная роль:', role);
           }
         },
-        error: (err) => console.error('Ошибка авторизации', err),
+        error: (err) => {
+          console.error('Ошибка авторизации', err);
+          // Можно добавить обработку ошибок для пользователя
+        },
       });
     }
   }

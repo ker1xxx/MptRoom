@@ -2,6 +2,7 @@
 import { provideRouter, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { NgModule } from '@angular/core';
+import { ForbiddenComponent } from './modules/shared/forbidden/forbidden.component';
 
 export const appRoutes: Routes = [
   {
@@ -32,7 +33,8 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard],
     data: { role: 'Administrator' },
   },
-  { path: '**', redirectTo: 'login' },
+  { path: '404', component: ForbiddenComponent }, // Страница ошибки 404
+  { path: '**', redirectTo: '404' }, // Перенаправляем на страницу 404
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 

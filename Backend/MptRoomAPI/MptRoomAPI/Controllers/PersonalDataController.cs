@@ -37,7 +37,8 @@ namespace MptRoomAPI.Controllers
                         Name = pd.Name,
                         Lastname = pd.Lastname,
                         Patronymic = pd.Patronymic,
-                        PhoneNumber = pd.PhoneNumber
+                        PhoneNumber = pd.PhoneNumber,
+                        Email = pd.Email
                     })
                     .ToListAsync();
                 return Ok(personalDatas);
@@ -63,7 +64,8 @@ namespace MptRoomAPI.Controllers
                         Name = pd.Name,
                         Lastname = pd.Lastname,
                         Patronymic = pd.Patronymic,
-                        PhoneNumber = pd.PhoneNumber
+                        PhoneNumber = pd.PhoneNumber,
+                        Email = pd.Email
                     })
                     .FirstOrDefaultAsync();
 
@@ -102,6 +104,7 @@ namespace MptRoomAPI.Controllers
                 personalData.Lastname = personalDataDTO.Lastname;
                 personalData.Patronymic = personalDataDTO.Patronymic;
                 personalData.PhoneNumber = personalDataDTO.PhoneNumber;
+                personalData.Email = personalDataDTO.Email;
 
                 _context.Entry(personalData).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
@@ -131,7 +134,8 @@ namespace MptRoomAPI.Controllers
                     Name = personalDataDTO.Name,
                     Lastname = personalDataDTO.Lastname,
                     Patronymic = personalDataDTO.Patronymic,
-                    PhoneNumber = personalDataDTO.PhoneNumber
+                    PhoneNumber = personalDataDTO.PhoneNumber,
+                    Email = personalDataDTO.Email
                 };
 
                 _context.PersonalDatas.Add(personalData);

@@ -1,5 +1,5 @@
 export interface UserBaseDTO {
   userId?: number;
-  personalDataId: number;
-  authorizationDataId: number;
+  personalDataId?: number;
+  authorizationDataId?: number;
 }

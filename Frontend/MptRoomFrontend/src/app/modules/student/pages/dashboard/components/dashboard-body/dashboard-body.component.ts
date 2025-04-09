@@ -3,7 +3,7 @@ import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { GradeViewModel } from '../../../../../../models/VM/grade.viewmodel';
 import { LessonViewModel } from '../../../../../../models/VM/lesson.viewmodel';
 import { RecentMarkCardComponent } from '../recent-mark-card/recent-mark-card.component';
-import { TimeTableCardComponent } from '../time-table-card/time-table-card.component';
+import { TimeTableCardComponent } from '../../../../shared/time-table-card/time-table-card.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CloseTaskCardComponent } from '../close-task-card/close-task-card.component';

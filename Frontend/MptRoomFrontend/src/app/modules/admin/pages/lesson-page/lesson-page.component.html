@@ -1,0 +1,144 @@
+<admin-header></admin-header>
+<div class="p-6">
+    <!-- ФИЛЬТРЫ -->
+    <div class="flex gap-4 mb-6">
+        <select [(ngModel)]="filter.groupId" (change)="applyFilters()" class="p-2 border rounded">
+            <option value="">Все группы</option>
+            <option *ngFor="let group of groups" [value]="group.groupId">{{ group.groupName }}</option>
+        </select>
+
+        <select [(ngModel)]="filter.subjectId" (change)="applyFilters()" class="p-2 border rounded">
+            <option value="">Все предметы</option>
+            <option *ngFor="let subject of subjects" [value]="subject.subjectId">{{ subject.subjectName }}</option>
+        </select>
+
+        <select [(ngModel)]="filter.teacherId" (change)="applyFilters()" class="p-2 border rounded">
+            <option value="">Все преподаватели</option>
+            <option *ngFor="let teacher of teachers" [value]="teacher.userId">
+                {{ teacher.lastname }} {{ teacher.name[0] }}.{{ teacher.patronymic?.[0] }}.
+            </option>
+        </select>
+    </div>
+
+    <!-- ТАБЛИЦА РАСПИСАНИЯ -->
+    <div class="grid grid-cols-6 gap-4">
+        <div *ngFor="let day of daysOfWeekNumbers; let dayIndex = index">
+            <div class="font-bold text-center mb-2">{{ getDayName(day) }}</div>
+            <div class="flex flex-col gap-2">
+                <div *ngFor="let lessonNumber of lessonNumbers" class="p-2 border rounded min-h-[80px] bg-gray-100">
+                    <!-- Проверяем, есть ли уроки для данного дня и пары -->
+                    <ng-container *ngIf="getLessonForDay(day, lessonNumber).length > 0; else emptySlot">
+                        <ng-container *ngFor="let lesson of getLessonForDay(day, lessonNumber)">
+                            <div class="flex items-center gap-2 mb-1 relative group"
+                                [style.color]="lesson.HexademicalColor">
+                                <div class="w-3 h-3 rounded" [style.background]="lesson.HexademicalColor"></div>
+                                {{ lesson.SubjectName }}
+                                <button (click)="openModalForEdit(lesson); $event.stopPropagation()"
+                                    class="ml-2 text-gray-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    ✎
+                                </button>
+                                <button (click)="deleteLesson(lesson.LessonId); $event.stopPropagation()"
+                                    class="text-gray-600 hover:text-red-600">
+                                    ×
+                                </button>
+                            </div>
+                            <div class="text-sm">{{ lesson.GroupName }}</div>
+                            <div class="text-sm italic">
+                                {{ lesson.TeacherName }}
+                            </div>
+                            <div class="text-sm">
+                                {{ lesson.WeekType }}
+                            </div>
+                            <div class="text-sm">
+                                {{ lesson.HousingName }} |
+                                {{ lesson.LessonTime }}
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+                    <!-- Блок с текстом "ПУСТО" и кнопкой "Добавить", если уроков нет -->
+                    <ng-template #emptySlot>
+                        <div class="text-gray-400 italic">ПУСТО</div>
+                        <button (click)="openLessonModal(day, lessonNumber)"
+                            class="text-blue-500 text-sm hover:underline">
+                            + Добавить
+                        </button>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- МОДАЛКА ДОБАВЛЕНИЯ УРОКА -->
+<div *ngIf="isLessonModalOpen" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 w-[500px] relative shadow-lg">
+        <h2 class="text-xl font-bold mb-4">Добавить урок</h2>
+
+        <form (ngSubmit)="addLesson()" #lessonForm="ngForm" class="flex flex-col gap-4">
+
+            <!-- ПРЕДМЕТ -->
+            <div>
+                <label class="block text-sm font-medium">Предмет</label>
+                <select required [(ngModel)]="newLesson.subjectId" name="subjectId" class="w-full p-2 border rounded">
+                    <option *ngFor="let s of subjects" [value]="s.subjectId">{{ s.subjectName }}</option>
+                </select>
+            </div>
+
+            <!-- ГРУППА -->
+            <div>
+                <label class="block text-sm font-medium">Группа</label>
+                <select required [(ngModel)]="newLesson.groupId" name="groupId" class="w-full p-2 border rounded">
+                    <option *ngFor="let g of groups" [value]="g.groupId">{{ g.groupName }}</option>
+                </select>
+            </div>
+
+            <!-- ПРЕПОДАВАТЕЛЬ -->
+            <div>
+                <label class="block text-sm font-medium">Преподаватель</label>
+                <select required [(ngModel)]="newLesson.teacherId" name="teacherId" class="w-full p-2 border rounded">
+                    <option *ngFor="let t of teachers" [value]="t.userId">
+                        {{ t.lastname }} {{ t.name[0] }}.{{ t.patronymic?.[0] }}.
+                    </option>
+                </select>
+            </div>
+
+            <!-- КОРПУС -->
+            <div>
+                <label class="block text-sm font-medium">Корпус</label>
+                <select required [(ngModel)]="newLesson.housingId" name="housingId" class="w-full p-2 border rounded">
+                    <option *ngFor="let h of housings" [value]="h.housingId">{{ h.housingName }}</option>
+                </select>
+            </div>
+
+            <!-- ТИП НЕДЕЛИ -->
+            <div>
+                <label class="block text-sm font-medium">Тип недели</label>
+                <select [(ngModel)]="newLesson.weekType">
+                    <option *ngFor="let type of weekTypes" [ngValue]="type.value">
+                        {{ type.label }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- КНОПКИ -->
+            <div class="flex justify-end gap-4 mt-4">
+                <button *ngIf="isEditMode" type="button" (click)="deleteLesson(selectedLessonNumber!)"
+                    class="px-4 py-2 bg-red-500 text-white rounded">
+                    Удалить
+                </button>
+                <button type="button" (click)="closeModal()" class="px-4 py-2 bg-gray-300 rounded">
+                    Отмена
+                </button>
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded" [disabled]="!lessonForm.valid">
+                    {{ isEditMode ? 'Сохранить' : 'Добавить' }}
+                </button>
+            </div>
+        </form>
+
+        <!-- ОШИБКА -->
+        <div *ngIf="addLessonError" class="mt-4 text-red-600 text-sm">
+            {{ addLessonError }}
+        </div>
+    </div>
+</div>

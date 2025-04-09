@@ -1,24 +1,37 @@
 <div class="body">
     <div class="block-with-name">
-            <div class="time-table-block">
-                <p class="block-name">Расписание</p>
-                <div class="time-table-main-block">
-                    <div class="week-parity">
-                        {{week_type$}}
+        <div class="time-table-block">
+            <p class="block-name">Расписание</p>
+            <div class="time-table-main-block">
+                <div *ngIf="groupedLessons$ | async as days; else loading">
+                    <div *ngIf="hasNoLessons(days); else weekSchedule" class="no-tasks">
+                        Нет расписания на текущую неделю
                     </div>
-                    <div *ngIf="time_table$ | async as lessons; else loading">
-                        <div *ngIf="lessons.length === 0" class="no-tasks">
-                            Нет расписания на текущую неделю
+
+                    <ng-template #weekSchedule>
+                        <div *ngFor="let day of days; trackBy: trackByDay" class="day-block">
+                            <h3 class="day-header">{{ day.day }}</h3>
+
+                            <div *ngIf="day.lessons.length > 0; else noLessons" class="lessons-container">
+                                <div *ngFor="let lesson of day.lessons; trackBy: trackByLesson"
+                                    class="inner-tables-blocks">
+                                    <time-table-card [sidebar_color]="lesson.HexademicalColor"
+                                        [lesson_time]="lesson.LessonTime" [lesson_name]="lesson.SubjectName"
+                                        [teacher_name]="lesson.TeacherName" [housing]="lesson.HousingName">
+                                    </time-table-card>
+                                </div>
+                            </div>
+
+                            <ng-template #noLessons>
+                                <div class="no-lessons">Нет занятий</div>
+                            </ng-template>
                         </div>
-                        <div class="inner-tables-blocks"
-                            *ngFor="let lesson of time_table$ | async; trackBy: trackByLessonSubject">
-                            <time-table-card [sidebar_color]="lesson.HexademicalColor" [lesson_time]="lesson.LessonTime"
-                                [lesson_name]="lesson.SubjectName" [teacher_name]="lesson.TeacherName">
-                            </time-table-card>
-                        </div>
-                    </div>
-                    <ng-template #loading>Загрузка...</ng-template>
+                    </ng-template>
                 </div>
+
+                <ng-template #loading>
+                    <div class="loading">Загрузка расписания...</div>
+                </ng-template>
             </div>
         </div>
     </div>

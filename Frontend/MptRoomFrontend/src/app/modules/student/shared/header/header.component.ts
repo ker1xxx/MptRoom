@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { StudentDTO } from '../../../../models/DTO/student.dto';
 import { ApiService } from '../../../../services/api.service';
+import { PersonalDataDTO } from '../../../../models/DTO/personal-data.dto';
+import { GroupDTO } from '../../../../models/DTO/group.dto';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'student-header',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -28,20 +31,19 @@ export class HeaderComponent {
   private async loadPersonalData() {
     if (!this.user.personalDataId) return;
 
-    const user_data = await this.apiService.getPersonalData(
-      this.user.personalDataId
-    );
-    if (user_data) {
-      this.user_name = `${user_data.name} ${user_data.lastname} ${user_data.patronymic}`;
-    }
+    this.apiService
+      .getById<PersonalDataDTO>('PersonalData', this.user.personalDataId)
+      .subscribe(
+        (user_data) =>
+          (this.user_name = `${user_data.name} ${user_data.lastname} ${user_data.patronymic}`)
+      );
   }
 
   private async loadGroupData() {
     if (!this.user.groupId) return;
 
-    const group_data = await this.apiService.getGroupData(this.user.groupId);
-    if (group_data) {
-      this.group_name = group_data.groupName;
-    }
+    this.apiService
+      .getById<GroupDTO>('Group', this.user.groupId)
+      .subscribe((group_data) => (this.group_name = group_data.groupName));
   }
 }

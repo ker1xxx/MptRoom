@@ -92,6 +92,45 @@ namespace MptRoomAPI.Controllers
             }
         }
 
+        [HttpGet("group/{group_id}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<LessonDTO>>> GetLessonsForGroup (int group_id)
+        {
+            try
+            {
+                var group = await _context.Groups
+                    .FirstOrDefaultAsync(g => g.GroupId == group_id);
+                if (group == null)
+                {
+                    _logger.LogError($"Attempt to find lessons for group {group_id} occurs failure");
+                    return NoContent();
+                }
+
+                var lessons = await _context.Lessons
+                    .Where(l => l.GroupId == group.GroupId)
+                    .OrderBy(l => l.DayOfWeek)
+                    .ThenBy(l => l.LessonNumberId)
+                    .Select(l => new LessonDTO
+                    {
+                        LessonId = l.LessonId,
+                        SubjectId = l.SubjectId,
+                        GroupId = l.GroupId,
+                        TeacherId = l.TeacherId,
+                        DayOfWeek = l.DayOfWeek,
+                        WeekType = l.WeekType,
+                        LessonNumberId = l.LessonNumberId,
+                        HousingId = l.HousingId,
+                    })
+                    .ToListAsync();
+                return Ok(lessons);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving lessons");
+                return StatusCode(500, "An error occurred while retrieving lessons.");
+            }
+        }
+
         [HttpGet("{id}")]
         [Authorize]
         public async Task<ActionResult<LessonDTO>> GetLessonModel(int id)
