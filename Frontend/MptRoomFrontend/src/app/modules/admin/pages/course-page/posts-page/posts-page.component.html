@@ -25,22 +25,22 @@
             <label class="block mb-1">Курс</label>
             <select [(ngModel)]="filter.courseId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
                 <option value="">Все курсы</option>
-                <option *ngFor="let course of courses" [value]="course.courseId">
-                    {{ course.courseId }}
+                <option *ngFor="let course of courseForDisplay" [value]="course.courseId">
+                    {{ course.courseName }}
                 </option>
             </select>
         </div>
         <div>
-            <label class="block mb-1">Курс</label>
+            <label class="block mb-1">Группа</label>
             <select [(ngModel)]="filter.groupId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
                 <option value="">Все группы</option>
-                <option *ngFor="let group of groups" [value]="group.groupId">
-                    {{ group.groupName }}
+                <option *ngFor="let c of groups" [value]="c.groupId">
+                    {{ c.groupName }}
                 </option>
             </select>
         </div>
         <div>
-            <label class="block mb-1">Курс</label>
+            <label class="block mb-1">Предмет</label>
             <select [(ngModel)]="filter.courseId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
                 <option value="">Все предметы</option>
                 <option *ngFor="let subject of subjects" [value]="subject.subjectId">
@@ -104,17 +104,27 @@
                     <option *ngFor="let type of PostTypes" [value]="type.value">{{ type.label }}</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label class="block mb-1">Тема</label>
-                <select [(ngModel)]="selectedPost.postThemeId" name="themeId" required
-                    class="w-full p-2 border rounded">
-                    <option *ngFor="let theme of themes" [value]="theme.postThemeId">{{ theme.postThemeText }}</option>
-                </select>
+            <label class="block mb-1">Тема</label>
+
+            <select [(ngModel)]="selectedThemeOption" (change)="onThemeChange()" class="border p-2 rounded w-full mb-3">
+                <option *ngIf="themes?.length === 0" disabled>Нет доступных тем</option>
+                <option *ngFor="let theme of themes" [value]="theme.postThemeId">
+                    {{ theme.postThemeText }}
+                </option>
+                <option [value]="-1">+ Новая тема</option>
+            </select>
+
+            <!-- Поле для новой темы -->
+            <div *ngIf="selectedThemeOption === '-1'" class="mb-4">
+                <label class="block mb-1">Введите название новой темы</label>
+                <input type="text" [(ngModel)]="newThemeName" class="border p-2 rounded w-full mb-3" />
             </div>
+
             <div class="mb-4">
                 <label class="block mb-1">Курс</label>
                 <select [(ngModel)]="selectedPost.courseId" name="courseId" required class="w-full p-2 border rounded">
-                    <option *ngFor="let course of courses" [value]="course.courseId">{{ course.groupId }}</option>
+                    <option *ngFor="let course of courseForDisplay" [value]="course.courseId">{{ course.courseName }}
+                    </option>
                 </select>
             </div>
             <div class="mb-4">
@@ -124,11 +134,6 @@
                         {{ author.lastname }} {{ author.name }}
                     </option>
                 </select>
-            </div>
-            <div class="mt-4 flex justify-between gap-2">
-                <button routerLink="/admin/courses" class="px-4 py-2 bg-yellow-500 text-white rounded">
-                    Курсы
-                </button>
             </div>
             <div class="flex justify-between gap-2">
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">

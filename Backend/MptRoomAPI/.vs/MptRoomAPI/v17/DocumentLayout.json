@@ -314,8 +314,7 @@
               "RelativeToolTip": "MptRoomAPI\\Controllers\\SubjectController.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAUwDoAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T09:02:48.533Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T09:02:48.533Z"
             },
             {
               "$type": "Document",
@@ -339,8 +338,7 @@
               "RelativeToolTip": "MptRoomAPI\\Models\\GroupModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-23T13:55:13.318Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-23T13:55:13.318Z"
             },
             {
               "$type": "Document",
@@ -352,8 +350,7 @@
               "RelativeToolTip": "MptRoomAPI\\Models\\LessonModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-10T21:20:21.335Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-10T21:20:21.335Z"
             },
             {
               "$type": "Document",
@@ -365,8 +362,7 @@
               "RelativeToolTip": "MptRoomAPI\\Models\\TeacherModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T10:28:35.43Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-24T10:28:35.43Z"
             },
             {
               "$type": "Document",
@@ -378,8 +374,7 @@
               "RelativeToolTip": "MptRoomAPI\\Controllers\\CourseController.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAmwDkAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-31T02:45:14.837Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-31T02:45:14.837Z"
             },
             {
               "$type": "Document",
@@ -403,8 +398,7 @@
               "RelativeToolTip": "MptRoomAPI\\Models\\PostModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T10:43:28.106Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-24T10:43:28.106Z"
             },
             {
               "$type": "Document",
@@ -429,8 +423,7 @@
               "RelativeToolTip": "MptRoomAPI\\DTO\\PostDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-20T12:29:18.153Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-20T12:29:18.153Z"
             },
             {
               "$type": "Document",
@@ -454,8 +447,7 @@
               "RelativeToolTip": "MptRoomAPI\\Services\\ScheduleGenerator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-09T20:16:09.168Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-09T20:16:09.168Z"
             },
             {
               "$type": "Document",
@@ -467,8 +459,7 @@
               "RelativeToolTip": "MptRoomAPI\\DTO\\CourseLoadDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-09T20:23:11.474Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-09T20:23:11.474Z"
             },
             {
               "$type": "Document",
@@ -480,8 +471,7 @@
               "RelativeToolTip": "MptRoomAPI\\Models\\Base\\UserBase.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T10:30:37.29Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-24T10:30:37.29Z"
             },
             {
               "$type": "Document",
@@ -493,8 +483,7 @@
               "RelativeToolTip": "MptRoomAPI\\Models\\SubjectModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T10:33:00.771Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-24T10:33:00.771Z"
             },
             {
               "$type": "Document",

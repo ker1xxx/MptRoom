@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../../../../services/api.service';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, map, Observable } from 'rxjs';
 import { PostDTO } from '../../../../../models/DTO/post.dto';
 import { PostViewModel } from '../../../../../models/VM/post.viewmodel';
 import { PersonalDataDTO } from '../../../../../models/DTO/personal-data.dto';
@@ -12,9 +12,12 @@ import { CourseDTO } from '../../../../../models/DTO/course.dto';
 import { PostThemeDTO } from '../../../../../models/DTO/post-theme.dto';
 import { SubjectDTO } from '../../../../../models/DTO/subject.dto';
 import { GroupDTO } from '../../../../../models/DTO/group.dto';
+import { CourseViewModel } from '../../../../../models/VM/course.viewmode';
+import { TeacherDTO } from '../../../../../models/DTO/teacher.dto';
 
 @Component({
   selector: 'app-posts-page',
+  standalone: true,
   imports: [CommonModule, FormsModule, AdminHeaderComponent],
   templateUrl: './posts-page.component.html',
   styleUrls: ['./posts-page.component.scss'],
@@ -27,6 +30,7 @@ export class PostsPageComponent {
   authors: PersonalDataDTO[] = [];
   groups: GroupDTO[] = []; // Предположим, у вас есть группы, которые нужно отфильтровать
   subjects: SubjectDTO[] = []; // Предположим, у вас есть предметы
+  courseForDisplay: CourseViewModel[] = [];
   filter = {
     themeId: '',
     authorId: '',
@@ -56,25 +60,68 @@ export class PostsPageComponent {
     [PostTypeEnum.Task]: 'Задание',
   };
 
+  postCreate: PostDTO = {
+    postId: 0,
+    postTitle: '',
+    postDescription: '',
+    postType: PostTypeEnum.AdditionalMaterials,
+    postThemeId: 0,
+    courseId: 0,
+    userId: 0,
+    created: '',
+  };
+
+  selectedThemeOption: string | any;
+  newThemeName: string = '';
+  courseThemes: PostThemeDTO[] = [];
+
+  showNewThemeInput: boolean = false;
+
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.loadData();
+    this.loadCourses();
   }
 
   loadData(): void {
     forkJoin({
       posts: this.apiService.get<PostDTO[]>('Post'),
       courses: this.apiService.get<CourseDTO[]>('Course'),
-      themes: this.apiService.get<any[]>('PostTheme'),
-      authors: this.apiService.get<PersonalDataDTO[]>('PersonalData'),
-      groups: this.apiService.get<any[]>('Groups'), // Получаем группы
-      subjects: this.apiService.get<any[]>('Subjects'), // Получаем предметы
+      themes: this.apiService.get<PostThemeDTO[]>('PostTheme'),
+      teachers: this.apiService.get<TeacherDTO[]>('Teacher'),
+      personalData: this.apiService.get<PersonalDataDTO[]>('PersonalData'),
+      groups: this.apiService.get<GroupDTO[]>('Group'),
+      subjects: this.apiService.get<SubjectDTO[]>('Subject'),
     }).subscribe({
-      next: ({ posts, courses, themes, authors }) => {
+      next: ({
+        posts,
+        courses,
+        themes,
+        teachers,
+        personalData,
+        groups,
+        subjects,
+      }) => {
         this.courses = courses;
         this.themes = themes;
-        this.authors = authors;
+        this.groups = groups;
+        this.subjects = subjects;
+        console.log(themes);
+        // то же, что и было:
+        const teachersWithData = teachers.filter(
+          (t): t is TeacherDTO & { personalDataId: number } =>
+            !!t.personalDataId
+        );
+
+        this.authors = teachersWithData
+          .map((teacher) =>
+            personalData.find(
+              (p) => p.personalDataId === teacher.personalDataId
+            )
+          )
+          .filter((a): a is PersonalDataDTO => !!a);
+
         this.processPosts(posts);
       },
       error: (err) => console.error('Ошибка загрузки данных:', err),
@@ -90,6 +137,7 @@ export class PostsPageComponent {
         this.apiService.getById<CourseDTO>('Course', dto.courseId),
       ]).subscribe({
         next: ([author, theme, course]) => {
+          console.log(dto);
           const subject = this.apiService
             .getById<SubjectDTO>('Subject', course.subjectId)
             .subscribe((subj) => {
@@ -105,6 +153,8 @@ export class PostsPageComponent {
                     subj.subjectId!
                   );
                   this.posts.push(vm);
+                  console.log(course);
+                  console.log(vm);
                   this.applyFilters(); // Обновляем фильтрацию после добавления
                 });
             });
@@ -113,6 +163,77 @@ export class PostsPageComponent {
           console.error(`Ошибка загрузки автора поста ${dto.postId}`, err),
       });
     });
+  }
+
+  loadCourses() {
+    this.apiService.get<CourseDTO[]>('Course').subscribe({
+      next: (data) => {
+        this.courses = data; // сохраняем "сырые" курсы, если надо
+        this.courseForDisplay = []; // очищаем ViewModel список
+
+        data.forEach((courseDTO) => {
+          const group$ = this.apiService.get<GroupDTO>(
+            `Group/${courseDTO.groupId}`
+          );
+          const subject$ = this.apiService.getById<SubjectDTO>(
+            'Subject',
+            courseDTO.subjectId
+          );
+          const teacher$ = this.apiService.get<TeacherDTO>(
+            `Teacher/${courseDTO.teacherId}`
+          );
+
+          forkJoin([group$, subject$, teacher$]).subscribe({
+            next: ([group, subject, teacher]) => {
+              this.apiService
+                .getById<PersonalDataDTO>(
+                  'PersonalData',
+                  teacher.personalDataId!
+                )
+                .subscribe({
+                  next: (personalData) => {
+                    const courseViewModel: CourseViewModel = {
+                      courseId: courseDTO.courseId,
+                      groupId: group.groupId,
+                      groupName: group.groupName,
+                      subjectId: subject.subjectId!,
+                      subjectName: subject.subjectName,
+                      hexademicalColor: subject.hexademicalColor,
+                      teacherName: `${personalData.lastname} ${personalData.name}`,
+                      courseName: `${group.groupName} - ${subject.subjectName}`,
+                      teacherId: courseDTO.teacherId,
+                    };
+
+                    this.courseForDisplay.push(courseViewModel);
+                    this.applyFilters(); // фильтруем после добавления
+                  },
+                  error: (err) =>
+                    console.error('Ошибка загрузки PersonalData:', err),
+                });
+            },
+            error: (err) =>
+              console.error('Ошибка загрузки Group/Subject/Teacher:', err),
+          });
+        });
+      },
+      error: (err) => console.error('Ошибка загрузки курсов:', err),
+    });
+  }
+
+  // Преобразование из DTO в ViewModel
+  mapCourseDTOtoViewModel(courseDTO: any): CourseViewModel {
+    // Преобразование DTO в ViewModel
+    return {
+      courseId: courseDTO.courseId,
+      courseName: courseDTO.courseName,
+      groupId: courseDTO.groupId,
+      groupName: courseDTO.groupName,
+      subjectId: courseDTO.subjectId,
+      subjectName: courseDTO.subjectName,
+      teacherId: courseDTO.teacherId,
+      teacherName: courseDTO.teacherName,
+      hexademicalColor: courseDTO.hexademicalColor,
+    };
   }
 
   applyFilters(): void {
@@ -203,26 +324,71 @@ export class PostsPageComponent {
   }
 
   // Сохранить пост
-  savePost(): void {
-    const postToSave = {
-      ...this.selectedPost,
-      postType: PostTypeEnum[this.selectedPost.postType], // Преобразуем тип поста
-    };
-
-    if (this.isEditMode) {
-      // Редактирование существующего поста
-      this.apiService
-        .put<PostDTO>('Post', postToSave, postToSave.postId)
-        .subscribe(() => {
-          this.closeModal();
-          this.loadData();
-        });
+  savePost() {
+    // Проверяем, выбрана ли новая тема
+    if (this.selectedThemeOption === -1 && this.newThemeName) {
+      // Логика для создания новой темы
+      this.createNewTheme(this.newThemeName);
     } else {
-      // Добавление нового поста
-      this.apiService.post('Post', postToSave).subscribe(() => {
-        this.closeModal();
-        this.loadData();
+      // Логика для сохранения поста с выбранной существующей темой
+      this.postCreate.postThemeId = this.selectedThemeOption!; // Устанавливаем ID выбранной темы
+
+      // Здесь можно продолжить сохранение поста
+      // Например, отправить пост на сервер
+      this.apiService.post<PostDTO>('Post', this.postCreate).subscribe({
+        next: (savedPost) => {
+          console.log('Пост успешно сохранен:', savedPost);
+          // Закрыть модальное окно или выполнить другие действия после успешного сохранения
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error('Ошибка при сохранении поста:', err);
+        },
       });
     }
+  }
+
+  onThemeChange() {
+    console.log('Выбрана тема:', this.selectedThemeOption);
+  }
+
+  onCourseChange(): void {
+    if (!this.postCreate.courseId) {
+      this.courseThemes = [];
+      return;
+    }
+
+    const courseThemesSet = new Map<number, PostThemeDTO>();
+
+    for (const post of this.posts) {
+      if (post.courseId === this.postCreate.courseId && post.theme) {
+        const theme = this.themes.find((t) => t.postThemeText === post.theme);
+        if (theme && !courseThemesSet.has(theme.postThemeId!)) {
+          courseThemesSet.set(theme.postThemeId!, theme);
+        }
+      }
+    }
+
+    this.courseThemes = Array.from(courseThemesSet.values());
+  }
+
+  createNewTheme(newTheme: string) {
+    const dto: PostThemeDTO = {
+      postThemeText: newTheme,
+    };
+
+    this.apiService.post<PostThemeDTO>('PostTheme', dto).subscribe({
+      next: (createdTheme) => {
+        // Добавляем созданную тему в список
+        this.themes.push(createdTheme);
+        // Устанавливаем только что созданную тему как выбранную
+        this.selectedThemeOption = createdTheme.postThemeId;
+      },
+      error: (err) => console.error('Ошибка при создании новой темы:', err),
+    });
+  }
+
+  createPost(dto: PostDTO): Observable<PostDTO> {
+    return this.apiService.post('/post', dto);
   }
 }
