@@ -1,36 +1,50 @@
 <div class="body">
     <div class="block-with-name">
+        <p class="block-name">Расписание</p>
         <div class="time-table-block">
-            <p class="block-name">Расписание</p>
-            <div class="time-table-main-block">
-                <div *ngIf="groupedLessons$ | async as days; else loading">
-                    <div *ngIf="hasNoLessons(days); else weekSchedule" class="no-tasks">
-                        Нет расписания на текущую неделю
-                    </div>
-
-                    <ng-template #weekSchedule>
-                        <div *ngFor="let day of days; trackBy: trackByDay" class="day-block">
-                            <h3 class="day-header">{{ day.day }}</h3>
-
-                            <div *ngIf="day.lessons.length > 0; else noLessons" class="lessons-container">
-                                <div *ngFor="let lesson of day.lessons; trackBy: trackByLesson"
-                                    class="inner-tables-blocks">
-                                    <time-table-card [sidebar_color]="lesson.HexademicalColor"
-                                        [lesson_time]="lesson.LessonTime" [lesson_name]="lesson.SubjectName"
-                                        [teacher_name]="lesson.TeacherName" [housing]="lesson.HousingName">
-                                    </time-table-card>
-                                </div>
-                            </div>
-
-                            <ng-template #noLessons>
-                                <div class="no-lessons">Нет занятий</div>
-                            </ng-template>
-                        </div>
-                    </ng-template>
+            <div class="header-section">
+                <div class="week-type">
+                    Неделя:
+                    <span class="week-parity" [ngClass]="{
+                        'even-week': isEvenWeek,
+                        'odd-week': !isEvenWeek
+                    }">
+                        {{ getCurrentWeekTypeDisplay() }}
+                    </span>
                 </div>
+            </div>
 
-                <ng-template #loading>
-                    <div class="loading">Загрузка расписания...</div>
+            <div class="time-table-main-block">
+                <ng-container *ngIf="groupedLessons$ | async as days; else loadingState">
+                    <div *ngFor="let day of days; trackBy: trackByDay" class="day-block p-4">
+                        <h3 class="day-header text-black-700 text-center" style="font-size: 2rem; font-weight: 650;">
+                            {{ day.day }}
+                            <span *ngIf="day.housings.length > 0" class="housing-name">
+                                {{ joinHousings(day.housings) }}
+                            </span>
+                        </h3>
+
+                        <div *ngIf="day.lessons.length > 0; else noLessons" class="lessons-container">
+                            <div *ngFor="let lesson of day.lessons; trackBy: trackByLesson" class="inner-tables-blocks">
+                                <time-table-card [sidebar_color]="lesson.HexademicalColor"
+                                    [lesson_time]="lesson.LessonTime" [lesson_name]="lesson.SubjectName"
+                                    [teacher_name]="lesson.TeacherName" [housing]="lesson.HousingName">
+                                </time-table-card>
+                            </div>
+                        </div>
+
+                        <ng-template #noLessons>
+                            <div class=" no-lessons">Нет занятий
+                            </div>
+                        </ng-template>
+                    </div>
+                </ng-container>
+
+                <ng-template #loadingState>
+                    <div class="loading-state">
+                        <div *ngIf="isLoading" class="loading">Загрузка расписания...</div>
+                        <div *ngIf="error" class="error">{{ error }}</div>
+                    </div>
                 </ng-template>
             </div>
         </div>

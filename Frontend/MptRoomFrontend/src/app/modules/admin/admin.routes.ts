@@ -6,6 +6,7 @@ import { SubjectPageComponent } from './pages/subject-page/subject-page.componen
 import { TeacherPageComponent } from './pages/teacher-page/teacher-page.component';
 import { CoursePageComponent } from './pages/course-page/course-page.component';
 import { LessonScheduleComponent } from './pages/lesson-page/lesson-page.component';
+import { PostsPageComponent } from './pages/course-page/posts-page/posts-page.component';
 
 export const adminRoutes: Routes = [
   { path: 'groups', component: GroupPageComponent },
@@ -14,4 +15,5 @@ export const adminRoutes: Routes = [
   { path: 'teachers', component: TeacherPageComponent },
   { path: 'courses', component: CoursePageComponent },
   { path: 'lessons', component: LessonScheduleComponent },
+  { path: 'posts', component: PostsPageComponent },
 ];

@@ -23,7 +23,7 @@ p.block-name{
 }
 
 div.time-table-block{
-    width: 49vw;
+    width: 58vw;
     display: grid;
     grid-template-rows: auto auto;
     background-color: var(--block-background-color);
@@ -44,18 +44,48 @@ div.inner-tables-blocks{
     flex-direction: column;
 }
 
-div.week-parity{
+.week-type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.5rem;
+}
+
+.housing-name {
+  color: #666;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-left: 15px;
+  text-transform: uppercase;
+}
+
+
+.even-week {
+  background-color: #FFB74D; // Оранжевый для знаменателя
+  color: #fff;
+}
+
+.odd-week {
+  background-color: #64B5F6; // Синий для числителя
+  color: #fff;
+}
+
+.week-parity{
     border-radius: 5px;
-    font-weight: 600;
+    font-weight: 650;
+    margin: 2vh 1.5vw;
     font-size: 1.5rem;
+    width: 20%;
     align-items: center;
     padding: 1% 1%;
+    color: var(--background-light-color);
+    text-align: center;
 
-    &even-week{
+    &.even-week{
         background-color: var(--even-week-background-color);
     }
 
-    &odd-week{
+    &.odd-week{
         background-color: var(--odd-week-background-color);
     }
 }

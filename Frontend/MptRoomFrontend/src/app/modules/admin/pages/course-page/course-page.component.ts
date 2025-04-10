@@ -13,6 +13,7 @@ import { AdminHeaderComponent } from '../../shared/header/header.component';
 import { AuthorizationDataDTO } from '../../../../models/DTO/authorization-data.dto';
 import { TeacherViewModel } from '../../../../models/VM/teacher.viewmodel';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PostViewModel } from '../../../../models/VM/post.viewmodel';
 
 @Component({
   selector: 'admin-course-management',
@@ -42,8 +43,6 @@ export class CoursePageComponent implements OnInit {
       const teacherId = params['teacherId'] ? +params['teacherId'] : null;
       const subjectId = params['subjectId'] ? +params['subjectId'] : null;
       const groupId = params['groupId'] ? +params['groupId'] : null;
-
-      // например:
       this.filter = {
         groupId: groupId ? String(groupId) : '',
         teacherId: teacherId ? String(teacherId) : '',

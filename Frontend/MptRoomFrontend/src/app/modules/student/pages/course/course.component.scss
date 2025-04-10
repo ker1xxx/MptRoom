@@ -1,0 +1,114 @@
+.loading-skeleton {
+  background: #f5f5f5;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px;
+  
+  .loading-header {
+    height: 40px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 20px;
+  }
+  
+  .loading-panels {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(3, 1fr);
+    
+    .loading-panel {
+      height: 120px;
+      background: #e0e0e0;
+      border-radius: 6px;
+    }
+  }
+}
+
+// course.component.scss
+.course-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  width: fit-content;
+  background-color: var(--background-light-color);
+}
+
+.panel-header {
+  padding: 24px;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+  border-left: none; // отключаем если не нужно
+  cursor: pointer;
+  
+  margin-top: 2vh;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.info-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .info-panel {
+    background-color: inherit;
+    border-radius: 16px;
+    overflow: hidden;
+
+    .panel-header {
+      font-size: 20px;
+      padding: 20px;
+    }
+
+    .panel-content {
+      padding: 16px;
+    }
+  }
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+
+  .post-item {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+
+    .post-content {
+      display: flex;
+      flex-direction: column;
+
+      .post-title {
+        font-size: 15px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 4px;
+      }
+
+      .post-date {
+        font-size: 13px;
+        color: #888;
+      }
+    }
+  }
+}

@@ -11,5 +11,6 @@ namespace MptRoomAPI.DTO
         public int PostThemeId { get; set; }
         public int CourseId { get; set; }
         public int UserId { get; set; }
+        public DateTime Created { get; set; }
     }
 }

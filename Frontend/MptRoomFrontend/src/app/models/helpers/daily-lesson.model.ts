@@ -1,6 +1,7 @@
 import { LessonViewModel } from '../VM/lesson.viewmodel';
 
-export type DailyLessons = {
+export interface DailyLesson {
   day: string;
   lessons: LessonViewModel[];
-}[];
+  housings: string[];
+}

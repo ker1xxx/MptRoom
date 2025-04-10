@@ -21,7 +21,6 @@ export class HeaderComponent {
   constructor(private apiService: ApiService) {}
 
   async ngOnChanges() {
-    console.log('user: ', this.user);
     if (this.user) {
       await this.loadPersonalData();
       await this.loadGroupData();

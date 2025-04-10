@@ -8,4 +8,5 @@ export interface PostDTO {
   postThemeId: number;
   courseId: number;
   userId: number;
+  created: string;
 }

@@ -1,2 +1,11 @@
+<!-- time-table.component.html -->
 <student-header [user]="user$"></student-header>
-<student-time-table-body [time_table$]="schedule$"></student-time-table-body>
+<student-time-table-body [time_table]="schedule$ | async" *ngIf="!isLoading && !error; else loading">
+</student-time-table-body>
+
+<ng-template #loading>
+    <div class="loading-container">
+        <div *ngIf="isLoading" class="loading">Загрузка расписания...</div>
+        <div *ngIf="error" class="error">{{ error }}</div>
+    </div>
+</ng-template>

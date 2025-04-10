@@ -468,6 +468,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MptRoomAPI.Controllers.CourseController",
+    "Method": "GetCourseForStudent",
+    "RelativePath": "api/Course/student/{student_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "student_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.CourseDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MptRoomAPI.Controllers.GroupController",
     "Method": "GetGroups",
     "RelativePath": "api/Group",
@@ -1172,6 +1198,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.PostController",
+    "Method": "GetPostsByCourse",
+    "RelativePath": "api/Post/course/{course_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "course_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.PostDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "MptRoomAPI.Controllers.PostThemeController",

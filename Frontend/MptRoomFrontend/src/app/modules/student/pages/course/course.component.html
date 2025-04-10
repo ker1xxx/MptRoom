@@ -1,0 +1,62 @@
+<student-header [user]="student$!"></student-header>
+<div *ngIf="course$" class="course-container">
+    <div class="control-panels">
+        <div class="panel-header" [style.background]="course$.hexademicalColor"
+            [style.border-color]="course$.hexademicalColor">
+            <h2 class="course-title">{{ course$.subjectName }}</h2>
+        </div>
+
+        <div class="info-panel">
+            <div class="panel-header" [style.background]="darkerColors[0]">
+                <span>Посты</span>
+            </div>
+            <div class="panel-content">
+                <!-- Контент панелей -->
+            </div>
+        </div>
+        <div class="info-panel">
+            <div class="panel-header" [style.background]="darkerColors[1]">
+                <span>Задания</span>
+            </div>
+            <div class="panel-content">
+                <!-- Контент панелей -->
+            </div>
+        </div>
+        <div class="info-panel">
+            <div class="panel-header" [style.background]="darkerColors[2]">
+                <span>Дополнительные материалы</span>
+            </div>
+            <div class="panel-content">
+                <!-- Контент панелей -->
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!course$" class="loading-skeleton">
+        <div class="loading-header"></div>
+        <div class="loading-panels">
+            <div class="loading-panel"></div>
+            <div class="loading-panel"></div>
+            <div class="loading-panel"></div>
+        </div>
+    </div>
+
+
+</div>
+<div class="posts-list" *ngIf="posts$; else noPosts">
+    <div class="post-item" *ngFor="let post of posts$">
+        <div class="post-content">
+            <div class="post-title">
+                Пользователь {{ post.author }} добавил {{ post.type.toLowerCase() }}: {{ post.title }}
+            </div>
+            <div class="post-date">
+                {{ post.date | date: 'd MMM' }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #noPosts>
+    <div class="no-posts-message">
+        Посты пока не добавлены.
+    </div>
+</ng-template>

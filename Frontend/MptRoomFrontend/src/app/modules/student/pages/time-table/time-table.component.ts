@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+// time-table.component.ts
+import { Component, OnDestroy } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { CommonModule } from '@angular/common';
 import { StudentDTO } from '../../../../models/DTO/student.dto';
 import { ApiService } from '../../../../services/api.service';
 import { LoaderService } from '../../../../services/loader.service';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, of, Subject, takeUntil } from 'rxjs';
 import { LessonViewModel } from '../../../../models/VM/lesson.viewmodel';
 import { TimeTableBodyComponent } from './components/time-table-body/time-table-body.component';
 
@@ -14,49 +15,14 @@ import { TimeTableBodyComponent } from './components/time-table-body/time-table-
   templateUrl: './time-table.component.html',
   styleUrl: './time-table.component.scss',
 })
-export class TimeTableComponent {
+export class TimeTableComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+
   user$!: StudentDTO;
-  schedule$ = new BehaviorSubject<LessonViewModel[] | null>(null);
-  constructor(
-    private apiService: ApiService,
-    private loaderService: LoaderService
-  ) {}
+  schedule$ = new BehaviorSubject<LessonViewModel[]>([]);
+  isLoading = true;
+  error: string | null = null;
 
-  async ngOnInit() {
-    await this.loadSchedule();
-  }
-
-  private loadSchedule() {
-    this.loaderService.loadWithCache(this.schedule$, () =>
-      this.apiService
-        .getSchedule()
-        .pipe(map((lessons) => this.processAndSortLessons(lessons)))
-    );
-    console.log('schedule: ', this.schedule$);
-  }
-
-  private processAndSortLessons(lessons: LessonViewModel[]): LessonViewModel[] {
-    const currentWeekType = this.getCurrentWeekType();
-    console.log('lessons', lessons);
-    return lessons
-      .filter(
-        (lesson) =>
-          lesson.WeekType === 'any' || lesson.WeekType === currentWeekType
-      )
-      .sort((a, b) => {
-        // Сортировка по дням недели
-        const dayComparison =
-          this.daysOrder.indexOf(a.DayOfWeek) -
-          this.daysOrder.indexOf(b.DayOfWeek);
-
-        // Если дни одинаковые - сортировка по номеру урока
-        return dayComparison !== 0
-          ? dayComparison
-          : a.LessonNumber - b.LessonNumber;
-      });
-  }
-
-  // Предполагаемая структура (добавьте в код):
   private daysOrder = [
     'Monday',
     'Tuesday',
@@ -66,14 +32,69 @@ export class TimeTableComponent {
     'Saturday',
   ];
 
+  constructor(
+    private apiService: ApiService,
+    private loaderService: LoaderService
+  ) {}
+
+  async ngOnInit() {
+    await this.apiService.student$.subscribe((student) => {
+      if (student) {
+        this.user$ = student;
+        this.loadSchedule();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private loadSchedule() {
+    this.loaderService.loadWithCache(this.schedule$, () =>
+      this.apiService.getSchedule().pipe(
+        takeUntil(this.destroy$),
+        map((lessons) => this.processAndSortLessons(lessons)),
+        catchError((error) => {
+          console.error('Ошибка загрузки:', error);
+          this.error = 'Ошибка загрузки расписания';
+          return of([]);
+        })
+      )
+    );
+
+    this.schedule$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => (this.isLoading = false),
+      error: () => (this.isLoading = false),
+    });
+  }
+
+  private processAndSortLessons(lessons: LessonViewModel[]): LessonViewModel[] {
+    const currentWeekType = this.getCurrentWeekType();
+
+    return lessons
+      .filter(
+        (lesson) =>
+          lesson.WeekType.toLowerCase() === 'any' ||
+          lesson.WeekType.toLowerCase() === currentWeekType
+      )
+      .sort((a, b) => {
+        const dayComparison =
+          this.daysOrder.indexOf(a.DayOfWeek) -
+          this.daysOrder.indexOf(b.DayOfWeek);
+        return dayComparison !== 0
+          ? dayComparison
+          : a.LessonNumber - b.LessonNumber;
+      });
+  }
+
   private getCurrentWeekType(): string {
-    // Реализация определения текущей недели
     const weekNumber = this.getWeekNumber(new Date());
     return weekNumber % 2 === 0 ? 'even' : 'odd';
   }
 
   private getWeekNumber(d: Date): number {
-    // Реализация расчета номера недели
     const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
     const dayNum = date.getUTCDay() || 7;
     date.setUTCDate(date.getUTCDate() + 4 - dayNum);

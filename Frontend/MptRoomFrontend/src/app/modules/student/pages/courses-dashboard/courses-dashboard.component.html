@@ -1,0 +1,38 @@
+<student-header [user]="user$"></student-header>
+<div class="courses-container" *ngIf="(courses$ | async)?.length; else noCourses">
+    <div *ngFor="let course of courses$ | async" class="course-card" (click)="onCourseSelected(course)" role="button"
+        tabindex="0" [ngClass]="{'selected-course': selectedCourseId === course.courseId}">
+        <!-- Остальное содержимое без изменений -->
+        <div class="work-container" [style.background]="course.hexademicalColor">
+            <div class="subject-title">{{course.subjectName}}</div>
+            <div class="teacher-name">Преподаватель: {{ course.teacherName }}</div>
+
+            <div *ngIf="course.nearestTask" class="task-card">
+                <div class="task-sidebar" [style.background]="course.nearestTask.sidebarColor"></div>
+
+                <div class="task-content">
+                    <div class="task-header">
+                        <h4>{{ course.nearestTask.taskName }}</h4>
+                        <span class="task-status">{{ getStatusText(course.nearestTask.taskStatus) }}</span>
+                    </div>
+
+                    <div class="task-details">
+                        <div class="due-date">
+                            <i class="icon-clock"></i>
+                            {{ course.nearestTask.dueTime | date: 'dd.MM.yyyy HH:mm' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+<ng-template #noCourses>
+    <div class="no-courses-message">
+        <h3>Курсы не найдены</h3>
+        <p>Пока нет доступных курсов для вашей группы</p>
+    </div>
+</ng-template>

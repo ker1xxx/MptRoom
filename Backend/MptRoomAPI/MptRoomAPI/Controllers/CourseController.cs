@@ -55,7 +55,7 @@ namespace MptRoomAPI.Controllers
             try
             {
                 var course = await _context.Courses
-                    .Where(c => c.GroupId == id)
+                    .Where(c => c.CourseId == id)
                     .Select(c => new CourseDTO
                     {
                         CourseId = c.CourseId,
@@ -75,6 +75,42 @@ namespace MptRoomAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error retrieving course with Group ID {id}");
+                return StatusCode(500, "An error occurred while retrieving the course.");
+            }
+        }
+
+        [HttpGet("student/{student_id}")]
+        [Authorize]
+        public async Task<ActionResult<CourseDTO>> GetCourseForStudent(int student_id)
+        {
+            try
+            {
+                var group = await _context.Groups.FirstOrDefaultAsync(g => g.Students.Any(s => s.UserId == student_id));
+                if (group == null)
+                {
+                    return NotFound($"Course with student {student_id} not found.");
+                }
+                var course = await _context.Courses
+                    .Where(c => c.GroupId == group.GroupId)
+                    .Select(c => new CourseDTO
+                    {
+                        CourseId = c.CourseId,
+                        GroupId = c.GroupId,
+                        SubjectId = c.SubjectId,
+                        TeacherId = c.TeacherId,
+                    })
+                    .ToListAsync();
+
+                if (course == null)
+                {
+                    return NotFound($"Course with Group ID {student_id} not found.");
+                }
+
+                return Ok(course);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving course with Group ID {student_id}");
                 return StatusCode(500, "An error occurred while retrieving the course.");
             }
         }

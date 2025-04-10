@@ -36,8 +36,8 @@ export class LessonScheduleComponent implements OnInit {
   daysOfWeekOriginal = [
     'Monday',
     'Tuesday',
-    'Thrisday',
-    'Fourthday',
+    'Wednesday',
+    'Thursday',
     'Friday',
     'Saturday',
   ];

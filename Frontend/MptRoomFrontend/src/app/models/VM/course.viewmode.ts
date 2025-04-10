@@ -1,3 +1,5 @@
+import { TaskViewModel } from './task.viewmodel';
+
 export interface CourseViewModel {
   courseId?: number;
   courseName: string;
@@ -8,4 +10,5 @@ export interface CourseViewModel {
   teacherId: number;
   teacherName: string;
   hexademicalColor: string;
+  nearestTask?: TaskViewModel;
 }

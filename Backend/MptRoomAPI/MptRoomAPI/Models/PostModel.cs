@@ -11,6 +11,7 @@ namespace MptRoomAPI.Models
         public int PostThemeId { get; set; }
         public int CourseId { get; set; }
         public int UserId { get; set; }
+        public DateTime Created { get; set; }
 
         public PostThemeModel PostTheme{ get; set; }
         public CourseModel Course { get; set; }

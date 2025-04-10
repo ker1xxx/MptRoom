@@ -52,6 +52,35 @@ namespace MptRoomAPI.Controllers
             }
         }
 
+        [HttpGet("course/{course_id}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<PostDTO>>> GetPostsByCourse(int course_id)
+        {
+            try
+            {
+                var posts = await _context.Posts
+                    .Where(p => p.CourseId == course_id)
+                    .Select(p => new PostDTO
+                    {
+                        PostId = p.PostId,
+                        PostTitle = p.PostTitle,
+                        PostDescription = p.PostDescription,
+                        PostType = p.PostType,
+                        PostThemeId = p.PostThemeId,
+                        CourseId = p.CourseId,
+                        UserId = p.UserId,
+                    })
+                    .ToListAsync();
+
+                return Ok(posts);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving posts");
+                return StatusCode(500, "An error occurred while retrieving posts.");
+            }
+        }
+
         [HttpGet("{id}")]
         [Authorize]
         public async Task<ActionResult<PostDTO>> GetPostModel(int id)
