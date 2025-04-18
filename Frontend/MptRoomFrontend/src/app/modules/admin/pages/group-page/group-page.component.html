@@ -26,7 +26,7 @@
                             {{item.groupName}}
                         </span>
                         <span *ngSwitchCase="'courseNumber'">
-                            {{ collegeYear[item.courseNumber]}}
+                            {{ collegeYearMap[item.courseNumber]}}
                         </span>
                     </ng-container>
                 </td>
@@ -38,38 +38,52 @@
     <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg w-96">
             <h2 class="text-xl mb-4">{{ isEditMode ? 'Редактировать' : 'Создать' }} группу</h2>
-            <form (submit)="handleSave()">
+            <form #form="ngForm" (ngSubmit)="form.valid && handleSave()"> <!-- Основное изменение здесь -->
                 <div class="mb-4">
                     <label class="block mb-2">Название группы</label>
-                    <input [(ngModel)]="selectedItem.groupName" name="groupName" required
-                        class="w-full p-2 border rounded">
+                    <input [(ngModel)]="selectedItem.groupName" name="groupName" required type="text"
+                        class="w-full p-2 border rounded" #groupNameInput="ngModel" pattern=".*\S+.*">
+                    <div *ngIf="groupNameInput.invalid && (groupNameInput.dirty || groupNameInput.touched)"
+                        class="text-red-500 text-sm">
+                        Обязательное поле (минимум 1 символ)
+                    </div>
                 </div>
-
                 <div class="mb-4">
                     <label class="block mb-2">Курс</label>
                     <select [(ngModel)]="selectedItem.courseNumber" name="courseNumber" required
-                        class="w-full p-2 border rounded">
+                        class="w-full p-2 border rounded" #courseInput="ngModel">
                         <option *ngFor="let key of collegeYears" [value]="key">
-                            {{ collegeYear[key] }} <!-- Отображаем курс на русском языке -->
+                            {{ collegeYearMap[key] }}
                         </option>
                     </select>
+                    <div *ngIf="courseInput.invalid && (courseInput.dirty || courseInput.touched)"
+                        class="text-red-500 text-sm">
+                        Выберите курс
+                    </div>
                 </div>
 
                 <div class="flex justify-end gap-2">
-                    <button type="button" (click)="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded">
-                        Отмена
-                    </button>
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">
-                        {{ isEditMode ? 'Сохранить' : 'Создать' }}
-                    </button>
-                    <div *ngIf="isEditMode else loading">
-                        <button (click)="showStudents(selectedItem!.groupId)"
-                            class="px-2 py-1 bg-blue-100 text-blue-800 rounded">
-                            Показать студентов
+                    <div>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">
+                            {{ isEditMode ? 'Сохранить' : 'Создать' }}
+                        </button>
+                        <div *ngIf="isEditMode else loading">
+                            <button (click)="showStudents(selectedItem!.groupId)"
+                                class="px-2 py-1 bg-blue-100 text-blue-800 rounded">
+                                Показать студентов
+                            </button>
+                        </div>
+                        <ng-template #loading style="display: none;"></ng-template>
+                    </div>
+                    <div>
+                        <button *ngIf="isEditMode" type="button" (click)="deleteGroup(selectedItem!)"
+                            class="px-4 py-2 bg-red-500 text-white rounded">
+                            Удалить
+                        </button>
+                        <button type="button" (click)="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded">
+                            Отмена
                         </button>
                     </div>
-                    <ng-template #loading style="display: none;"></ng-template>
-
                 </div>
             </form>
         </div>

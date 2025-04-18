@@ -9,27 +9,18 @@ import {
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  template: `
-    <h1>Авторизация</h1>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <input type="text" formControlName="login" placeholder="Логин" required />
-      <input
-        type="password"
-        formControlName="password"
-        placeholder="Пароль"
-        required
-      />
-      <button type="submit" [disabled]="loginForm.invalid">Войти</button>
-    </form>
-  `,
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule, CommonModule],
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +34,8 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
+    this.errorMessage = null; // Сбрасываем ошибку при новой попытке
+
     if (this.loginForm.valid) {
       const { login, password } = this.loginForm.value;
       this.auth.login({ login, password }).subscribe({
@@ -67,10 +60,24 @@ export class LoginComponent {
           }
         },
         error: (err) => {
-          console.error('Ошибка авторизации', err);
-          // Можно добавить обработку ошибок для пользователя
+          this.handleLoginError(err);
         },
       });
     }
+  }
+
+  private handleLoginError(err: any): void {
+    if (err.status === 401) {
+      this.errorMessage = 'Неверный логин или пароль';
+    } else if (err.status === 0) {
+      this.errorMessage = 'Ошибка соединения с сервером';
+    } else {
+      this.errorMessage = 'Произошла ошибка при авторизации';
+    }
+
+    // Покачиваем карточку при ошибке
+    const card = document.querySelector('.login-card');
+    card?.classList.add('shake-animation');
+    setTimeout(() => card?.classList.remove('shake-animation'), 500);
   }
 }

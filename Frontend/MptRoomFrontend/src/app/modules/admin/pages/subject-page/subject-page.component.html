@@ -36,21 +36,34 @@
 <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
     <div class="bg-white p-6 rounded-lg w-96">
         <h2 class="text-xl mb-4">{{ isEditMode ? 'Редактировать' : 'Создать' }} предмет</h2>
-        <form (ngSubmit)="saveSubject()">
+        <form #form="ngForm" (ngSubmit)="form.valid && saveSubject()">
+            <!-- Общее сообщение об ошибке -->
+            <div *ngIf="form.invalid && form.submitted" class="text-red-500 mb-4">
+                Заполните все обязательные поля
+            </div>
+
             <div class="mb-4">
                 <label class="block mb-1">Название</label>
-                <input [(ngModel)]="selectedSubject!.subjectName" name="subjectName" required
-                    class="w-full p-2 border rounded" />
+                <input [(ngModel)]="selectedSubject!.subjectName" name="subjectName" required pattern=".*\S+.*"
+                    class="w-full p-2 border rounded" #nameInput="ngModel" />
+                <!-- Сообщение об ошибке для конкретного поля -->
+                <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="text-red-500 text-sm">
+                    Введите название предмета
+                </div>
             </div>
+
             <div class="mb-4">
                 <label class="block mb-1">Цвет</label>
-                <input type="color" [(ngModel)]="selectedSubject!.hexademicalColor" name="hexColor"
-                    class="w-full p-2 border rounded" />
+                <input type="color" [(ngModel)]="selectedSubject!.hexademicalColor" style="height: 10vh;"
+                    name="hexColor" class="w-full p-2 border rounded" />
             </div>
+
             <div class="flex justify-end gap-2">
-                <button type="button" (click)="closeModal()"
-                    class="px-4 py-2 bg-gray-500 text-white rounded">Отмена</button>
-                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">
+                <button type="button" (click)="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded">
+                    Отмена
+                </button>
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded"
+                    [disabled]="form.invalid && form.submitted">
                     {{ isEditMode ? 'Сохранить' : 'Создать' }}
                 </button>
             </div>

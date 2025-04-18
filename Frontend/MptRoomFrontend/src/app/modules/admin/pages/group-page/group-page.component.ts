@@ -22,15 +22,16 @@ export class GroupPageComponent {
     { key: 'courseNumber', displayName: 'Курс' },
   ];
 
-  collegeYear: { [key: number]: string } = {
+  collegeYearMap: { [key: number]: string } = {
     [CollegeYearEnum.First]: 'Первый курс',
     [CollegeYearEnum.Second]: 'Второй курс',
     [CollegeYearEnum.Third]: 'Третий курс',
     [CollegeYearEnum.Fourth]: 'Четвертый курс',
   };
+
   collegeYears = Object.values(CollegeYearEnum).filter(
     (value) => typeof value === 'number'
-  );
+  ) as number[];
 
   isModalOpen = false;
   isEditMode = false;
@@ -77,35 +78,46 @@ export class GroupPageComponent {
       .subscribe((groups) => (this.groups = groups));
   }
   async handleSave() {
-    const courseNumberMapping: { [key: string]: CollegeYearEnum } = {
-      First: CollegeYearEnum.First,
-      Second: CollegeYearEnum.Second,
-      Third: CollegeYearEnum.Third,
-      Fourth: CollegeYearEnum.Fourth,
-    };
     try {
-      // Если вы хотите установить курс в числовом значении, используя строку:
-      this.selectedItem.courseNumber =
-        courseNumberMapping[
-          this.selectedItem.courseNumber as keyof typeof courseNumberMapping
-        ];
+      // Преобразование в число (если нужно)
+      const courseNumber = Number(this.selectedItem.courseNumber);
 
-      console.log(this.selectedItem);
+      // Проверка валидности значения
+      if (!this.collegeYears.includes(courseNumber)) {
+        throw new Error('Выбран некорректный курс');
+      }
+
+      // Обновляем значение
+      this.selectedItem.courseNumber = courseNumber;
+
       if (this.isEditMode) {
-        await this.api.put<GroupDTO>(
-          'Group',
-          this.selectedItem,
-          this.selectedItem.groupId!
-        );
+        await this.api
+          .put<GroupDTO>('Group', this.selectedItem, this.selectedItem.groupId!)
+          .toPromise();
       } else {
         const newGroup = await this.api
           .post<GroupDTO>('Group', this.selectedItem)
           .toPromise();
         this.groups.push(newGroup!);
       }
+
+      this.loadGroups();
       this.closeModal();
     } catch (error) {
       console.error('Ошибка сохранения:', error);
+      alert('Ошибка при сохранении: ' + (error as Error).message);
+    }
+  }
+
+  deleteGroup(group: GroupDTO) {
+    if (confirm('Вы уверены, что хотите удалить группу?')) {
+      this.api.delete('Group', group.groupId!).subscribe({
+        next: () => {
+          this.groups = this.groups.filter((g) => g.groupId !== group.groupId);
+          this.closeModal();
+        },
+        error: (err) => console.error('Ошибка удаления:', err),
+      });
     }
   }
 
@@ -115,6 +127,7 @@ export class GroupPageComponent {
       courseNumber: CollegeYearEnum.First,
     };
   }
+
   trackByGroupId(index: number, item: GroupDTO): number {
     return item.groupId!;
   }

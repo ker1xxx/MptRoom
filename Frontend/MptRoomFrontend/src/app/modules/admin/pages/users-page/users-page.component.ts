@@ -272,8 +272,9 @@ export class UsersPageComponent {
   }
 
   deleteStudent(userId: number) {
-    if (confirm('Удалить преподавателя?')) {
+    if (confirm('Удалить студента?')) {
       this.api.delete('Student', userId).subscribe();
+      this.closeModal();
     }
   }
 }

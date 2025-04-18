@@ -114,8 +114,9 @@
             <!-- ТИП НЕДЕЛИ -->
             <div>
                 <label class="block text-sm font-medium">Тип недели</label>
-                <select [(ngModel)]="newLesson.weekType">
-                    <option *ngFor="let type of weekTypes" [ngValue]="type.value">
+                <select [(ngModel)]="newLesson.weekType" name="weekType" required #weekTypeInput="ngModel"
+                    class="w-full p-2 border rounded">
+                    <option *ngFor="let type of weekTypes" [value]="type.value">
                         {{ type.label }}
                     </option>
                 </select>

@@ -1,1 +1,42 @@
-<p>login works!</p>
+<!-- login.component.html -->
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1 class="login-title">Добро пожаловать</h1>
+            <p class="login-subtitle">Пожалуйста, авторизуйтесь в системе</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+            <div *ngIf="errorMessage" class="error-message-container">
+                <svg class="error-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z" />
+                </svg>
+                <span>{{ errorMessage }}</span>
+            </div>
+            <div class="form-group">
+                <label for="login" class="form-label">Логин</label>
+                <input type="text" id="login" formControlName="login" class="form-input" placeholder="Введите ваш логин"
+                    autocomplete="username">
+                <div *ngIf="loginForm.get('login')?.invalid && loginForm.get('login')?.touched" class="error-message">
+                    Поле обязательно для заполнения
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Пароль</label>
+                <input type="password" id="password" formControlName="password" class="form-input"
+                    placeholder="Введите пароль" autocomplete="current-password">
+                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                    class="error-message">
+                    Поле обязательно для заполнения
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button" [disabled]="loginForm.invalid"
+                [ngClass]="{'button-disabled': loginForm.invalid}">
+                Войти в систему
+            </button>
+        </form>
+    </div>
+</div>

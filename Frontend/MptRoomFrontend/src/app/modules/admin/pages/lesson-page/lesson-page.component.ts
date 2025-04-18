@@ -55,7 +55,6 @@ export class LessonScheduleComponent implements OnInit {
   isLessonModalOpen = false;
   selectedDay?: number;
   selectedLessonNumber?: number;
-  selectedWeekType: string | null = null;
   addLessonError: string = '';
 
   isEditMode = false;
@@ -79,7 +78,7 @@ export class LessonScheduleComponent implements OnInit {
   housings: HousingDTO[] = [];
   subjects: SubjectDTO[] = [];
 
-  weektype!: WeekTypeEnum;
+  selectedWeekType: WeekTypeEnum | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -273,17 +272,11 @@ export class LessonScheduleComponent implements OnInit {
 
   addLesson() {
     if (this.selectedDay == null || this.selectedLessonNumber == null) return;
-    if (this.selectedWeekType === 'Каждую неделю')
-      this.weektype = WeekTypeEnum.any;
-    else if (this.selectedWeekType === 'Знаменатель')
-      this.weektype = WeekTypeEnum.even;
-    else if (this.selectedWeekType === 'Числитель')
-      this.weektype = WeekTypeEnum.odd;
     const payload: LessonDTO = {
       ...(this.newLesson as LessonDTO),
-      dayOfWeek: this.selectedDay,
-      lessonNumberId: this.selectedLessonNumber,
-      weekType: this.newLesson.weekType!,
+      dayOfWeek: this.selectedDay!,
+      lessonNumberId: this.selectedLessonNumber!,
+      weekType: Number(this.newLesson.weekType!), // Используем значение из формы
     };
     // 1. Проверка на занятость преподавателя
     // В методе addLesson обновить проверки:
@@ -512,6 +505,7 @@ export class LessonScheduleComponent implements OnInit {
         next: () => {
           this.lessons = this.lessons.filter((l) => l.LessonId !== lessonId);
           this.applyFilters();
+          this.closeModal();
         },
         error: (err) => {
           console.error('Ошибка удаления:', err);

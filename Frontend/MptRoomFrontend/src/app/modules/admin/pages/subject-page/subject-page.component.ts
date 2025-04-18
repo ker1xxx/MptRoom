@@ -46,6 +46,7 @@ export class SubjectPageComponent {
       this.isEditMode = false;
     }
     this.isModalOpen = true;
+    console.log(this.selectedSubject);
   }
 
   closeModal() {
@@ -81,6 +82,7 @@ export class SubjectPageComponent {
     if (confirm('Удалить предмет?')) {
       this.api.deleteSubject(subjectId).subscribe(() => {
         this.loadSubjects();
+        this.closeModal();
       });
     }
   }

@@ -70,40 +70,65 @@
 <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
     <div class="bg-white p-6 rounded-lg w-96">
         <h2 class="text-xl mb-4">{{ isEditMode ? 'Редактировать' : 'Создать' }} курс</h2>
-        <form (ngSubmit)="saveCourse()">
+        <form #form="ngForm" (ngSubmit)="form.valid && saveCourse()">
+            <!-- Общее сообщение об ошибке -->
+            <div *ngIf="form.invalid && form.submitted" class="text-red-500 mb-4">
+                Заполните все обязательные поля
+            </div>
+
             <div class="mb-4">
                 <label class="block mb-1">Группа</label>
-                <select [(ngModel)]="selectedCourse!.groupId" name="groupId" required class="w-full p-2 border rounded">
+                <select [(ngModel)]="selectedCourse!.groupId" name="groupId" required class="w-full p-2 border rounded"
+                    #groupInput="ngModel">
                     <option *ngFor="let group of groups" [value]="group.groupId">{{ group.groupName }}</option>
                 </select>
+                <div *ngIf="groupInput.invalid && (groupInput.dirty || groupInput.touched)"
+                    class="text-red-500 text-sm">
+                    Выберите группу
+                </div>
             </div>
+
             <div class="mb-4">
                 <label class="block mb-1">Предмет</label>
                 <select [(ngModel)]="selectedCourse!.subjectId" name="subjectId" required
-                    class="w-full p-2 border rounded">
+                    class="w-full p-2 border rounded" #subjectInput="ngModel">
                     <option *ngFor="let subject of subjects" [value]="subject.subjectId">{{ subject.subjectName }}
                     </option>
                 </select>
+                <div *ngIf="subjectInput.invalid && (subjectInput.dirty || subjectInput.touched)"
+                    class="text-red-500 text-sm">
+                    Выберите предмет
+                </div>
             </div>
+
             <div class="mb-4">
                 <label class="block mb-1">Преподаватель</label>
                 <select [(ngModel)]="selectedCourse!.teacherId" name="teacherId" required
-                    class="w-full p-2 border rounded">
+                    class="w-full p-2 border rounded" #teacherInput="ngModel">
                     <option *ngFor="let teacher of teachers" [value]="teacher.userId">
                         {{ teacher.lastname }} {{ teacher.name }}
                     </option>
                 </select>
+                <div *ngIf="teacherInput.invalid && (teacherInput.dirty || teacherInput.touched)"
+                    class="text-red-500 text-sm">
+                    Выберите преподавателя
+                </div>
             </div>
+
             <div class="mt-4 flex justify-between gap-2">
                 <button routerLink="/admin/posts" class="px-4 py-2 bg-yellow-500 text-white rounded">
                     Посты
                 </button>
             </div>
+
             <div class="flex justify-between gap-2">
-                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">
-                    {{ isEditMode ? 'Сохранить' : 'Создать' }}</button>
-                <button type="button" (click)="closeModal()"
-                    class="px-4 py-2 bg-gray-500 text-white rounded">Отмена</button>
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded"
+                    [disabled]="form.invalid && form.submitted">
+                    {{ isEditMode ? 'Сохранить' : 'Создать' }}
+                </button>
+                <button type="button" (click)="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded">
+                    Отмена
+                </button>
             </div>
         </form>
     </div>

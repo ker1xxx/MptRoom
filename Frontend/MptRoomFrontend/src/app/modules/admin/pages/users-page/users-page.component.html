@@ -43,39 +43,50 @@
     <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg w-96">
             <h2 class="text-xl mb-4">{{ isEditMode ? 'Редактировать' : 'Создать' }} студента</h2>
-            <form (submit)="saveChanges()">
+            <form #form="ngForm" (ngSubmit)="form.valid && saveChanges()">
+                <div *ngIf="form.invalid && form.submitted" class="text-red-500 mb-4">
+                    Заполните все поля
+                </div>
+
                 <div class="mb-4">
                     <label class="block mb-2">Имя</label>
                     <input [(ngModel)]="selectedItem!.name" name="name" required class="w-full p-2 border rounded" />
                 </div>
+
                 <div class="mb-4">
                     <label class="block mb-2">Фамилия</label>
                     <input [(ngModel)]="selectedItem!.lastname" name="lastname" required
                         class="w-full p-2 border rounded" />
                 </div>
+
                 <div class="mb-4">
                     <label class="block mb-2">Отчество</label>
                     <input [(ngModel)]="selectedItem!.patronymic" name="patronymic" class="w-full p-2 border rounded" />
                 </div>
+
                 <div class="mb-4">
                     <label class="block mb-2">Телефон</label>
-                    <input [(ngModel)]="selectedItem!.phoneNumber" name="phoneNumber"
+                    <input [(ngModel)]="selectedItem!.phoneNumber" name="phoneNumber" required
                         class="w-full p-2 border rounded" />
                 </div>
+
                 <div class="mb-4">
                     <label class="block mb-2">Email</label>
-                    <input [(ngModel)]="selectedItem!.email" name="email" type="email"
+                    <input [(ngModel)]="selectedItem!.email" name="email" type="email" required
                         class="w-full p-2 border rounded" />
                 </div>
+
                 <div class="mb-4">
                     <label class="block mb-2">Логин</label>
                     <input [(ngModel)]="selectedItem!.login" name="login" required class="w-full p-2 border rounded" />
                 </div>
+
                 <div class="mb-4" *ngIf="!isEditMode">
                     <label class="block mb-2">Пароль</label>
                     <input [(ngModel)]="selectedItem!.password" name="password" type="password" required
                         class="w-full p-2 border rounded" />
                 </div>
+
                 <div class="mb-4">
                     <label class="block mb-2">Группа</label>
                     <select [(ngModel)]="selectedItem!.groupId" name="groupId" required
@@ -85,6 +96,7 @@
                         </option>
                     </select>
                 </div>
+
                 <div class="flex justify-end gap-2">
                     <button type="button" (click)="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded">
                         Отмена

@@ -197,6 +197,7 @@ export class TeacherPageComponent {
     if (confirm('Удалить преподавателя?')) {
       this.apiService.delete('Teacher', userId).subscribe(() => {
         this.loadTeachers();
+        this.closeModal();
       });
     }
   }

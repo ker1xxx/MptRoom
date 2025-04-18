@@ -54,7 +54,9 @@ export class DashboardBodyComponent implements OnChanges {
           };
 
           return schedule
-            .filter((lesson) => dayMapping[lesson.DayOfWeek] === 1)
+            .filter(
+              (lesson) => dayMapping[lesson.DayOfWeek] === new Date().getDay()
+            )
             .sort((a, b) => a.LessonNumber - b.LessonNumber);
         })
       );

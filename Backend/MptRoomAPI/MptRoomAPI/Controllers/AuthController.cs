@@ -128,7 +128,7 @@ namespace MptRoomAPI.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.AuthorizationData.Login),
+                new Claim(ClaimTypes.Name, _context.AuthorizationDatas.FirstOrDefault(ad => ad.AuthorizationDataId == user.AuthorizationDataId).Login),
                 new Claim((string)ClaimTypes.SerialNumber, user.UserId.ToString()),
             };
 

@@ -249,6 +249,7 @@ export class CoursePageComponent implements OnInit {
   deleteCourse(courseId: number) {
     this.apiService.delete('Course', courseId).subscribe(() => {
       this.loadCourses();
+      this.closeModal();
     });
   }
 }
