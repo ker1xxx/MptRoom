@@ -1,0 +1,261 @@
+:host{
+    --purple-text-color: #5928AD;
+}
+
+.body{
+    display: flex;
+    border-top: 2px solid var(--purple-text-color);
+    border-bottom: 2px solid var(--purple-text-color);
+    border-radius: 14px;
+    height: fit-content;
+    padding-bottom: 2%;
+}
+
+p.block-name{
+    margin: 0px 2vw;
+    font-size: 32px;
+    font-weight: 600;
+    padding-left: 2.5%;
+}
+
+div.time-table-block{
+    width: 58vw;
+    display: grid;
+    grid-template-rows: auto auto;
+    background-color: var(--block-background-color);
+    padding: 0% 1%;
+    margin: 2vh 1.5vw;
+    border-radius: 15px;
+    box-shadow: 2px 2px 2px 4px rgba(0,0,0,0.12);
+}
+
+time-table-main-block{
+    display: flex;
+    flex-direction: row;
+    padding: 0px 1%
+}
+
+div.inner-tables-blocks{
+    display: flex;
+    flex-direction: column;
+}
+
+.week-type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.5rem;
+}
+
+.housing-name {
+  color: #666;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-left: 15px;
+  text-transform: uppercase;
+}
+
+
+.even-week {
+  background-color: #FFB74D; // Оранжевый для знаменателя
+  color: #fff;
+}
+
+.odd-week {
+  background-color: #64B5F6; // Синий для числителя
+  color: #fff;
+}
+
+.week-parity{
+    border-radius: 5px;
+    font-weight: 650;
+    margin: 2vh 1.5vw;
+    font-size: 1.5rem;
+    width: 20%;
+    align-items: center;
+    padding: 1% 1%;
+    color: var(--background-light-color);
+    text-align: center;
+
+    &.even-week{
+        background-color: var(--even-week-background-color);
+    }
+
+    &.odd-week{
+        background-color: var(--odd-week-background-color);
+    }
+}
+
+.supersede-panel {
+    width: 25vw;
+    min-height: 20vh;
+    background-color: var(--block-background-color);
+    padding: 0% 1%;
+    margin: 2vh 3vw;
+    border-radius: 15px;
+    box-shadow: 2px 2px 2px 4px rgba(0,0,0,0.12);
+}
+
+.substitutes-panel {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.substitute-card {
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.substitute-info {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.substitutes-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.substitute-card p {
+  margin: 5px 0;
+}
+
+.no-substitutes {
+  text-align: center;
+  font-size: 16px;
+  color: #555;
+}
+
+.add-request-btn {
+    background-color: var(--purple-text-color);
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    margin: 5% 0;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-request-btn:hover {
+    background-color: var(--text-purple-color);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.modal-content select,
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-btn,
+.cancel-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.submit-btn {
+  background-color: #4c7dff;
+  color: white;
+  border: none;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+  color: white;
+  border: none;
+}
+
+.submit-btn:hover {
+  background-color: #3b6dd1;
+}
+
+.cancel-btn:hover {
+  background-color: #999;
+}
+
+.modal-content {
+  max-width: 600px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-group select, .form-group input {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.form-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.submit-btn, .cancel-btn {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.submit-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+select:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}

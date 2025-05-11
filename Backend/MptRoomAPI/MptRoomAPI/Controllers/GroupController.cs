@@ -77,6 +77,37 @@ namespace MptRoomAPI.Controllers
             }
         }
 
+        [HttpGet("teacher/{teacherId}")]
+        [Authorize]
+        public async Task<ActionResult<GroupDTO>> GetGroupByTeacherId(int teacherId)
+        {
+            try
+            {
+                var group = await _context.Groups
+                    .Include(g => g.Courses)
+                    .Where(g => g.Courses.All(c => c.TeacherId == teacherId))
+                    .Select(g => new GroupDTO
+                    {
+                        GroupId = g.GroupId,
+                        GroupName = g.GroupName,
+                        CourseNumber = g.CourseNumber,
+                    })
+                    .ToListAsync();
+
+                if (group == null)
+                {
+                    return NotFound($"Group with teacher's ID {teacherId} not found.");
+                }
+
+                return Ok(group);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving group with teacher's ID {teacherId}");
+                return StatusCode(500, "An error occurred while retrieving the group.");
+            }
+        }
+
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PutGroupModel(int id, GroupDTO groupDTO)
@@ -100,7 +131,7 @@ namespace MptRoomAPI.Controllers
                 _context.Entry(group).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -154,7 +185,7 @@ namespace MptRoomAPI.Controllers
                 _context.Groups.Remove(group);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

@@ -1,0 +1,97 @@
+<div class="body">
+    <div class="block-with-name">
+
+        <div class=" mid-block">
+
+            <div class="time-table-block">
+                <p class="block-name">Расписание на {{ dayName }}, {{ today }}</p>
+                <div class="time-table-main-block">
+                    <ng-container *ngIf="lessonSlotRows; else loading">
+                        <div *ngIf="isScheduleEmpty" class="no-tasks">
+                            Нет расписания на текущую дату
+                        </div>
+                        <div class="schedule-grid">
+                            <ng-container *ngFor="let row of lessonSlotRows">
+                                <div class="number-cell">
+                                    <ng-container *ngIf="row.original || row.supersede">
+                                        {{ row.slot }} Пара
+                                    </ng-container>
+                                </div>
+                                <!-- Original -->
+                                <div class="original-cell">
+                                    <ng-container *ngIf="row.original">
+                                        <teacher-time-table-card [lesson_time]="row.original.LessonTime"
+                                            [lesson_name]="row.original.SubjectName"
+                                            [group_name]="row.original.GroupName"
+                                            [isModified]="row.original.isModified!"
+                                            [modificationType]="getStatusText(row.original)"
+                                            [sidebar_color]="row.original.HexademicalColor">
+                                        </teacher-time-table-card>
+                                    </ng-container>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="status-cell">
+                                    <ng-container *ngIf="row.original?.isModified || row.supersede">
+                                        <div class="status-badge"
+                                            [ngClass]="getModificationClass((row.original ?? row.supersede)?.modificationType)">
+                                            {{ getStatusText(row.original ?? row.supersede!) }}
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <!-- Actual -->
+                                <div class="actual-cell">
+                                    <div class="actual-cell">
+                                        <ng-container *ngIf="row.original?.isModified && row.supersede">
+                                            <teacher-time-table-card [lesson_time]="row.supersede.newLessonSlot || ''"
+                                                [lesson_name]="row.supersede.SubjectName || ''"
+                                                [group_name]="row.supersede.GroupName || ''" [isModified]="true"
+                                                [modificationType]="getStatusText(row.supersede)"
+                                                [sidebar_color]="row.supersede.HexademicalColor">
+                                            </teacher-time-table-card>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="!row.original && row.supersede">
+                                            <teacher-time-table-card
+                                                [lesson_time]="row.supersede.LessonTime || row.supersede.newLessonSlot || ''"
+                                                [lesson_name]="row.supersede.SubjectName || ''"
+                                                [group_name]="row.supersede.GroupName || ''"
+                                                [isModified]="row.supersede.isModified"
+                                                [modificationType]="getStatusText(row.supersede)"
+                                                [sidebar_color]="row.supersede.HexademicalColor">
+                                            </teacher-time-table-card>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+
+
+                    <ng-template #loading>
+                        <div class="loading-message">Загрузка данных...</div>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div class="close-task-block">
+                <p class="block-name">Последние сданные задания</p>
+                <div class="time-table-main-block">
+                    <div *ngIf="tasks; else loading">
+                        <div *ngIf="tasks.length === 0" class="no-tasks">
+                            Нет последних сданных заданий
+                        </div>
+                        <div class="inner-tables-blocks" *ngFor="let task of tasks; trackBy: trackByTaskId">
+                            <submitted-task-card (click)="navigateToTask(task)" [sidebar_color]="task.sidebarColor"
+                                [task_name]="task.taskName" [assignment_date]="task.assingmentDate"
+                                [task_status]="task.taskStatus" [student_name]="task.studentName">
+                            </submitted-task-card>
+                        </div>
+                    </div>
+                    <ng-template #loading>Загрузка...</ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

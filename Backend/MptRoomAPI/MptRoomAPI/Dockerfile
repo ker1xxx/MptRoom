@@ -1,30 +1,28 @@
-# См. статью по ссылке https://aka.ms/customizecontainer, чтобы узнать как настроить контейнер отладки и как Visual Studio использует этот Dockerfile для создания образов для ускорения отладки.
-
-# Этот этап используется при запуске из VS в быстром режиме (по умолчанию для конфигурации отладки)
+# Базовый образ для запуска
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER $APP_UID
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 5198
 
-
-# Этот этап используется для сборки проекта службы
+# Образ для сборки
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
+# Копируем только .csproj, чтобы кэшировать restore
 COPY ["MptRoomAPI/MptRoomAPI.csproj", "MptRoomAPI/"]
-RUN dotnet restore "./MptRoomAPI/MptRoomAPI.csproj"
-COPY . .
+RUN dotnet restore "MptRoomAPI/MptRoomAPI.csproj"
+
+# Копируем все исходники
+COPY . . 
 WORKDIR "/src/MptRoomAPI"
-RUN dotnet build "./MptRoomAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Этот этап используется для публикации проекта службы, который будет скопирован на последний этап
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./MptRoomAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# Сборка проекта
+RUN dotnet build "MptRoomAPI.csproj" -c Release -o /app/build
 
-# Этот этап используется в рабочей среде или при запуске из VS в обычном режиме (по умолчанию, когда конфигурация отладки не используется)
+# Публикация (без UseAppHost = true — контейнер будет меньше)
+RUN dotnet publish "MptRoomAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Финальный контейнер
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish . 
 ENTRYPOINT ["dotnet", "MptRoomAPI.dll"]

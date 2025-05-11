@@ -4,7 +4,8 @@ namespace MptRoomAPI.Models
 {
     public class TaskModel
     {
-        public int? PostId { get; set; }
+        public int? TaskId { get; set; }
+        public int PostId { get; set; }
         public DateTime DueTime { get; set; }
         public int SubjectId { get; set; }
         public int TeacherId { get; set; }
@@ -20,6 +21,6 @@ namespace MptRoomAPI.Models
         public TeacherModel Teacher { get; set; }
         public CourseModel Course { get; set; }
         public StudentModel Student { get; set; }
-        public List<AdditionalMaterialModel> Materials { get; set; }
+        public List<TaskAnswerModel> TaskAnswers { get; set; }
     }
 }

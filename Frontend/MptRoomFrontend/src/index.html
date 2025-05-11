@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="utf-8">
@@ -9,10 +9,28 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
 <body class="mat-typography">
   <app-root class="light-theme"></app-root>
 </body>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    flatpickr("#dueDate", {
+      minDate: "today", // Ограничение выбора только на сегодняшнюю дату или позже
+      dateFormat: "Y-m-d", // Формат даты
+      locale: "ru"
+    });
+
+    flatpickr("#dueTime", {
+      enableTime: true, // Включить выбор времени
+      noCalendar: true, // Отключить календарь
+      dateFormat: "H:i", // Формат времени (24-часовой формат)
+      minTime: "09:00", // Минимальное доступное время
+    });
+  });
+</script>
 
 </html>

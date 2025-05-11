@@ -1,28 +1,72 @@
 .work-container {
-  width: 23vw;
-  height: 23vh;
-  margin: 2% auto;
-padding: 2%;
+  position: relative; // нужно, чтобы .avatar-image позиционировалась внутри
+  width: 18vw;
+  height: 24vh;
+  margin: 5% auto;
+  padding: 2%;
   background: #f8f9fa;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12);
+  border: 1px solid #ddd;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 16px rgba(0, 0, 0, 0.2);
+  }
 }
 
+@media (max-width: 768px) {
+  .avatar-image {
+    width: 40px;
+    height: 40px;
+    top: 8px;
+    right: 8px;
+  }
+
+  .work-container {
+    width: 90vw;
+    height: auto;
+    padding: 4%;
+  }
+}
+
+
 .courses-container{
+    margin-top: 2%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     flex-direction: row;
+    gap: 5%;
+    border-top: 2px solid var(--text-purple-color);
+    border-bottom: 2px solid var(--text-purple-color);
+    border-radius: 14px;
 }
 
 .subject-title {
+  position: relative; // для позиционирования аватарки внутри
   color: var(--background-light-color);
-  font-size: 1.8rem;
+  font-size: 1.65rem;
   font-weight: 600;
   margin-bottom: 8px;
   border-bottom: 2px solid #3498db;
   padding-bottom: 10px;
+  padding-right: 70px; // отступ под аватар
+}
+
+.avatar-image {
+  position: absolute;
+  bottom: -25px; // опустить под заголовок
+  right: 0;
+  width: 70px; // немного больше
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  background: #fff;
+  z-index: 10;
 }
 
 .teacher-name {
@@ -30,46 +74,41 @@ padding: 2%;
   font-size: 1.1rem;
   margin-bottom: 25px;
   font-style: italic;
+  padding-right: 70px;
 }
 
-.work-details {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  margin-top: 15px;
+.task-content {
+  padding: 15px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.work-number {
-  color: #3498db;
-  font-size: 1.3rem;
+.task-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.task-details {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.due-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 500;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  color: #e67e22;
 }
 
-.work-number::before {
-  content: '📌';
-  font-size: 1.1em;
-}
-
-.deadline {
-  color: #e74c3c;
+.icon-clock::before {
+  content: '⏰';
   font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 15px;
-  padding: 12px;
-  background: #fff5f5;
-  border-radius: 6px;
-  border-left: 4px solid #e74c3c;
-}
-
-.deadline::before {
-  content: '⏳';
-  font-size: 1.2em;
 }
 
 /* Адаптивность для мобильных устройств */
@@ -85,5 +124,12 @@ padding: 2%;
   
   .work-number {
     font-size: 1.1rem;
+  }
+}
+
+.course-card{
+  transition: transform 0.2s ease;
+    &:hover {
+    transform: translateY(-10px);
   }
 }

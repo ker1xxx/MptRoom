@@ -1,0 +1,32 @@
+<div class="poll-container">
+    <h2 class="poll-header">{{ post.description }}</h2>
+
+    <!-- Форма ответа -->
+    <form (ngSubmit)="submit()" *ngIf="!submitted" class="poll-form">
+        <div *ngFor="let option of options$" class="poll-option">
+            <label class="inline-flex" [style.accent-color]="course$?.hexademicalColor">
+                <input type="radio" name="option" [(ngModel)]="selectedOption" [value]="option"
+                    [style.accent-color]="course$?.hexademicalColor" />
+                {{ option.optionName }}
+            </label>
+        </div>
+
+        <button type="submit" class="button-primary" [style.background]="course$?.hexademicalColor">
+            Ответить
+        </button>
+    </form>
+
+    <!-- После отправки -->
+    <div *ngIf="submitted" class="poll-result">
+        <div *ngFor="let option of options$" class="poll-option">
+            <label class="inline-flex" [ngClass]="{
+               'selected': option.surveyOptionId === selectedOption?.surveyOptionId
+             }" [style.accent-color]="course$?.hexademicalColor">
+                <input type="radio" disabled name="option"
+                    [checked]="option.surveyOptionId === selectedOption?.surveyOptionId" class="mr-2"
+                    [style.accent-color]="course$?.hexademicalColor" />
+                {{ option.optionName }}
+            </label>
+        </div>
+    </div>
+</div>

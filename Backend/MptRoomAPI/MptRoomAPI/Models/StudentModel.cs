@@ -8,8 +8,9 @@ namespace MptRoomAPI.Models
         public int? GroupId { get; set; }
         public GroupModel Group { get; set; }
 
-        public List<TaskAnswerModel> TaskAnswers { get; set; } = new();
+        public List<TaskAnswerModel> TaskAnswers { get; set; } 
         public List<CourseModel> Courses { get; set; }
+        public List<SurveyAnswerModel> SurveyAnswers { get; set; } 
 
     }
 }

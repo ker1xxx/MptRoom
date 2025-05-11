@@ -1,0 +1,248 @@
+// upload.component.scss
+
+.upload-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.post-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  padding: 1.5rem;
+  background: var(--block-background-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.drag-drop-zone {
+  position: relative;
+  border: 3px dashed var(--text-purple-color);
+  border-radius: 20px;
+  background: var(--background-light-color);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover:not(.dragging) {
+    border-color: var(--even-week-background-color);
+    background: var(--task-submitted-light-color);
+  }
+
+  &.dragging {
+    border-color: var(--odd-week-background-color);
+    background: var(--task-appointed-light-color);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(45deg, 
+        var(--task-submitted-light-color) 0%,
+        var(--background-light-color) 50%,
+        var(--task-submitted-light-color) 100%
+      );
+      animation: pulse-border 2s infinite;
+      z-index: -1;
+    }
+  }
+
+  .zone-content {
+    padding: 2rem;
+    text-align: center;
+  }
+}
+.task-info-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  background: var(--block-background-color);
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  span {
+    color: var(--text-dark-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  strong {
+    color: var(--text-black-color);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .calendar-icon, .update-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: var(--text-purple-color);
+    mask: url('/assets/images/calendar.png') no-repeat center;
+    mask-size: contain;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .update-icon {
+    mask: url('/assets/images/update.png') no-repeat center;
+  }
+}
+
+.task-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  padding: 1.5rem 2rem;
+  background: var(--block-background-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: var(--text-dark-color);
+  white-space: pre-line; // чтобы переносились строки из описания
+}
+
+
+.instructions {
+  h3 {
+    color: var(--text-black-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  p {
+    color: var(--text-dark-color);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+}
+
+.formats {
+  color: var(--text-dark-color);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.file-preview {
+  position: relative;
+  padding: 1.5rem;
+  background: var(--card-background-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  
+  .preview-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 2px var(--block-background-color);
+    }
+  }
+}
+
+.file-thumbnail {
+  max-width: 200px;
+  max-height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border: 2px solid var(--block-background-color);
+  
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+.file-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  background: var(--text-dark-color);
+}
+
+.file-meta {
+  .file-name {
+    color: var(--text-black-color);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .file-size {
+    color: var(--text-dark-color);
+    font-size: 0.9rem;
+  }
+}
+
+.file-input{
+    visibility: collapse;
+    display: none;
+}
+
+.upload-button {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 1.5rem auto 0;
+  padding: 12px 24px;
+  background: var(--text-purple-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(89, 40, 173, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+@keyframes pulse-border {
+  0% { opacity: 0.8; }
+  50% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Кастомные тени */
+.shadow-material {
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.hover\:shadow-material:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}

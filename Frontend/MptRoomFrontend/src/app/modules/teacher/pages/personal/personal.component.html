@@ -1,0 +1,31 @@
+<teacher-header [user]="teacher"></teacher-header>
+
+<body class="body-main">
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="avatar-wrapper">
+                <div class="avatar-image-container">
+                    <img [src]="avatarUrl || 'assets/images/user_icon_not_found_100px.png'" alt="Аватар"
+                        class="avatar-image" />
+                    <button class="avatar-change-btn" (click)="onAvatarChange()">✎</button>
+                </div>
+            </div>
+            <div class="profile-info" *ngIf="teacherVM$ | async as vm">
+                <h2>{{ vm.lastname }} {{ vm.name }} {{ vm.patronymic }}</h2>
+                <p>Логин: {{ vm.login }}</p>
+                <p>Почта: {{ vm.email }}</p>
+            </div>
+        </div>
+
+        <div class="password-change">
+            <h3>Сменить пароль</h3>
+            <div class="password-form">
+                <input [(ngModel)]="newPassword" type="password" placeholder="Новый пароль" />
+                <button (click)="changePassword()">Сменить</button>
+            </div>
+        </div>
+    </div>
+    <avatar-modal *ngIf="showAvatarModal" [userId]="teacher.userId!" (close)="onAvatarModalClosed()"
+        (avatarUpdated)="onAvatarModalClosed()">
+    </avatar-modal>
+</body>

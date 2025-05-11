@@ -6,5 +6,6 @@ namespace MptRoomAPI.Models
     {
         public List<LessonModel> Lessons { get; set; }
         public List<CourseModel> Courses { get; set; }
+        public List<LessonSupersedeRequestModel> SupersedeRequests { get; set; }
     }
 }

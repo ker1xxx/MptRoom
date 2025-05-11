@@ -45,7 +45,7 @@ namespace MptRoomAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AdditionalMaterialId"));
 
-                    b.Property<int?>("TaskModelPostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("integer");
 
                     b.Property<string>("UriAbsolutePath")
@@ -58,7 +58,7 @@ namespace MptRoomAPI.Migrations
 
                     b.HasKey("AdditionalMaterialId");
 
-                    b.HasIndex("TaskModelPostId");
+                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -116,6 +116,36 @@ namespace MptRoomAPI.Migrations
                     b.HasDiscriminator<string>("UserType").HasValue("User");
 
                     b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("MptRoomAPI.Models.CommentModel", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CommentId"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CommentText")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("MptRoomAPI.Models.CourseModel", b =>
@@ -265,6 +295,56 @@ namespace MptRoomAPI.Migrations
                     b.ToTable("LessonSlots");
                 });
 
+            modelBuilder.Entity("MptRoomAPI.Models.LessonSupersedeRequestModel", b =>
+                {
+                    b.Property<int>("SupersedeRequestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SupersedeRequestId"));
+
+                    b.Property<int?>("AffectedLessonId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateOnly>("DateToSupersede")
+                        .HasColumnType("date");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LessonSlotId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("RequestTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SupersedeRequestStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SupersedeRequestType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("SupersedeRequestId");
+
+                    b.HasIndex("AffectedLessonId");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("LessonSlotId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("LessonSupressedRequests");
+                });
+
             modelBuilder.Entity("MptRoomAPI.Models.PersonalDataModel", b =>
                 {
                     b.Property<int>("PersonalDataId")
@@ -272,6 +352,9 @@ namespace MptRoomAPI.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PersonalDataId"));
+
+                    b.Property<string>("AvatarAbsoluteUri")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -357,11 +440,16 @@ namespace MptRoomAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PostThemeId"));
 
+                    b.Property<int>("CourseId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("PostThemeText")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("PostThemeId");
+
+                    b.HasIndex("CourseId");
 
                     b.ToTable("PostThemes");
                 });
@@ -376,6 +464,9 @@ namespace MptRoomAPI.Migrations
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Token")
                         .IsRequired()
@@ -414,6 +505,37 @@ namespace MptRoomAPI.Migrations
                     b.ToTable("Subjects");
                 });
 
+            modelBuilder.Entity("MptRoomAPI.Models.SurveyAnswerModel", b =>
+                {
+                    b.Property<int>("SurveyAnswerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SurveyAnswerId"));
+
+                    b.Property<DateTime>("CommitTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SurveyOptionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("SurveyAnswerId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("SurveyOptionId");
+
+                    b.ToTable("SurveyAnswers");
+                });
+
             modelBuilder.Entity("MptRoomAPI.Models.SurveyOptionModel", b =>
                 {
                     b.Property<int>("SurveyOptionId")
@@ -444,35 +566,36 @@ namespace MptRoomAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TaskAnswerId"));
 
-                    b.Property<int>("AdditionalMaterialId")
+                    b.Property<int?>("AdditionalMaterialId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PostId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("PostModelPostId")
-                        .HasColumnType("integer");
+                    b.Property<DateTime>("AssignmentTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("StudentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TaskId")
                         .HasColumnType("integer");
 
                     b.HasKey("TaskAnswerId");
 
                     b.HasIndex("AdditionalMaterialId");
 
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("PostModelPostId");
-
                     b.HasIndex("StudentId");
+
+                    b.HasIndex("TaskId");
 
                     b.ToTable("TaskAnswers");
                 });
 
             modelBuilder.Entity("MptRoomAPI.Models.TaskModel", b =>
                 {
-                    b.Property<int>("PostId")
+                    b.Property<int>("TaskId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TaskId"));
 
                     b.Property<int>("CourseId")
                         .HasColumnType("integer");
@@ -489,6 +612,9 @@ namespace MptRoomAPI.Migrations
                     b.Property<int>("MaxMark")
                         .HasColumnType("integer");
 
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("StudentId")
                         .HasColumnType("integer");
 
@@ -501,16 +627,17 @@ namespace MptRoomAPI.Migrations
                     b.Property<int>("TeacherId")
                         .HasColumnType("integer");
 
-                    b.HasKey("PostId");
+                    b.HasKey("TaskId");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("PostId");
 
                     b.HasIndex("StudentId");
 
                     b.HasIndex("SubjectId");
 
-                    b.HasIndex("TeacherId")
-                        .IsUnique();
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Tasks");
                 });
@@ -558,15 +685,18 @@ namespace MptRoomAPI.Migrations
 
             modelBuilder.Entity("MptRoomAPI.Models.AdditionalMaterialModel", b =>
                 {
-                    b.HasOne("MptRoomAPI.Models.TaskModel", null)
+                    b.HasOne("MptRoomAPI.Models.PostModel", "Post")
                         .WithMany("Materials")
-                        .HasForeignKey("TaskModelPostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MptRoomAPI.Models.Base.UserBase", "User")
                         .WithMany("Materials")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -588,6 +718,25 @@ namespace MptRoomAPI.Migrations
                     b.Navigation("AuthorizationData");
 
                     b.Navigation("PersonalData");
+                });
+
+            modelBuilder.Entity("MptRoomAPI.Models.CommentModel", b =>
+                {
+                    b.HasOne("MptRoomAPI.Models.Base.UserBase", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MptRoomAPI.Models.PostModel", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MptRoomAPI.Models.CourseModel", b =>
@@ -672,6 +821,48 @@ namespace MptRoomAPI.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("MptRoomAPI.Models.LessonSupersedeRequestModel", b =>
+                {
+                    b.HasOne("MptRoomAPI.Models.LessonModel", "Lesson")
+                        .WithMany()
+                        .HasForeignKey("AffectedLessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MptRoomAPI.Models.GroupModel", "Group")
+                        .WithMany("LessonSupersedeRequests")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MptRoomAPI.Models.LessonSlotModel", "LessonSlot")
+                        .WithMany()
+                        .HasForeignKey("LessonSlotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MptRoomAPI.Models.SubjectModel", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MptRoomAPI.Models.TeacherModel", "Teacher")
+                        .WithMany("SupersedeRequests")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("LessonSlot");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
+                });
+
             modelBuilder.Entity("MptRoomAPI.Models.PostModel", b =>
                 {
                     b.HasOne("MptRoomAPI.Models.AdministratorModel", null)
@@ -687,7 +878,7 @@ namespace MptRoomAPI.Migrations
                     b.HasOne("MptRoomAPI.Models.PostThemeModel", "PostTheme")
                         .WithMany("Posts")
                         .HasForeignKey("PostThemeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("MptRoomAPI.Models.StudentModel", null)
@@ -707,6 +898,17 @@ namespace MptRoomAPI.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("MptRoomAPI.Models.PostThemeModel", b =>
+                {
+                    b.HasOne("MptRoomAPI.Models.CourseModel", "Course")
+                        .WithMany("PostThemes")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("MptRoomAPI.Models.RefreshTokenModel", b =>
                 {
                     b.HasOne("MptRoomAPI.Models.Base.UserBase", "User")
@@ -716,6 +918,33 @@ namespace MptRoomAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MptRoomAPI.Models.SurveyAnswerModel", b =>
+                {
+                    b.HasOne("MptRoomAPI.Models.PostModel", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MptRoomAPI.Models.StudentModel", "Student")
+                        .WithMany("SurveyAnswers")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MptRoomAPI.Models.SurveyOptionModel", "SurveyOption")
+                        .WithMany()
+                        .HasForeignKey("SurveyOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("SurveyOption");
                 });
 
             modelBuilder.Entity("MptRoomAPI.Models.SurveyOptionModel", b =>
@@ -734,30 +963,25 @@ namespace MptRoomAPI.Migrations
                     b.HasOne("MptRoomAPI.Models.AdditionalMaterialModel", "AdditionalMaterial")
                         .WithMany()
                         .HasForeignKey("AdditionalMaterialId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("MptRoomAPI.Models.PostModel", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("MptRoomAPI.Models.PostModel", null)
-                        .WithMany("TaskAnswers")
-                        .HasForeignKey("PostModelPostId");
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MptRoomAPI.Models.StudentModel", "Student")
                         .WithMany("TaskAnswers")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MptRoomAPI.Models.TaskModel", "Task")
+                        .WithMany("TaskAnswers")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AdditionalMaterial");
 
-                    b.Navigation("Post");
-
                     b.Navigation("Student");
+
+                    b.Navigation("Task");
                 });
 
             modelBuilder.Entity("MptRoomAPI.Models.TaskModel", b =>
@@ -769,8 +993,8 @@ namespace MptRoomAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("MptRoomAPI.Models.PostModel", "Post")
-                        .WithOne()
-                        .HasForeignKey("MptRoomAPI.Models.TaskModel", "PostId")
+                        .WithMany("Tasks")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -787,8 +1011,8 @@ namespace MptRoomAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("MptRoomAPI.Models.TeacherModel", "Teacher")
-                        .WithOne()
-                        .HasForeignKey("MptRoomAPI.Models.TaskModel", "TeacherId")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -814,6 +1038,8 @@ namespace MptRoomAPI.Migrations
 
             modelBuilder.Entity("MptRoomAPI.Models.Base.UserBase", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Materials");
 
                     b.Navigation("RefreshToken")
@@ -822,12 +1048,16 @@ namespace MptRoomAPI.Migrations
 
             modelBuilder.Entity("MptRoomAPI.Models.CourseModel", b =>
                 {
+                    b.Navigation("PostThemes");
+
                     b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("MptRoomAPI.Models.GroupModel", b =>
                 {
                     b.Navigation("Courses");
+
+                    b.Navigation("LessonSupersedeRequests");
 
                     b.Navigation("Lessons");
 
@@ -841,7 +1071,11 @@ namespace MptRoomAPI.Migrations
 
             modelBuilder.Entity("MptRoomAPI.Models.PostModel", b =>
                 {
-                    b.Navigation("TaskAnswers");
+                    b.Navigation("Comments");
+
+                    b.Navigation("Materials");
+
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("MptRoomAPI.Models.PostThemeModel", b =>
@@ -858,7 +1092,7 @@ namespace MptRoomAPI.Migrations
 
             modelBuilder.Entity("MptRoomAPI.Models.TaskModel", b =>
                 {
-                    b.Navigation("Materials");
+                    b.Navigation("TaskAnswers");
                 });
 
             modelBuilder.Entity("MptRoomAPI.Models.AdministratorModel", b =>
@@ -870,6 +1104,8 @@ namespace MptRoomAPI.Migrations
                 {
                     b.Navigation("Posts");
 
+                    b.Navigation("SurveyAnswers");
+
                     b.Navigation("TaskAnswers");
                 });
 
@@ -880,6 +1116,8 @@ namespace MptRoomAPI.Migrations
                     b.Navigation("Lessons");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("SupersedeRequests");
                 });
 #pragma warning restore 612, 618
         }

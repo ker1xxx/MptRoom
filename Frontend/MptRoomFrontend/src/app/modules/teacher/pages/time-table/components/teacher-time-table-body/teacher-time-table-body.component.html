@@ -1,0 +1,160 @@
+<div class="body">
+    <div>
+        <p class="block-name">Расписание</p>
+        <div class="time-table-block">
+            <div class="header-section">
+                <div class="week-type">
+                    Неделя:
+                    <span class="week-parity" [ngClass]="{
+              'even-week': isEvenWeek,
+              'odd-week': !isEvenWeek
+          }">
+                        {{ getCurrentWeekTypeDisplay() }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="time-table-main-block">
+                <ng-container *ngIf="groupedLessons$ | async as days; else loadingState">
+                    <div *ngFor="let day of days; trackBy: trackByDay" class="day-block p-4">
+                        <h3 class="day-header text-black-700 text-center" style="font-size: 2rem; font-weight: 650;">
+                            {{ day.day }}
+                            <span *ngIf="day.housings.length > 0" class="housing-name">
+                                {{ joinHousings(day.housings) }}
+                            </span>
+                        </h3>
+
+                        <div *ngIf="day.lessons.length > 0; else noLessons" class="lessons-container">
+                            <div *ngFor="let lesson of day.lessons; trackBy: trackByLesson" class="inner-tables-blocks">
+                                <teacher-time-table-card [sidebar_color]="lesson.HexademicalColor"
+                                    [lesson_time]="lesson.LessonTime" [group_name]="lesson.GroupName"
+                                    [housing]="lesson.HousingName" [subject_name]="lesson.SubjectName">
+                                </teacher-time-table-card>
+                            </div>
+                        </div>
+
+                        <ng-template #noLessons>
+                            <div class=" no-lessons">Нет занятий
+                            </div>
+                        </ng-template>
+                    </div>
+                </ng-container>
+
+                <ng-template #loadingState>
+                    <div class="loading-state">
+                        <div *ngIf="isLoading" class="loading">Загрузка расписания...</div>
+                        <div *ngIf="error" class="error">{{ error }}</div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p class="block-name">Расписание</p>
+        <div class="supersede-panel">
+            <button class="add-request-btn" (click)="openModal()">+ Добавить замену</button>
+
+            <div *ngIf="lessonSupersedeRequests.length > 0; else noSubstitutes" class="substitutes-list">
+                <div *ngFor="let sub of lessonSupersedeRequests" class="substitute-card">
+                    <div class="substitute-header">
+                        <span class="date">{{ (sub.dateToSupersede | russianDate).split(' ')[0] + '
+                            ' +
+                            (sub.dateToSupersede | russianDate).split(' ')[1] }}</span>
+                        <span class="status"
+                            [ngClass]="supersedeRequestToText(sub.supersedeRequestStatus).toLowerCase()">
+                            {{ sub.supersedeRequestStatus === SupersedeRequestStatus.approved ? '✅' : '⏳' }}
+                        </span>
+                    </div>
+                    <div class="substitute-body">
+                        <div>{{ sub.subjectName }} ({{ sub.groupName }})</div>
+                        <div>{{ sub.lessonSlotName }}</div>
+                        <div>Запрос создан: {{ sub.requestTime | russianDate}}</div>
+                        <div class="request-type">{{ getTypeName(sub.supersedeRequestType) }} {{sub.lessonSlotId}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ng-template #noSubstitutes>
+                <div class="no-substitute">Нет активных замен</div>
+            </ng-template>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div *ngIf="isModalOpen" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Создать замену</h3>
+
+            <form (ngSubmit)="submitSubstituteRequest()">
+                <!-- Тип замены -->
+                <div class="form-group">
+                    <label>Тип замены:</label>
+                    <select [(ngModel)]="newSubstitute.supersedeRequestType" name="type" required
+                        (change)="onRequestTypeChange()">
+                        <option
+                            *ngFor="let type of [SupersedeRequestType.added, SupersedeRequestType.moved, SupersedeRequestType.canceled]"
+                            [ngValue]="type">
+                            {{ getTypeName(type) }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Группа (для всех типов) -->
+                <div class="form-group" *ngIf="true">
+                    <label>Группа:</label>
+                    <select [(ngModel)]="newSubstitute.groupId" (change)="onGroupOrSubjectChange()" name="group"
+                        required>
+                        <option *ngFor="let group of groups" [value]="group.groupId">
+                            {{ group.groupName }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Предмет (для всех типов) -->
+                <div class="form-group" *ngIf="true">
+                    <label>Предмет:</label>
+                    <select [(ngModel)]="newSubstitute.subjectId" (change)="onGroupOrSubjectChange()" name="subject"
+                        required>
+                        <option *ngFor="let subject of subjects" [value]="subject.subjectId">
+                            {{ subject.subjectName }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Пара (для moved и canceled) -->
+                <div class="form-group" *ngIf="newSubstitute.supersedeRequestType !== SupersedeRequestType.added">
+                    <label>Выберите пару:</label>
+                    <select [(ngModel)]="newSubstitute.affectedLessonId" (change)="generateAvailableDates()"
+                        name="existingLesson" required>
+                        <option *ngFor="let lesson of availableLessons" [ngValue]="lesson">
+                            {{ translateDay(lesson.DayOfWeek) }} {{ lesson.LessonTime | lessonTime }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Время пары (для added и moved) -->
+                <div class="form-group" *ngIf="newSubstitute.supersedeRequestType !== SupersedeRequestType.canceled">
+                    <label>Время пары:</label>
+                    <select [(ngModel)]="newSubstitute.lessonSlotId" name="lessonslot" required>
+                        <option *ngFor="let slot of lessonSlots" [value]="slot.lessonSlotId">
+                            {{ (`${slot.lessonStart} - ${slot.lessonEnd}`) | lessonTime }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Дата (для всех типов) -->
+                <div class="form-group" *ngIf="true">
+                    <label>Дата замены:</label>
+                    <input type="text" #dateToSupersede [(ngModel)]="newSubstitute.dateToSupersede"
+                        name="dateToSupersede" placeholder="Выберите дату" readonly>
+                </div>
+
+                <!-- Действия -->
+                <div class="modal-actions">
+                    <button type="submit" class="submit-btn">Сохранить</button>
+                    <button type="button" class="cancel-btn" (click)="closeModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

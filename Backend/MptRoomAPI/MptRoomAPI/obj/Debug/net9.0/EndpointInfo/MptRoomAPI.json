@@ -1,8 +1,8 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
-    "title": "MptRoomAPI",
-    "version": "1.0"
+    "title": "My API",
+    "version": "v1"
   },
   "paths": {
     "/api/AdditionalMaterial": {
@@ -41,50 +41,148 @@
             }
           }
         }
-      },
-      "post": {
+      }
+    },
+    "/api/AdditionalMaterial/task/{taskId}": {
+      "get": {
         "tags": [
           "AdditionalMaterial"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdditionalMaterialDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdditionalMaterialDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AdditionalMaterialDTO"
-              }
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/AdditionalMaterialModel"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdditionalMaterialDTO"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AdditionalMaterialModel"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdditionalMaterialDTO"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AdditionalMaterialModel"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdditionalMaterialDTO"
+                  }
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/AdditionalMaterial/post/{postId}": {
+      "get": {
+        "tags": [
+          "AdditionalMaterial"
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdditionalMaterialDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdditionalMaterialDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdditionalMaterialDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/AdditionalMaterial/file/{id}": {
+      "get": {
+        "tags": [
+          "AdditionalMaterial"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AdditionalMaterial/upload/{id}": {
+      "get": {
+        "tags": [
+          "AdditionalMaterial"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -411,25 +509,6 @@
         "tags": [
           "Auth"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshTokenDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshTokenDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshTokenDTO"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -618,6 +697,289 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Comment": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Comment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Comment/{id}": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Comment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Comment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Comment/post/{PostId}": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "parameters": [
+          {
+            "name": "PostId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Comment/user/{UserId}": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentDTO"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -847,6 +1209,46 @@
         }
       }
     },
+    "/api/Course/teacher/{teacher_id}": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "parameters": [
+          {
+            "name": "teacher_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Group": {
       "get": {
         "tags": [
@@ -1028,6 +1430,46 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Group/teacher/{teacherId}": {
+      "get": {
+        "tags": [
+          "Group"
+        ],
+        "parameters": [
+          {
+            "name": "teacherId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -1302,6 +1744,55 @@
       }
     },
     "/api/Lesson/student/{user_id}": {
+      "get": {
+        "tags": [
+          "Lesson"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Lesson/teacher/{user_id}": {
       "get": {
         "tags": [
           "Lesson"
@@ -1685,6 +2176,289 @@
         }
       }
     },
+    "/api/LessonSupersedeRequest": {
+      "get": {
+        "tags": [
+          "LessonSupersedeRequest"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "LessonSupersedeRequest"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/LessonSupersedeRequest/{id}": {
+      "get": {
+        "tags": [
+          "LessonSupersedeRequest"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "LessonSupersedeRequest"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "LessonSupersedeRequest"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/LessonSupersedeRequest/group/{GroupId}": {
+      "get": {
+        "tags": [
+          "LessonSupersedeRequest"
+        ],
+        "parameters": [
+          {
+            "name": "GroupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/LessonSupersedeRequest/teacher/{TeacherId}": {
+      "get": {
+        "tags": [
+          "LessonSupersedeRequest"
+        ],
+        "parameters": [
+          {
+            "name": "TeacherId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonSupersedeRequestDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/PersonalData": {
       "get": {
         "tags": [
@@ -1866,6 +2640,46 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PersonalData/avatar/{id}": {
+      "get": {
+        "tags": [
+          "PersonalData"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalDataDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalDataDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalDataDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -2181,6 +2995,55 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PostThemeDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PostTheme/course/{course_id}": {
+      "get": {
+        "tags": [
+          "PostTheme"
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostThemeDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostThemeDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostThemeDTO"
+                  }
                 }
               }
             }
@@ -2757,6 +3620,298 @@
         }
       }
     },
+    "/api/SurveyAnswer": {
+      "get": {
+        "tags": [
+          "SurveyAnswer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyAnswerDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyAnswerDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyAnswerDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "SurveyAnswer"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyAnswerDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyAnswerDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyAnswerDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyAnswerDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyAnswerDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyAnswerDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SurveyAnswer/post/{post_id}/student/{student_id}": {
+      "get": {
+        "tags": [
+          "SurveyAnswer"
+        ],
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "student_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyAnswerDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyAnswerDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyAnswerDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SurveyAnswer/post/{postId}": {
+      "get": {
+        "tags": [
+          "SurveyAnswer"
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyAnswerDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyAnswerDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyAnswerDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SurveyAnswer/{id}": {
+      "get": {
+        "tags": [
+          "SurveyAnswer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyAnswerDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyAnswerDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyAnswerDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "SurveyAnswer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyAnswerDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyAnswerDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyAnswerDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "SurveyAnswer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/SurveyOption": {
       "get": {
         "tags": [
@@ -2834,6 +3989,55 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SurveyOptionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SurveyOption/post/{post_id}": {
+      "get": {
+        "tags": [
+          "SurveyOption"
+        ],
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyOptionDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyOptionDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyOptionDTO"
+                  }
                 }
               }
             }
@@ -3176,6 +4380,55 @@
         }
       }
     },
+    "/api/Task/post/{postId}": {
+      "get": {
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TaskAnswer": {
       "get": {
         "tags": [
@@ -3354,6 +4607,174 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TaskAnswer/teacher/assigned/{id}": {
+      "get": {
+        "tags": [
+          "TaskAnswer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskAnswerDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskAnswerDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskAnswerDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TaskAnswer/post/{post_id}": {
+      "get": {
+        "tags": [
+          "TaskAnswer"
+        ],
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskAnswerDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskAnswerDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskAnswerDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TaskAnswer/upload-file": {
+      "post": {
+        "tags": [
+          "TaskAnswer"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "course": {
+                    "type": "string"
+                  },
+                  "group": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "student": {
+                    "type": "string"
+                  },
+                  "studentId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "postId": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                },
+                "course": {
+                  "style": "form"
+                },
+                "group": {
+                  "style": "form"
+                },
+                "subject": {
+                  "style": "form"
+                },
+                "student": {
+                  "style": "form"
+                },
+                "studentId": {
+                  "style": "form"
+                },
+                "postId": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -3564,28 +4985,11 @@
           "userId": {
             "type": "integer",
             "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AdditionalMaterialModel": {
-        "type": "object",
-        "properties": {
-          "additionalMaterialId": {
+          },
+          "postId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
-          },
-          "uriAbsolutePath": {
-            "type": "string",
-            "nullable": true
-          },
-          "userId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "user": {
-            "$ref": "#/components/schemas/UserBase"
           }
         },
         "additionalProperties": false
@@ -3657,6 +5061,33 @@
         "type": "integer",
         "format": "int32"
       },
+      "CommentDTO": {
+        "type": "object",
+        "properties": {
+          "commentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "postId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "commentText": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "CourseDTO": {
         "type": "object",
         "properties": {
@@ -3676,52 +5107,6 @@
           "teacherId": {
             "type": "integer",
             "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CourseModel": {
-        "type": "object",
-        "properties": {
-          "courseId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "groupId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "subjectId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "teacherId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "group": {
-            "$ref": "#/components/schemas/GroupModel"
-          },
-          "subject": {
-            "$ref": "#/components/schemas/SubjectModel"
-          },
-          "teacher": {
-            "$ref": "#/components/schemas/TeacherModel"
-          },
-          "posts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PostModel"
-            },
-            "nullable": true
-          },
-          "students": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StudentModel"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -3757,45 +5142,6 @@
         },
         "additionalProperties": false
       },
-      "GroupModel": {
-        "type": "object",
-        "properties": {
-          "groupId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "groupName": {
-            "type": "string",
-            "nullable": true
-          },
-          "courseNumber": {
-            "$ref": "#/components/schemas/CollegeYearEnum"
-          },
-          "students": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StudentModel"
-            },
-            "nullable": true
-          },
-          "courses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CourseModel"
-            },
-            "nullable": true
-          },
-          "lessons": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LessonModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "HousingDTO": {
         "type": "object",
         "properties": {
@@ -3810,32 +5156,6 @@
           },
           "housingAddress": {
             "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "HousingModel": {
-        "type": "object",
-        "properties": {
-          "housingId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "housingName": {
-            "type": "string",
-            "nullable": true
-          },
-          "housingAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "lessons": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LessonModel"
-            },
             "nullable": true
           }
         },
@@ -3878,58 +5198,6 @@
         },
         "additionalProperties": false
       },
-      "LessonModel": {
-        "type": "object",
-        "properties": {
-          "lessonId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "subjectId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "groupId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "teacherId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "dayOfWeek": {
-            "$ref": "#/components/schemas/DayOfWeek"
-          },
-          "weekType": {
-            "$ref": "#/components/schemas/WeekTypeEnum"
-          },
-          "lessonNumberId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "housingId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "subject": {
-            "$ref": "#/components/schemas/SubjectModel"
-          },
-          "group": {
-            "$ref": "#/components/schemas/GroupModel"
-          },
-          "lessonNumber": {
-            "$ref": "#/components/schemas/LessonSlotModel"
-          },
-          "housing": {
-            "$ref": "#/components/schemas/HousingModel"
-          },
-          "teacher": {
-            "$ref": "#/components/schemas/TeacherModel"
-          }
-        },
-        "additionalProperties": false
-      },
       "LessonSlotDTO": {
         "type": "object",
         "properties": {
@@ -3949,21 +5217,48 @@
         },
         "additionalProperties": false
       },
-      "LessonSlotModel": {
+      "LessonSupersedeRequestDTO": {
         "type": "object",
         "properties": {
-          "lessonSlotId": {
+          "supersedeRequestId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "lessonStart": {
-            "type": "string",
-            "format": "time"
+          "teacherId": {
+            "type": "integer",
+            "format": "int32"
           },
-          "lessonEnd": {
+          "groupId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateToSupersede": {
             "type": "string",
-            "format": "time"
+            "format": "date"
+          },
+          "lessonSlotId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subjectId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "requestTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "affectedLessonId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "supersedeRequestStatus": {
+            "$ref": "#/components/schemas/SupersedeRequestStatusEnum"
+          },
+          "supersedeRequestType": {
+            "$ref": "#/components/schemas/SupersedeRequestTypeEnum"
           }
         },
         "additionalProperties": false
@@ -3995,35 +5290,8 @@
           "email": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PersonalDataModel": {
-        "type": "object",
-        "properties": {
-          "personalDataId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
           },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastname": {
-            "type": "string",
-            "nullable": true
-          },
-          "patronymic": {
-            "type": "string",
-            "nullable": true
-          },
-          "phoneNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
+          "avatarAbsoluteUri": {
             "type": "string",
             "nullable": true
           }
@@ -4068,60 +5336,6 @@
         },
         "additionalProperties": false
       },
-      "PostModel": {
-        "type": "object",
-        "properties": {
-          "postId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "postTitle": {
-            "type": "string",
-            "nullable": true
-          },
-          "postDescription": {
-            "type": "string",
-            "nullable": true
-          },
-          "postType": {
-            "$ref": "#/components/schemas/PostTypeEnum"
-          },
-          "postThemeId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "courseId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "postTheme": {
-            "$ref": "#/components/schemas/PostThemeModel"
-          },
-          "course": {
-            "$ref": "#/components/schemas/CourseModel"
-          },
-          "teacher": {
-            "$ref": "#/components/schemas/TeacherModel"
-          },
-          "taskAnswers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TaskAnswerModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "PostThemeDTO": {
         "type": "object",
         "properties": {
@@ -4133,28 +5347,10 @@
           "postThemeText": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PostThemeModel": {
-        "type": "object",
-        "properties": {
-          "postThemeId": {
+          },
+          "courseId": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "postThemeText": {
-            "type": "string",
-            "nullable": true
-          },
-          "posts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PostModel"
-            },
-            "nullable": true
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -4168,42 +5364,6 @@
         ],
         "type": "integer",
         "format": "int32"
-      },
-      "RefreshTokenDTO": {
-        "type": "object",
-        "properties": {
-          "refreshToken": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RefreshTokenModel": {
-        "type": "object",
-        "properties": {
-          "refreshTokenId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "userId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "token": {
-            "type": "string",
-            "nullable": true
-          },
-          "expirationDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "user": {
-            "$ref": "#/components/schemas/UserBase"
-          }
-        },
-        "additionalProperties": false
       },
       "StudentDTO": {
         "type": "object",
@@ -4229,70 +5389,6 @@
         },
         "additionalProperties": false
       },
-      "StudentModel": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "personalDataId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "authorizationDataId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "personalData": {
-            "$ref": "#/components/schemas/PersonalDataModel"
-          },
-          "authorizationData": {
-            "$ref": "#/components/schemas/AuthorizationDataModel"
-          },
-          "materials": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AdditionalMaterialModel"
-            },
-            "nullable": true
-          },
-          "posts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PostModel"
-            },
-            "nullable": true
-          },
-          "refreshToken": {
-            "$ref": "#/components/schemas/RefreshTokenModel"
-          },
-          "groupId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "group": {
-            "$ref": "#/components/schemas/GroupModel"
-          },
-          "taskAnswers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TaskAnswerModel"
-            },
-            "nullable": true
-          },
-          "courses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CourseModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "SubjectDTO": {
         "type": "object",
         "properties": {
@@ -4312,35 +5408,47 @@
         },
         "additionalProperties": false
       },
-      "SubjectModel": {
+      "SupersedeRequestStatusEnum": {
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "SupersedeRequestTypeEnum": {
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "SurveyAnswerDTO": {
         "type": "object",
         "properties": {
-          "subjectId": {
+          "surveyAnswerId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "subjectName": {
+          "studentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "postId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "surveyOptionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "commitTime": {
             "type": "string",
-            "nullable": true
-          },
-          "hexademicalColor": {
-            "type": "string",
-            "nullable": true
-          },
-          "courses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CourseModel"
-            },
-            "nullable": true
-          },
-          "lessons": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LessonModel"
-            },
-            "nullable": true
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -4374,47 +5482,20 @@
           },
           "additionalMaterialId": {
             "type": "integer",
-            "format": "int32"
-          },
-          "studentId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "postId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TaskAnswerModel": {
-        "type": "object",
-        "properties": {
-          "taskAnswerId": {
-            "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "additionalMaterialId": {
-            "type": "integer",
-            "format": "int32"
-          },
           "studentId": {
             "type": "integer",
             "format": "int32"
           },
-          "postId": {
+          "taskId": {
             "type": "integer",
             "format": "int32"
           },
-          "additionalMaterial": {
-            "$ref": "#/components/schemas/AdditionalMaterialModel"
-          },
-          "student": {
-            "$ref": "#/components/schemas/StudentModel"
-          },
-          "post": {
-            "$ref": "#/components/schemas/PostModel"
+          "assignmentTime": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -4422,10 +5503,14 @@
       "TaskDTO": {
         "type": "object",
         "properties": {
-          "postId": {
+          "taskId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "postId": {
+            "type": "integer",
+            "format": "int32"
           },
           "dueTime": {
             "type": "string",
@@ -4495,104 +5580,6 @@
         },
         "additionalProperties": false
       },
-      "TeacherModel": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "personalDataId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "authorizationDataId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "personalData": {
-            "$ref": "#/components/schemas/PersonalDataModel"
-          },
-          "authorizationData": {
-            "$ref": "#/components/schemas/AuthorizationDataModel"
-          },
-          "materials": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AdditionalMaterialModel"
-            },
-            "nullable": true
-          },
-          "posts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PostModel"
-            },
-            "nullable": true
-          },
-          "refreshToken": {
-            "$ref": "#/components/schemas/RefreshTokenModel"
-          },
-          "lessons": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LessonModel"
-            },
-            "nullable": true
-          },
-          "courses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CourseModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UserBase": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "personalDataId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "authorizationDataId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "personalData": {
-            "$ref": "#/components/schemas/PersonalDataModel"
-          },
-          "authorizationData": {
-            "$ref": "#/components/schemas/AuthorizationDataModel"
-          },
-          "materials": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AdditionalMaterialModel"
-            },
-            "nullable": true
-          },
-          "posts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PostModel"
-            },
-            "nullable": true
-          },
-          "refreshToken": {
-            "$ref": "#/components/schemas/RefreshTokenModel"
-          }
-        },
-        "additionalProperties": false
-      },
       "WeekTypeEnum": {
         "enum": [
           0,
@@ -4605,10 +5592,9 @@
     },
     "securitySchemes": {
       "Bearer": {
-        "type": "apiKey",
-        "description": "Please enter JWT with Bearer into field",
-        "name": "Authorization",
-        "in": "header"
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme",
+        "scheme": "bearer"
       }
     }
   },

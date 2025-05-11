@@ -1,6 +1,0 @@
-@MptRoomAPI_HostAddress = http://localhost:5198
-
-GET {{MptRoomAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

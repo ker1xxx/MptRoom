@@ -38,3 +38,10 @@ header{
     text-align: center;
     color: var(--text-black-color);
 }
+
+      img.avatar-image {
+  border-radius: 50%;
+  object-fit: cover;
+  max-width: 120px !important;
+  height: 120px !important;
+}

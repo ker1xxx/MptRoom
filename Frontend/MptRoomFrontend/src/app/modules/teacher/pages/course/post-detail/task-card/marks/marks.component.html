@@ -1,0 +1,110 @@
+<teacher-header [user]="user!"></teacher-header>
+
+<div *ngIf="!isLoading && !isError">
+    <div class="container" *ngIf="tasks.length > 0">
+        <teacher-sidebar-menu [course$]="course$"></teacher-sidebar-menu>
+        <!-- Students list -->
+        <div class="sidebar">
+            <div class="students">
+                <h3 class="sidebar-title">Студенты</h3>
+                <div class="student" *ngFor="let student of students"
+                    [class.active]="student.userId === selectedStudent?.userId" (click)="onStudentSelect(student)">
+                    <div class="student__color" [style.background]="tasks[0].sidebarColor"></div>
+                    <div class="student__info">
+                        <div class="student__name">
+                            {{ student.lastname }} {{ student.name }} {{ student.patronymic }}
+                        </div>
+                        <div class="student__group">{{ student.groupName }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grading section -->
+        <main class="content" *ngIf="selectedStudent">
+            <div class="grading-section">
+                <h1 class="section-title">Оценивание работы</h1>
+
+                <!-- Student info -->
+                <div class="student-card">
+                    <div class="student-card__header">
+                        <h2>{{ selectedStudent.lastname }} {{ selectedStudent.name }}</h2>
+                        <div class="course-info">
+                            <span>Задание: {{ selectedTask$.taskName }}</span> <br>
+                            <span>Статус: {{ getTaskStatusLabel(selectedTask$.taskStatus) }}</span> <br>
+                            <span>Дата загрузки: {{ assignmentTime | russianDate }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Grade input -->
+                    <div class="grade-input">
+                        <label>Оценка</label>
+                        <div class="input-group">
+                            <input type="number" [(ngModel)]="mark" [max]="selectedTask$.maxMark" [min]="0">
+                            <span class="max-grade">/ {{ selectedTask$.maxMark }}</span>
+                        </div>
+                        <button class="save-btn" [disabled]="!mark" (click)="onSubmit()">
+                            Сохранить
+                        </button>
+                    </div>
+
+                    <!-- Files -->
+                    <div class="files-section">
+                        <h3 class="files-title">Прикрепленные файлы</h3>
+
+                        <div class="files-list">
+                            <div *ngIf="filteredAnswers?.length; else noFiles">
+                                <div class="file-item" *ngFor="let answer of filteredAnswers"
+                                    (click)="openPreview(answer.additionalMaterialId!, answer.uriAbsolutePath)">
+                                    <div class="file-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <path
+                                                d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z" />
+                                        </svg>
+                                    </div>
+                                    <div class="file-info">
+                                        <div class="file-name">{{ getFileName(answer.uriAbsolutePath) || 'Файл' }}</div>
+                                        <div class="file-size">Нажмите для просмотра</div>
+                                    </div>
+                                    <a class="download-btn" [href]="answer.uriAbsolutePath" download
+                                        (click)="$event.stopPropagation()">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <ng-template #noFiles>
+                                <div class="no-files">
+                                    <svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z" />
+                                    </svg>
+                                    <p>Нет прикрепленных файлов</p>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Preview Modal -->
+        <teacher-preview-modal *ngIf="selectedFileId" [fileId]="selectedFileId" [filepath]="selectedFilePath!"
+            (close)="closePreview()">
+        </teacher-preview-modal>
+    </div>
+    <div *ngIf="tasks.length === 0" class="no-tasks">
+        <p>Нет доступных заданий</p>
+    </div>
+</div>
+
+<div *ngIf="isLoading" class="loading">
+    <p>Загрузка данных...</p>
+</div>
+
+<div *ngIf="isError" class="error">
+    <p>⚠️ Произошла ошибка при загрузке данных</p>
+    <button (click)="ngOnInit()">Повторить попытку</button>
+</div>

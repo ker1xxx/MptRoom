@@ -2,12 +2,14 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { NotificationComponent } from './modules/shared/notification/notification.component';
 
 @Component({
   selector: 'app-root',
-  template: `<router-outlet></router-outlet>`,
+  template: `<router-outlet></router-outlet
+    ><app-notification></app-notification>`,
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, NotificationComponent],
 })
 export class AppComponent {
   constructor(private authService: AuthService, private router: Router) {

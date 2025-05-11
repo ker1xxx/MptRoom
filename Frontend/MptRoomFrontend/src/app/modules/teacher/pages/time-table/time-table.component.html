@@ -1,0 +1,12 @@
+<!-- time-table.component.html -->
+<teacher-header [user]="user$"></teacher-header>
+<teacher-time-table-body [time_table]="schedule$ | async" *ngIf="!isLoading && !error; else loading"
+    [TeacherId]="user$.userId!" [lessonSupersedeRequestsInput]="lessonSuperesedeRequests$ | async">
+</teacher-time-table-body>
+
+<ng-template #loading>
+    <div class="loading-container">
+        <div *ngIf="isLoading" class="loading">Загрузка расписания...</div>
+        <div *ngIf="error" class="error">{{ error }}</div>
+    </div>
+</ng-template>

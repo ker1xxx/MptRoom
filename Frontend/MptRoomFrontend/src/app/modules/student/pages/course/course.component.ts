@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CourseViewModel } from '../../../../models/VM/course.viewmode';
 import { CourseDTO } from '../../../../models/DTO/course.dto';
 import { GroupDTO } from '../../../../models/DTO/group.dto';
@@ -14,6 +14,8 @@ import {
   switchMap,
   catchError,
   tap,
+  takeUntil,
+  Subject,
 } from 'rxjs';
 import { TaskDTO } from '../../../../models/DTO/task.dto';
 import { TeacherDTO } from '../../../../models/DTO/teacher.dto';
@@ -28,75 +30,121 @@ import { PostDTO } from '../../../../models/DTO/post.dto';
 import { PostThemeDTO } from '../../../../models/DTO/post-theme.dto';
 import { UserBaseDTO } from '../../../../models/DTO/user-base.dto';
 import { PostTypeEnum } from '../../../../models/enums/post-type.enum';
+import { RussianDatePipe } from '../../../../helper/RussianDatePipe';
+import { decodeId, encodeId } from '../../../../helper/util';
+import { SidebarMenuComponent } from './post-detail/sidebar-menu/sidebar-menu.component';
 
 @Component({
   selector: 'app-course',
   standalone: true,
-  imports: [HeaderComponent, CommonModule],
+  imports: [
+    HeaderComponent,
+    CommonModule,
+    RussianDatePipe,
+    SidebarMenuComponent,
+  ],
   templateUrl: './course.component.html',
   styleUrl: './course.component.scss',
 })
 export class CourseComponent {
-  constructor(private api: ApiService, private route: ActivatedRoute) {}
-
+  constructor(
+    private api: ApiService,
+    private router: ActivatedRoute,
+    private route: Router
+  ) {}
+  PostTypeEnum = PostTypeEnum;
   courseId!: number;
+  courseHash!: string;
   course$?: CourseViewModel;
   student$?: StudentDTO;
 
   darknes_scale = [20, 40, 60];
   darkerColors: string[] = [];
 
+  filteredPosts$?: PostViewModel[];
   posts$?: PostViewModel[];
+  private destroy$ = new Subject<void>();
+
+  postIcons = {
+    [PostTypeEnum.AdditionalMaterials]: 'assets/images/materials.png',
+    [PostTypeEnum.Post]: 'assets/images/post.png',
+    [PostTypeEnum.Task]: 'assets/images/task.png',
+    [PostTypeEnum.Survey]: 'assets/images/survey.png',
+  };
 
   ngOnInit(): void {
-    this.api.student$
+    this.router.paramMap
       .pipe(
-        switchMap((student) => {
-          if (!student) return of(null);
-          this.student$ = student;
+        map((params) => {
+          const courseHash = params.get('courseHash');
+          if (!courseHash) throw new Error('Course hash not found');
+          return decodeId(courseHash); // Обратите внимание на декодирование
+        }),
+        switchMap((courseId) => {
+          this.courseId = courseId;
 
-          return this.route.paramMap.pipe(
-            switchMap((params) => {
-              this.courseId = Number(params.get('courseId'));
-              return this.getCourseWithTasks(student.userId!);
+          return this.api.student$.pipe(
+            switchMap((student) => {
+              if (!student) {
+                this.route.navigate(['/login']);
+                return of(null);
+              }
+              this.student$ = student;
+
+              return this.getCourseWithPosts(); // Получаем курс с постами
             })
           );
-        })
+        }),
+        takeUntil(this.destroy$)
       )
-      .subscribe((course) => {
-        if (course) {
-          this.course$ = course;
-          this.darkerColors = this.darknes_scale.map((scale) =>
-            this.darkenColor(course.hexademicalColor, scale)
-          );
-        }
+      .subscribe({
+        next: (result) => {
+          if (!result) return;
+          console.log(result.course?.groupId);
+          console.log(this.student$?.groupId);
+          if (
+            result.course &&
+            result.course.groupId === this.student$?.groupId
+          ) {
+            this.course$ = result.course;
+            this.darkerColors = this.darknes_scale.map((scale) =>
+              this.darkenColor(result.course!.hexademicalColor, scale)
+            );
+            this.posts$ = result.posts;
+            this.filterPosts(); // Фильтруем посты после получения
+          } else this.route.navigate(['/404']);
+        },
+        error: (err) => {
+          console.error('Error loading course:', err);
+          this.route.navigate(['/404']);
+        },
       });
   }
 
-  getCourseWithTasks(studentId: number): Observable<CourseViewModel | null> {
+  getCourseWithPosts(): Observable<{
+    course: CourseViewModel | null;
+    posts: PostViewModel[];
+  }> {
     if (!this.courseId || this.courseId <= 0) {
-      console.error('Invalid course ID:', this.courseId);
-      return of(null);
+      return of({ course: null, posts: [] });
     }
 
     return forkJoin({
-      course: this.api.get<CourseDTO>(`Course/${this.courseId}`).pipe(
-        catchError((error) => {
-          console.error('Course fetch error:', error);
-          return of(null);
-        })
-      ),
-      tasks: this.api.get<TaskDTO[]>(`task/student/${studentId}`).pipe(
-        catchError((error) => {
-          console.error('Tasks fetch error:', error);
-          return of([]);
-        })
-      ),
+      course: this.api
+        .get<CourseDTO>(`Course/${this.courseId}`)
+        .pipe(catchError(() => of(null))),
+      posts: this.api
+        .get<PostDTO[]>(`post/course/${this.courseId}`)
+        .pipe(catchError(() => of([] as PostDTO[]))),
     }).pipe(
-      switchMap(({ course, tasks }) => {
-        if (!course) return of(null);
+      switchMap(({ course, posts }) => {
+        if (!course) return of({ course: null, posts: [] });
 
-        const teacherRequest = this.api
+        const group$ = this.api.get<GroupDTO>(`group/${course.groupId}`);
+        const subject$ = this.api.get<SubjectDTO>(
+          `subject/${course.subjectId}`
+        );
+        const teacherData$ = this.api
           .get<TeacherDTO>(`teacher/${course.teacherId}`)
           .pipe(
             switchMap((teacher) =>
@@ -114,43 +162,65 @@ export class CourseComponent {
           );
 
         return forkJoin({
-          group: this.api.get<GroupDTO>(`group/${course.groupId}`),
-          subject: this.api.get<SubjectDTO>(`subject/${course.subjectId}`),
-          teacherData: teacherRequest,
-          tasks: of(tasks),
+          group: group$,
+          subject: subject$,
+          teacherData: teacherData$,
+          posts: of(posts),
         }).pipe(
-          map(({ group, subject, teacherData, tasks }) => {
-            const taskList = tasks.filter(
-              (t) => t.courseId === course.courseId
-            );
-            const nearestTask = this.getNearestTask(taskList);
-
-            const teacherName = teacherData
-              ? `${teacherData.personalData.lastname} ${
-                  teacherData.personalData.name[0]
-                }.${teacherData.personalData.patronymic?.[0] ?? ''}`
-              : 'Преподаватель не указан';
-
-            return {
+          switchMap(({ group, subject, teacherData, posts }) => {
+            const courseViewModel: CourseViewModel = {
               courseId: course.courseId,
               courseName: subject.subjectName,
               groupId: course.groupId,
               groupName: group.groupName,
-              subjectId: subject.subjectId,
+              subjectId: subject.subjectId!,
               subjectName: subject.subjectName,
               teacherId: course.teacherId,
-              teacherName,
+              teacherName: teacherData?.personalData
+                ? `${teacherData.personalData.lastname} ${
+                    teacherData.personalData.name[0]
+                  }.${teacherData.personalData.patronymic?.[0] ?? ''}`
+                : 'Преподаватель не указан',
               hexademicalColor: subject.hexademicalColor,
-              nearestTask,
-            } as CourseViewModel;
-          }),
-          catchError((err) => {
-            console.error('Error constructing CourseViewModel:', err);
-            return of(null);
+            };
+
+            return this.getPostViewModelsByCourse(this.courseId).pipe(
+              map((postViewModels) => ({
+                course: courseViewModel,
+                posts: postViewModels,
+              }))
+            );
           })
         );
       })
     );
+  }
+
+  filterPosts(): void {
+    const routePath = this.router.snapshot.url[2]?.path;
+
+    // В зависимости от маршрута фильтруем посты
+    switch (routePath) {
+      case 'posts':
+        this.filteredPosts$ = this.filterByPostType(PostTypeEnum.Post);
+        break;
+      case 'tasks':
+        this.filteredPosts$ = this.filterByPostType(PostTypeEnum.Task);
+        break;
+      case 'materials':
+        this.filteredPosts$ = this.filterByPostType(
+          PostTypeEnum.AdditionalMaterials
+        );
+        break;
+      default:
+        this.filteredPosts$ = this.posts$; // По умолчанию показываем все посты
+        break;
+    }
+  }
+
+  // Метод для фильтрации по типу поста
+  private filterByPostType(type: PostTypeEnum): PostViewModel[] {
+    return this.posts$?.filter((post) => post.type === type) || [];
   }
 
   private getNearestTask(tasks: TaskDTO[]): TaskViewModel | undefined {
@@ -168,12 +238,17 @@ export class CourseComponent {
     if (!task) return undefined;
 
     return {
+      postId: task.postId,
       sidebarColor: '#FFA500',
       dueTime: task.dueTime,
       subjectName: '',
       teacherName: '',
       taskName: `Задание #${task.postId}`,
       taskStatus: task.taskStatus,
+      mark: task.mark,
+      maxMark: task.maxMark,
+      description: '',
+      lastUpdate: task.lastUpdate,
     };
   }
 
@@ -211,9 +286,11 @@ export class CourseComponent {
                     title: post.postTitle,
                     description: post.postDescription,
                     theme: theme.postThemeText,
-                    type: this.getPostTypeLabel(post.postType),
-                    date: new Date().toISOString(), // заменить на реальную дату, если появится
-                    author,
+                    type: post.postType,
+                    typeName: this.getPostTypeLabel(post.postType),
+                    date: post.created,
+                    author: author,
+                    authorId: 0,
                     courseId: post.courseId,
                     courseName: '',
                     groupId: 0,
@@ -233,19 +310,19 @@ export class CourseComponent {
   }
 
   getPosts(courseId: number): Observable<PostDTO[]> {
-    return this.api.get<PostDTO[]>(`/posts/course/${courseId}`);
+    return this.api.get<PostDTO[]>(`posts/course/${courseId}`);
   }
 
   getPostThemed(themeId: number): Observable<PostThemeDTO> {
-    return this.api.get<PostThemeDTO>(`/postThemes/${themeId}`);
+    return this.api.get<PostThemeDTO>(`postTheme/${themeId}`);
   }
 
   getTeacher(userId: number): Observable<UserBaseDTO> {
-    return this.api.get<TeacherDTO>(`/Teacher/${userId}`);
+    return this.api.get<TeacherDTO>(`Teacher/${userId}`);
   }
 
   getPersonalData(personalDataId: number): Observable<PersonalDataDTO> {
-    return this.api.get<PersonalDataDTO>(`/personalData/${personalDataId}`);
+    return this.api.get<PersonalDataDTO>(`personalData/${personalDataId}`);
   }
 
   getPostTypeLabel(type: PostTypeEnum): string {
@@ -261,5 +338,18 @@ export class CourseComponent {
       default:
         return 'Неизвестно';
     }
+  }
+
+  // Добавляем деструктор
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onPostSelected(post: PostViewModel): void {
+    const courseHash = encodeId(this.course$!.courseId!);
+    const postHash = encodeId(post.id);
+
+    this.route.navigate(['student', 'course', courseHash, postHash]);
   }
 }

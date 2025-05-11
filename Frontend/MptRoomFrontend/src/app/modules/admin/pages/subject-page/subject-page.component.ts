@@ -46,7 +46,6 @@ export class SubjectPageComponent {
       this.isEditMode = false;
     }
     this.isModalOpen = true;
-    console.log(this.selectedSubject);
   }
 
   closeModal() {

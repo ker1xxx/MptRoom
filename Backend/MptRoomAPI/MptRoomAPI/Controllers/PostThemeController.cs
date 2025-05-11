@@ -36,6 +36,32 @@ namespace MptRoomAPI.Controllers
                     {
                         PostThemeId = pt.PostThemeId,
                         PostThemeText = pt.PostThemeText,
+                        CourseId = pt.CourseId
+                    })
+                    .ToListAsync();
+                return Ok(postThemes);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving post theme records");
+                return StatusCode(500, "An error occurred while retrieving post theme records.");
+            }
+        }
+
+        [HttpGet("course/{course_id}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<PostThemeDTO>>> GetPostThemesByCourseId(int course_id)
+        {
+            try
+            {
+                var postThemes = await _context.PostThemes
+                    .Where(pt => pt.CourseId == course_id)
+                    .Select(pt => new PostThemeDTO
+                    {
+                        PostThemeId = pt.PostThemeId,
+                        PostThemeText = pt.PostThemeText,
+                        CourseId = pt.CourseId
+
                     })
                     .ToListAsync();
                 return Ok(postThemes);
@@ -60,6 +86,7 @@ namespace MptRoomAPI.Controllers
                     {
                         PostThemeId = pt.PostThemeId,
                         PostThemeText = pt.PostThemeText,
+                        CourseId = pt.CourseId
                     })
                     .FirstOrDefaultAsync();
 
@@ -100,7 +127,7 @@ namespace MptRoomAPI.Controllers
                 _context.Entry(postTheme).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -124,6 +151,7 @@ namespace MptRoomAPI.Controllers
                 var postTheme = new PostThemeModel
                 {
                     PostThemeText = postThemeDTO.PostThemeText,
+                    CourseId = postThemeDTO.CourseId
                 };
 
                 _context.PostThemes.Add(postTheme);
@@ -156,7 +184,7 @@ namespace MptRoomAPI.Controllers
                 _context.PostThemes.Remove(postTheme);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

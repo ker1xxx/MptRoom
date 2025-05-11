@@ -1,0 +1,39 @@
+<div *ngIf="fileUrl" class="preview-overlay">
+    <div class="preview-container">
+        <!-- Кнопка закрытия в правом верхнем углу -->
+        <button (click)="closePreview()" class="close-button">
+            ✖
+        </button>
+
+        <!-- Изображения -->
+        <img *ngIf="previewType === 'image'" [src]="fileUrl" class="preview-image" />
+
+        <!-- PDF -->
+        <iframe *ngIf="previewType === 'pdf'" [src]="fileUrl" class="pdf-iframe"></iframe>
+
+        <!-- Офисные документы через Google Docs Viewer -->
+        <iframe *ngIf="previewType === 'office'" [src]="fileUrl" class="office-iframe"></iframe>
+
+        <!-- Текстовые файлы -->
+        <pre *ngIf="previewType === 'text'" class="text-preview">
+      {{ fileUrl }}
+    </pre>
+
+        <!-- Неподдерживаемые форматы -->
+        <div *ngIf="previewType === 'unsupported'" class="unsupported-message">
+            <div class="text-red-500 text-xl mb-4">⚠️ Предпросмотр недоступен</div>
+            <p class="text-gray-600 mb-4">Данный формат файла не поддерживает предпросмотр</p>
+        </div>
+
+        <!-- Кнопки управления -->
+        <div class="preview-controls">
+            <a [href]="fileUrl" [download]="fileName" class="download-button">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Скачать
+            </a>
+        </div>
+    </div>
+</div>

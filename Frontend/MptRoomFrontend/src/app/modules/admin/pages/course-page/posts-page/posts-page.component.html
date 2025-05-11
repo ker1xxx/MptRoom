@@ -4,7 +4,7 @@
     <h1 class="text-2xl font-bold mb-4">Посты</h1>
 
     <!-- Фильтрация -->
-    <div class="mb-4 flex gap-4">
+    <div class="mb-4 flex gap-4 items-center">
         <div>
             <label class="block mb-1">Тема</label>
             <select [(ngModel)]="filter.themeId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
@@ -16,8 +16,8 @@
             <label class="block mb-1">Автор</label>
             <select [(ngModel)]="filter.authorId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
                 <option value="">Все авторы</option>
-                <option *ngFor="let author of authors" [value]="author.personalDataId">
-                    {{ author.lastname }} {{ author.name }}
+                <option *ngFor="let author of authors" [value]="author.userId">
+                    {{ author.fullName }}
                 </option>
             </select>
         </div>
@@ -41,7 +41,7 @@
         </div>
         <div>
             <label class="block mb-1">Предмет</label>
-            <select [(ngModel)]="filter.courseId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
+            <select [(ngModel)]="filter.subjectId" (ngModelChange)="applyFilters()" class="w-full p-2 border rounded">
                 <option value="">Все предметы</option>
                 <option *ngFor="let subject of subjects" [value]="subject.subjectId">
                     {{ subject.subjectName }}
@@ -69,14 +69,14 @@
         </thead>
         <tbody>
             <tr *ngFor="let post of filteredPosts" class="border-t cursor-pointer" (click)="openModal(post)">
-                <td class="p-2">{{ post.id }}</td>
-                <td class="p-2">{{ post.title }}</td>
-                <td class="p-2">{{ post.theme }}</td>
-                <td class="p-2">{{ post.type }}</td>
-                <td class="p-2">{{ post.date }}</td>
-                <td class="p-2">{{ post.author }}</td>
-                <td class="p-2 flex gap-2">
-                    <button (click)="deletePost(post.id)"
+                <td class="p-2 text-center">{{ post.id }}</td>
+                <td class="p-2 text-center">{{ post.title }}</td>
+                <td class="p-2 text-center">{{ post.theme }}</td>
+                <td class="p-2 text-center">{{ post.type }}</td>
+                <td class="p-2 text-center">{{ post.date }}</td>
+                <td class="p-2 text-center">{{ post.author }}</td>
+                <td class="p-2 items-center flex gap-2">
+                    <button (click)="deletePost(post.id); $event.stopPropagation()"
                         class="bg-red-500 text-white px-2 py-1 rounded">Удалить</button>
                 </td>
             </tr>
@@ -91,7 +91,8 @@
         <form (ngSubmit)="savePost()">
             <div class="mb-4">
                 <label class="block mb-1">Заголовок</label>
-                <input [(ngModel)]="selectedPost.postTitle" name="title" required class="w-full p-2 border rounded" />
+                <input [(ngModel)]="selectedPost.postTitle" name="postTitle" required
+                    class="w-full p-2 border rounded" />
             </div>
             <div class="mb-4">
                 <label class="block mb-1">Описание</label>
@@ -100,38 +101,43 @@
             </div>
             <div class="mb-4">
                 <label class="block mb-1">Тип</label>
-                <select [(ngModel)]="selectedPost.postType" name="type" required class="w-full p-2 border rounded">
-                    <option *ngFor="let type of PostTypes" [value]="type.value">{{ type.label }}</option>
+                <select [(ngModel)]="selectedPost.postType" name="postType" required class="w-full p-2 border rounded">
+                    <option *ngFor="let type of PostTypes" [value]="type.value">
+                        {{ type.label }}
+                    </option>
                 </select>
             </div>
-            <label class="block mb-1">Тема</label>
+            <div class="mb-4">
+                <label class="block mb-1">Тема</label>
+                <select [(ngModel)]="selectedPost.postThemeId" name="themeId" (change)="onThemeChange($event)"
+                    class="w-full p-2 border rounded">
+                    <option *ngFor="let theme of themes" [value]="theme.postThemeId">
+                        {{ theme.postThemeText }}
+                    </option>
+                    <option [value]="NEW_THEME_ID">Новая тема</option>
+                </select>
+            </div>
 
-            <select [(ngModel)]="selectedThemeOption" (change)="onThemeChange()" class="border p-2 rounded w-full mb-3">
-                <option *ngIf="themes?.length === 0" disabled>Нет доступных тем</option>
-                <option *ngFor="let theme of themes" [value]="theme.postThemeId">
-                    {{ theme.postThemeText }}
-                </option>
-                <option [value]="-1">+ Новая тема</option>
-            </select>
-
-            <!-- Поле для новой темы -->
-            <div *ngIf="selectedThemeOption === '-1'" class="mb-4">
-                <label class="block mb-1">Введите название новой темы</label>
-                <input type="text" [(ngModel)]="newThemeName" class="border p-2 rounded w-full mb-3" />
+            <!-- Инпут для новой темы -->
+            <div *ngIf="showNewThemeInput" class="mb-4">
+                <label class="block mb-1">Название новой темы</label>
+                <input type="text" [(ngModel)]="newThemeText" [ngModelOptions]="{ standalone: true }"
+                    placeholder="Введите название новой темы" class="w-full p-2 border rounded" />
             </div>
 
             <div class="mb-4">
                 <label class="block mb-1">Курс</label>
                 <select [(ngModel)]="selectedPost.courseId" name="courseId" required class="w-full p-2 border rounded">
-                    <option *ngFor="let course of courseForDisplay" [value]="course.courseId">{{ course.courseName }}
+                    <option *ngFor="let course of courseForDisplay" [value]="course.courseId">
+                        {{ course.courseName }}
                     </option>
                 </select>
             </div>
             <div class="mb-4">
                 <label class="block mb-1">Автор</label>
                 <select [(ngModel)]="selectedPost.userId" name="userId" required class="w-full p-2 border rounded">
-                    <option *ngFor="let author of authors" [value]="author.personalDataId">
-                        {{ author.lastname }} {{ author.name }}
+                    <option *ngFor="let author of authors" [value]="author.userId">
+                        {{ author.fullName }}
                     </option>
                 </select>
             </div>

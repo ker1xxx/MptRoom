@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MptRoomAPI.DTO;
 using MptRoomAPI.Models;
+using MptRoomAPI.Models.Enums;
 
 namespace MptRoomAPI.Controllers
 {
@@ -37,7 +38,8 @@ namespace MptRoomAPI.Controllers
                         TaskAnswerId = ta.TaskAnswerId, // Assuming TaskAnswerId is needed
                         AdditionalMaterialId = ta.AdditionalMaterialId,
                         StudentId = ta.StudentId,
-                        PostId = ta.PostId
+                        TaskId = ta.TaskId,
+                        AssignmentTime = ta.AssignmentTime,
                     })
                     .ToListAsync();
 
@@ -64,7 +66,8 @@ namespace MptRoomAPI.Controllers
                         TaskAnswerId = ta.TaskAnswerId, // Assuming TaskAnswerId is needed
                         AdditionalMaterialId = ta.AdditionalMaterialId,
                         StudentId = ta.StudentId,
-                        PostId = ta.PostId
+                        TaskId = ta.TaskId,
+                        AssignmentTime = ta.AssignmentTime,
                     })
                     .FirstOrDefaultAsync();
 
@@ -82,9 +85,73 @@ namespace MptRoomAPI.Controllers
             }
         }
 
+        [HttpGet("teacher/assigned/{id}")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<ActionResult<IEnumerable<TaskAnswerDTO>>> GetAssignedTaskAnswersByTeacher(int id)
+        {
+            try
+            {
+                var postIds = await _context.Tasks
+                 .Include(t => t.Teacher)
+                 .Where(t =>
+                     t.Teacher.UserId == id &&
+                     t.TaskStatusEnum == TaskStatusEnum.Submitted)
+                 .Select(t => t.PostId)
+                 .Distinct()
+                 .ToListAsync();
+
+                var taskAnswers = await _context.TaskAnswers
+                    .Where(ta => postIds.Contains(ta.TaskId))
+                    .Select(ta => new TaskAnswerDTO
+                    {
+                        TaskAnswerId = ta.TaskAnswerId,
+                        AdditionalMaterialId = ta.AdditionalMaterialId,
+                        StudentId = ta.StudentId,
+                        TaskId = ta.TaskId,
+                        AssignmentTime = ta.AssignmentTime,
+                    })
+                    .ToListAsync();
+
+                return Ok(taskAnswers);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving task answers.");
+                return StatusCode(500, "An error occurred while retrieving task answers.");
+            }
+        }
+
+        [HttpGet("post/{post_id}")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<ActionResult<IEnumerable<TaskAnswerDTO>>> GetTaskAnswersByPost(int post_id)
+        {
+            try
+            {
+                var taskAnswers = await _context.TaskAnswers
+                    .Include(ta => ta.Task)
+                    .Where(t=>t.Task.PostId == post_id)
+                    .Select(ta => new TaskAnswerDTO
+                    {
+                        TaskAnswerId = ta.TaskAnswerId,
+                        AdditionalMaterialId = ta.AdditionalMaterialId,
+                        StudentId = ta.StudentId,
+                        TaskId = ta.TaskId,
+                        AssignmentTime = ta.AssignmentTime,
+                    })
+                    .ToListAsync();
+
+                return Ok(taskAnswers);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving task answers.");
+                return StatusCode(500, "An error occurred while retrieving task answers.");
+            }
+        }
+
         // PUT: api/TaskAnswer/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Student")]
+        [Authorize]
         public async Task<IActionResult> PutTaskAnswerModel(int id, TaskAnswerDTO taskAnswerDTO)
         {
             if (id != taskAnswerDTO.TaskAnswerId)
@@ -103,13 +170,13 @@ namespace MptRoomAPI.Controllers
 
                 taskAnswer.AdditionalMaterialId = taskAnswerDTO.AdditionalMaterialId;
                 taskAnswer.StudentId = taskAnswerDTO.StudentId;
-                taskAnswer.PostId = taskAnswerDTO.PostId;
+                taskAnswer.TaskId = taskAnswerDTO.TaskId;
 
                 _context.Entry(taskAnswer).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -134,7 +201,8 @@ namespace MptRoomAPI.Controllers
                 {
                     AdditionalMaterialId = taskAnswerDTO.AdditionalMaterialId,
                     StudentId = taskAnswerDTO.StudentId,
-                    PostId = taskAnswerDTO.PostId
+                    TaskId = taskAnswerDTO.TaskId,
+                    AssignmentTime = DateTime.UtcNow,
                 };
 
                 _context.TaskAnswers.Add(taskAnswer);
@@ -148,6 +216,64 @@ namespace MptRoomAPI.Controllers
             {
                 _logger.LogError(ex, "Error while creating task answer.");
                 return StatusCode(500, "An error occurred while creating the task answer.");
+            }
+        }
+
+        [HttpPost("upload-file")]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> UploadTaskFile(
+            IFormFile file,
+            [FromForm] string course,
+            [FromForm] string group,
+            [FromForm] string subject,
+            [FromForm] string student,
+            [FromForm] int studentId,
+            [FromForm] int postId
+)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Файл не выбран.");
+
+            try
+            {
+                // Строим путь
+                var basePath = Path.Combine("D:\\mptroomfiles", course, group, subject, student);
+                Directory.CreateDirectory(basePath);
+
+                var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+                var filePath = Path.Combine(basePath, fileName);
+
+                // Сохраняем файл
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                // Сохраняем запись в AdditionalMaterial
+                var material = new AdditionalMaterialModel
+                {
+                    UriAbsolutePath = filePath,
+                    UserId = studentId // если studentId == userId
+                };
+                _context.Add(material);
+                await _context.SaveChangesAsync();
+
+                // Создаем TaskAnswer
+                var taskAnswer = new TaskAnswerModel
+                {
+                    AdditionalMaterialId = (int)material.AdditionalMaterialId,
+                    StudentId = studentId,
+                    TaskId = postId,
+                    AssignmentTime = DateTime.Now
+                };
+                _context.Add(taskAnswer);
+                await _context.SaveChangesAsync();
+
+                return Ok(material);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Внутренняя ошибка: {ex.Message}");
             }
         }
 
@@ -167,7 +293,7 @@ namespace MptRoomAPI.Controllers
                 _context.TaskAnswers.Remove(taskAnswer);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

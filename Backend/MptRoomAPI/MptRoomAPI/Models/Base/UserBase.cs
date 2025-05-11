@@ -11,6 +11,7 @@ namespace MptRoomAPI.Models.Base
         public AuthorizationDataModel AuthorizationData { get; set; }
         public List<AdditionalMaterialModel> Materials { get; set; }
         public List<PostModel> Posts { get; set; }
+        public List<CommentModel> Comments { get; set; }
         public RefreshTokenModel RefreshToken { get; set; }
     }
 }

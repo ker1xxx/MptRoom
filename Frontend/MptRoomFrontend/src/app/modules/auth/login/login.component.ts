@@ -41,8 +41,7 @@ export class LoginComponent {
       this.auth.login({ login, password }).subscribe({
         next: (res) => {
           // Получаем роль из ответа сервера
-          const role = this.auth.getUserRole(); // Предполагаем, что сервер возвращает роль в res.role
-
+          const role = this.auth.getUserRole();
           // Перенаправляем в зависимости от роли
           switch (role?.toLowerCase()) {
             case 'administrator':

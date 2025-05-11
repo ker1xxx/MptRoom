@@ -1,1 +1,4 @@
-<p>dashboard works!</p>
+<teacher-header [user]="user$"></teacher-header>
+<teacher-dashboard-body [schedule]="schedule$ | async" [tasks]="tasks$ | async"
+    [supersedeRequests]="supersedeRequests$ | async">
+</teacher-dashboard-body>

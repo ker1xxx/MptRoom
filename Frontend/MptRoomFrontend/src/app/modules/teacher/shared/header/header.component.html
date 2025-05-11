@@ -1,0 +1,25 @@
+<header>
+    <div class="header_block">
+        <img src="{{img}}" alt="MptRoom">
+        <a routerLink="/teacher/" style="margin-top: auto; margin-bottom: auto;">MptRoom</a>
+    </div>
+    <div class="header_block">
+        <div class="header_navigation_buttons">
+            <a routerLink="/teacher/timetable">Расписание</a>
+        </div>
+        <div class="header_navigation_buttons">
+            <a routerLink="/teacher/courses">Курсы</a>
+        </div>
+    </div>
+    <a routerLink="/teacher/personal">
+        <div class="header_block">
+            <div class="user_name">
+                <p>{{user_name}}</p>
+            </div>
+            <div>
+                <img [src]="user_photo || 'assets/images/user_icon_not_found_100px.png'" alt="Аватар"
+                    class="avatar-image" />
+            </div>
+        </div>
+    </a>
+</header>

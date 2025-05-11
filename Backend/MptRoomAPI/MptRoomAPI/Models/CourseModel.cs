@@ -14,5 +14,6 @@ namespace MptRoomAPI.Models
         public TeacherModel Teacher { get; set; }
         public List<PostModel> Posts { get; set; }
         public List<StudentModel> Students { get; set; }
+        public List<PostThemeModel> PostThemes { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../../../../services/api.service';
-import { forkJoin, map, Observable } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { PostDTO } from '../../../../../models/DTO/post.dto';
 import { PostViewModel } from '../../../../../models/VM/post.viewmodel';
 import { PersonalDataDTO } from '../../../../../models/DTO/personal-data.dto';
@@ -14,6 +14,8 @@ import { SubjectDTO } from '../../../../../models/DTO/subject.dto';
 import { GroupDTO } from '../../../../../models/DTO/group.dto';
 import { CourseViewModel } from '../../../../../models/VM/course.viewmode';
 import { TeacherDTO } from '../../../../../models/DTO/teacher.dto';
+import { AuthorViewModel } from '../../../../../models/VM/author.viewmodel';
+import { NotificationService } from '../../../../../services/notification.service';
 
 @Component({
   selector: 'app-posts-page',
@@ -27,10 +29,11 @@ export class PostsPageComponent {
   filteredPosts: PostViewModel[] = [];
   courses: CourseDTO[] = [];
   themes: PostThemeDTO[] = [];
-  authors: PersonalDataDTO[] = [];
+  authors: AuthorViewModel[] = [];
   groups: GroupDTO[] = []; // Предположим, у вас есть группы, которые нужно отфильтровать
   subjects: SubjectDTO[] = []; // Предположим, у вас есть предметы
   courseForDisplay: CourseViewModel[] = [];
+  teachers: TeacherDTO[] = [];
   filter = {
     themeId: '',
     authorId: '',
@@ -60,6 +63,12 @@ export class PostsPageComponent {
     [PostTypeEnum.Task]: 'Задание',
   };
 
+  readonly NEW_THEME_ID = 0;
+
+  selectedThemeId: number | null = null;
+  newThemeText: string = '';
+  showNewThemeInput: boolean = false;
+
   postCreate: PostDTO = {
     postId: 0,
     postTitle: '',
@@ -73,11 +82,11 @@ export class PostsPageComponent {
 
   selectedThemeOption: string | any;
   newThemeName: string = '';
-  courseThemes: PostThemeDTO[] = [];
 
-  showNewThemeInput: boolean = false;
-
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -107,7 +116,9 @@ export class PostsPageComponent {
         this.themes = themes;
         this.groups = groups;
         this.subjects = subjects;
-        console.log(themes);
+
+        this.teachers = teachers;
+
         // то же, что и было:
         const teachersWithData = teachers.filter(
           (t): t is TeacherDTO & { personalDataId: number } =>
@@ -115,12 +126,19 @@ export class PostsPageComponent {
         );
 
         this.authors = teachersWithData
-          .map((teacher) =>
-            personalData.find(
+          .filter((t) => t.personalDataId)
+          .map((teacher) => {
+            const pd = personalData.find(
               (p) => p.personalDataId === teacher.personalDataId
-            )
-          )
-          .filter((a): a is PersonalDataDTO => !!a);
+            )!;
+            return {
+              userId: teacher.userId,
+              fullName: `${pd.lastname} ${pd.name} ${
+                pd.patronymic || ''
+              }`.trim(),
+            } as AuthorViewModel;
+          })
+          .filter((a) => !!a);
 
         this.processPosts(posts);
       },
@@ -131,37 +149,68 @@ export class PostsPageComponent {
   processPosts(dtos: PostDTO[]): void {
     this.posts = [];
     dtos.forEach((dto) => {
-      forkJoin([
-        this.apiService.getById<PersonalDataDTO>('PersonalData', dto.userId),
-        this.apiService.getById<PostThemeDTO>('PostTheme', dto.postThemeId),
-        this.apiService.getById<CourseDTO>('Course', dto.courseId),
-      ]).subscribe({
-        next: ([author, theme, course]) => {
-          console.log(dto);
-          const subject = this.apiService
-            .getById<SubjectDTO>('Subject', course.subjectId)
-            .subscribe((subj) => {
-              const group = this.apiService
-                .getById<GroupDTO>('Group', course.groupId!)
-                .subscribe((gr) => {
-                  const vm = this.mapPostDTOToViewModel(
-                    dto,
-                    `${author.lastname} ${author.name}`,
-                    theme.postThemeText,
-                    `${gr.groupName} - ${subj.subjectName}`,
-                    gr.groupId!,
-                    subj.subjectId!
-                  );
-                  this.posts.push(vm);
-                  console.log(course);
-                  console.log(vm);
-                  this.applyFilters(); // Обновляем фильтрацию после добавления
-                });
-            });
-        },
-        error: (err) =>
-          console.error(`Ошибка загрузки автора поста ${dto.postId}`, err),
-      });
+      // Основной поток запросов
+      this.apiService
+        .get<TeacherDTO>(`Teacher/${dto.userId}`)
+        .pipe(
+          switchMap((teacher) =>
+            forkJoin({
+              personalData: this.apiService.getById<PersonalDataDTO>(
+                'PersonalData',
+                teacher.personalDataId!
+              ),
+              theme: this.apiService.getById<PostThemeDTO>(
+                'PostTheme',
+                dto.postThemeId
+              ),
+              course: this.apiService.getById<CourseDTO>(
+                'Course',
+                dto.courseId
+              ),
+            })
+          ),
+          switchMap(({ personalData, theme, course }) =>
+            forkJoin({
+              subject: this.apiService.getById<SubjectDTO>(
+                'Subject',
+                course.subjectId
+              ),
+              group: this.apiService.getById<GroupDTO>(
+                'Group',
+                course.groupId!
+              ),
+              personalData: of(personalData),
+              theme: of(theme),
+              course: of(course),
+            })
+          )
+        )
+        .subscribe({
+          next: ({ subject, group, personalData, theme, course }) => {
+            const author: AuthorViewModel = {
+              userId: dto.userId,
+              fullName: `${personalData.lastname} ${personalData.name} ${
+                personalData.patronymic || ''
+              }`.trim(),
+            };
+
+            const vm = this.mapPostDTOToViewModel(
+              dto,
+              author,
+              theme.postThemeText,
+              `${group.groupName} - ${subject.subjectName}`,
+              group.groupId!,
+              subject.subjectId!
+            );
+
+            this.posts.push(vm);
+            this.applyFilters();
+          },
+          error: (err) => {
+            console.error(`Ошибка обработки поста ${dto.postId}:`, err);
+            // Можно добавить обработку ошибок, например, пропуск битого поста
+          },
+        });
     });
   }
 
@@ -220,22 +269,6 @@ export class PostsPageComponent {
     });
   }
 
-  // Преобразование из DTO в ViewModel
-  mapCourseDTOtoViewModel(courseDTO: any): CourseViewModel {
-    // Преобразование DTO в ViewModel
-    return {
-      courseId: courseDTO.courseId,
-      courseName: courseDTO.courseName,
-      groupId: courseDTO.groupId,
-      groupName: courseDTO.groupName,
-      subjectId: courseDTO.subjectId,
-      subjectName: courseDTO.subjectName,
-      teacherId: courseDTO.teacherId,
-      teacherName: courseDTO.teacherName,
-      hexademicalColor: courseDTO.hexademicalColor,
-    };
-  }
-
   applyFilters(): void {
     this.filteredPosts = this.posts.filter((post) => {
       return (
@@ -254,9 +287,9 @@ export class PostsPageComponent {
     });
   }
 
-  mapPostDTOToViewModel(
+  private mapPostDTOToViewModel(
     dto: PostDTO,
-    authorName: string,
+    author: AuthorViewModel,
     themeTitle: string,
     courseName: string,
     groupId: number,
@@ -267,9 +300,11 @@ export class PostsPageComponent {
       title: dto.postTitle,
       theme: themeTitle,
       description: dto.postDescription,
-      type: this.getType(dto.postType),
+      type: dto.postType,
+      typeName: this.getType(dto.postType),
       date: new Date(dto.created).toLocaleDateString(),
-      author: authorName,
+      author: author.fullName,
+      authorId: author.userId!,
       courseId: dto.courseId,
       courseName: courseName,
       groupId: groupId,
@@ -292,6 +327,21 @@ export class PostsPageComponent {
     }
   }
 
+  private preparePostDto(): PostDTO {
+    return {
+      postId: this.selectedPost.postId,
+      postTitle: this.selectedPost.postTitle,
+      postDescription: this.selectedPost.postDescription,
+      postType: this.selectedPost.postType,
+      postThemeId: this.selectedPost.postThemeId,
+      courseId: this.selectedPost.courseId,
+      userId: this.selectedPost.userId,
+      created: this.isEditMode
+        ? this.selectedPost.created
+        : new Date().toISOString(),
+    };
+  }
+
   // Удалить пост
   deletePost(postId: number): void {
     if (confirm('Удалить пост?')) {
@@ -302,90 +352,158 @@ export class PostsPageComponent {
   }
 
   // Открыть модальное окно для добавления или редактирования
-  openModal(post?: PostViewModel): void {
-    this.isModalOpen = true;
+  openModal(post?: PostViewModel) {
     this.isEditMode = !!post;
-    this.selectedPost = post
-      ? { ...post }
-      : {
-          postTitle: '',
-          postDescription: '',
-          postType: PostTypeEnum.AdditionalMaterials,
-          postThemeId: '',
-          courseId: '',
-          courseName: '',
-          userId: '',
-        };
+    this.isModalOpen = true;
+
+    if (post) {
+      // Преобразование ViewModel в DTO для редактирования
+      this.selectedPost = {
+        postId: post.id,
+        postTitle: post.title,
+        postDescription: post.description,
+        postType: post.type,
+        postThemeId:
+          this.themes.find((t) => t.postThemeText === post.theme)
+            ?.postThemeId || 0,
+        courseId: post.courseId,
+        userId: this.authors.find((a) => a.userId === post!.authorId),
+        created: new Date().toISOString(), // временное значение, будет заменено при сохранении
+      };
+
+      // Сброс полей новой темы
+      this.showNewThemeInput = false;
+      this.newThemeText = '';
+    } else {
+      this.selectedPost = {
+        postId: 0,
+        postTitle: '',
+        postDescription: '',
+        postType: PostTypeEnum.AdditionalMaterials,
+        postThemeId: 0,
+        courseId: 0,
+        userId: 0,
+        created: '',
+      };
+    }
   }
 
   // Закрыть модальное окно
   closeModal(): void {
     this.isModalOpen = false;
+    this.applyFilters();
   }
 
-  // Сохранить пост
-  savePost() {
-    // Проверяем, выбрана ли новая тема
-    if (this.selectedThemeOption === -1 && this.newThemeName) {
-      // Логика для создания новой темы
-      this.createNewTheme(this.newThemeName);
-    } else {
-      // Логика для сохранения поста с выбранной существующей темой
-      this.postCreate.postThemeId = this.selectedThemeOption!; // Устанавливаем ID выбранной темы
+  onSelectChange(selectedAuthor: AuthorViewModel): void {}
 
-      // Здесь можно продолжить сохранение поста
-      // Например, отправить пост на сервер
-      this.apiService.post<PostDTO>('Post', this.postCreate).subscribe({
-        next: (savedPost) => {
-          console.log('Пост успешно сохранен:', savedPost);
-          // Закрыть модальное окно или выполнить другие действия после успешного сохранения
-          this.closeModal();
-        },
-        error: (err) => {
-          console.error('Ошибка при сохранении поста:', err);
-        },
-      });
-    }
-  }
-
-  onThemeChange() {
-    console.log('Выбрана тема:', this.selectedThemeOption);
-  }
-
-  onCourseChange(): void {
-    if (!this.postCreate.courseId) {
-      this.courseThemes = [];
-      return;
-    }
-
-    const courseThemesSet = new Map<number, PostThemeDTO>();
-
-    for (const post of this.posts) {
-      if (post.courseId === this.postCreate.courseId && post.theme) {
-        const theme = this.themes.find((t) => t.postThemeText === post.theme);
-        if (theme && !courseThemesSet.has(theme.postThemeId!)) {
-          courseThemesSet.set(theme.postThemeId!, theme);
-        }
-      }
-    }
-
-    this.courseThemes = Array.from(courseThemesSet.values());
-  }
-
-  createNewTheme(newTheme: string) {
-    const dto: PostThemeDTO = {
-      postThemeText: newTheme,
+  savePost(): void {
+    // Собираем данные из формы
+    const postDto: PostDTO = {
+      postId: this.selectedPost.postId,
+      postTitle: this.selectedPost.postTitle,
+      postDescription: this.selectedPost.postDescription,
+      postType: Number(this.selectedPost.postType),
+      postThemeId: Number(this.selectedPost.postThemeId),
+      courseId: Number(this.selectedPost.courseId),
+      userId: this.selectedPost.userId,
+      created: this.isEditMode
+        ? this.selectedPost.created
+        : new Date().toISOString(),
     };
 
-    this.apiService.post<PostThemeDTO>('PostTheme', dto).subscribe({
-      next: (createdTheme) => {
-        // Добавляем созданную тему в список
-        this.themes.push(createdTheme);
-        // Устанавливаем только что созданную тему как выбранную
-        this.selectedThemeOption = createdTheme.postThemeId;
+    // Логика создания новой темы
+    if (this.showNewThemeInput && this.newThemeText.trim()) {
+      this.createNewTheme(this.newThemeText).subscribe({
+        next: (newTheme) => {
+          postDto.postThemeId = newTheme.postThemeId!;
+          this.savePostRequest(postDto);
+          this.notificationService.show('✅ Пост успешно сохранен', 'success');
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        },
+        error: (err) => {
+          console.error('Ошибка создания темы:', err);
+          this.notificationService.show(
+            '❌ Ошибка при сохранении поста',
+            'error'
+          );
+        },
+      });
+    } else {
+      this.savePostRequest(postDto);
+    }
+  }
+
+  private savePostRequest(postDto: PostDTO): void {
+    const request$ = this.isEditMode
+      ? this.apiService.put<PostDTO>('Post', postDto, postDto.postId!)
+      : this.apiService.post<PostDTO>('Post', postDto);
+
+    request$.subscribe({
+      next: () => {
+        this.closeModal();
+        this.loadData(); // Перезагружаем данные
+        this.notificationService.show('✅ Пост успешно сохранен', 'success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       },
-      error: (err) => console.error('Ошибка при создании новой темы:', err),
+      error: (err) => {
+        console.error('Ошибка сохранения:', err);
+        console.error('Ошибка создания темы:', err);
+        this.notificationService.show(
+          '❌ Ошибка при сохранениии поста',
+          'error'
+        );
+      },
     });
+  }
+
+  finalizePostCreation(): void {
+    this.apiService.post<PostDTO>('Post', this.postCreate).subscribe({
+      next: (savedPost) => {
+        this.closeModal();
+        this.loadData(); // перезагружаем
+        this.notificationService.show('✅ Пост успешно сохранен', 'success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      },
+      error: (err) => {
+        console.error('Ошибка при сохранении поста:', err);
+        console.error('Ошибка создания темы:', err);
+        this.notificationService.show(
+          '❌ Ошибка при сохранении поста',
+          'error'
+        );
+      },
+    });
+  }
+
+  onThemeChange(event: Event) {
+    const value = +(event.target as HTMLSelectElement).value;
+
+    this.selectedThemeId = value;
+    this.showNewThemeInput = value === this.NEW_THEME_ID;
+
+    if (!this.showNewThemeInput) {
+      this.newThemeText = '';
+    }
+  }
+  //TODO
+  createNewTheme(name: string): Observable<PostThemeDTO> {
+    const dto: PostThemeDTO = {
+      postThemeText: name,
+      courseId: 1,
+    };
+
+    return this.apiService.post<PostThemeDTO>('PostTheme', dto).pipe(
+      map((theme) => {
+        this.themes.push(theme);
+        return theme;
+      })
+    );
   }
 
   createPost(dto: PostDTO): Observable<PostDTO> {

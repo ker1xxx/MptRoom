@@ -1,0 +1,38 @@
+<div class="time-table-card">
+    <div *ngIf="isModified" class="modification-notice">
+        <ng-container [ngSwitch]="modificationType">
+            <!-- Отмененные пары -->
+            <span *ngSwitchCase="'canceled'" class="canceled">
+                ⚠ Отменена (с последующей отработкой)
+            </span>
+
+            <!-- Перенесенные пары -->
+            <span *ngSwitchCase="'moved'" class="moved">
+                ↪ Перенесена на {{ newLessonSlot }}
+            </span>
+
+            <!-- Добавленные пары -->
+            <span *ngSwitchCase="'added'" class="added">
+                🆕 Добавлена: {{ newLessonSlot }}
+            </span>
+
+            <!-- Замененные пары -->
+            <span *ngSwitchCase="'replaced'" class="replaced">
+                🔄 Замена: {{ newLessonSlot }}
+            </span>
+        </ng-container>
+    </div>
+
+    <div class="side-bar" [style.backgroundColor]="sidebar_color"></div>
+
+    <div class="main-block">
+        <div class="lesson-time">
+            <span [class.strikethrough]="modificationType === 'replaced' && originalLessonSlot">
+                {{ modificationType === 'replaced' && originalLessonSlot ? originalLessonSlot: lesson_time |
+                lessonTime}}
+            </span>
+        </div>
+        <div class="lesson-name">{{ subject_name }}</div>
+        <div class="teacher-name">{{ group_name }}</div>
+    </div>
+</div>

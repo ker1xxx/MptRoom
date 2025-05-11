@@ -21,32 +21,6 @@
   },
   {
     "ContainingType": "MptRoomAPI.Controllers.AdditionalMaterialController",
-    "Method": "PostAdditionalMaterialModel",
-    "RelativePath": "api/AdditionalMaterial",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "materialDTO",
-        "Type": "MptRoomAPI.DTO.AdditionalMaterialDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "MptRoomAPI.Models.AdditionalMaterialModel",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "MptRoomAPI.Controllers.AdditionalMaterialController",
     "Method": "GetAdditionalMaterialModel",
     "RelativePath": "api/AdditionalMaterial/{id}",
     "HttpMethod": "GET",
@@ -97,6 +71,90 @@
     "Method": "DeleteAdditionalMaterialModel",
     "RelativePath": "api/AdditionalMaterial/{id}",
     "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.AdditionalMaterialController",
+    "Method": "GetAdditionalMaterialFileUrl",
+    "RelativePath": "api/AdditionalMaterial/file/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.AdditionalMaterialController",
+    "Method": "GetAdditionalMaterialsByPostId",
+    "RelativePath": "api/AdditionalMaterial/post/{postId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "postId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.AdditionalMaterialDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.AdditionalMaterialController",
+    "Method": "GetAdditionalMaterialsByTaskId",
+    "RelativePath": "api/AdditionalMaterial/task/{taskId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "taskId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.AdditionalMaterialDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.AdditionalMaterialController",
+    "Method": "GetUploadedFile",
+    "RelativePath": "api/AdditionalMaterial/upload/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -240,13 +298,7 @@
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "refreshTokenDTO",
-        "Type": "MptRoomAPI.DTO.RefreshTokenDTO",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -357,6 +409,167 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.CommentController",
+    "Method": "GetComments",
+    "RelativePath": "api/Comment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.CommentDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.CommentController",
+    "Method": "PostCommentModel",
+    "RelativePath": "api/Comment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "commentDTO",
+        "Type": "MptRoomAPI.DTO.CommentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.CommentDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.CommentController",
+    "Method": "GetCommentModel",
+    "RelativePath": "api/Comment/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.CommentDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.CommentController",
+    "Method": "PutCommentModel",
+    "RelativePath": "api/Comment/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "commentDTO",
+        "Type": "MptRoomAPI.DTO.CommentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.CommentController",
+    "Method": "DeleteCommentModel",
+    "RelativePath": "api/Comment/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.CommentController",
+    "Method": "GetCommentModelByPostId",
+    "RelativePath": "api/Comment/post/{PostId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PostId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.CommentDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.CommentController",
+    "Method": "GetCommentModelByUserId",
+    "RelativePath": "api/Comment/user/{UserId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.CommentDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "MptRoomAPI.Controllers.CourseController",
@@ -494,6 +707,32 @@
     ]
   },
   {
+    "ContainingType": "MptRoomAPI.Controllers.CourseController",
+    "Method": "GetCourseForTeacher",
+    "RelativePath": "api/Course/teacher/{teacher_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "teacher_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.CourseDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MptRoomAPI.Controllers.GroupController",
     "Method": "GetGroups",
     "RelativePath": "api/Group",
@@ -601,6 +840,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.GroupController",
+    "Method": "GetGroupByTeacherId",
+    "RelativePath": "api/Group/teacher/{teacherId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "teacherId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.GroupDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "MptRoomAPI.Controllers.HousingController",
@@ -873,6 +1138,32 @@
     ]
   },
   {
+    "ContainingType": "MptRoomAPI.Controllers.LessonController",
+    "Method": "GetLessonsForTeacher",
+    "RelativePath": "api/Lesson/teacher/{user_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.LessonDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MptRoomAPI.Controllers.LessonSlotController",
     "Method": "GetLessonSlots",
     "RelativePath": "api/LessonSlot",
@@ -982,6 +1273,167 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MptRoomAPI.Controllers.LessonSupersedeRequestController",
+    "Method": "GetLessonSupersedeRequests",
+    "RelativePath": "api/LessonSupersedeRequest",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.LessonSupersedeRequestDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.LessonSupersedeRequestController",
+    "Method": "PostLessonSupersedeRequest",
+    "RelativePath": "api/LessonSupersedeRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "lessonSupersedeRequestDTO",
+        "Type": "MptRoomAPI.DTO.LessonSupersedeRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.LessonSupersedeRequestDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.LessonSupersedeRequestController",
+    "Method": "GetLessonSupersedeRequestModel",
+    "RelativePath": "api/LessonSupersedeRequest/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.LessonSupersedeRequestDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.LessonSupersedeRequestController",
+    "Method": "PutLessonSupersedeRequest",
+    "RelativePath": "api/LessonSupersedeRequest/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "lessonSupersedeRequestDTO",
+        "Type": "MptRoomAPI.DTO.LessonSupersedeRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.LessonSupersedeRequestController",
+    "Method": "DeleteLessonSupersedeRequest",
+    "RelativePath": "api/LessonSupersedeRequest/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.LessonSupersedeRequestController",
+    "Method": "GetLessonSupersedeRequestModelByGroupId",
+    "RelativePath": "api/LessonSupersedeRequest/group/{GroupId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "GroupId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.LessonSupersedeRequestDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.LessonSupersedeRequestController",
+    "Method": "GetLessonSupersedeRequestModelByTeacherId",
+    "RelativePath": "api/LessonSupersedeRequest/teacher/{TeacherId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "TeacherId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.LessonSupersedeRequestDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MptRoomAPI.Controllers.PersonalDataController",
     "Method": "GetPersonalDatas",
     "RelativePath": "api/PersonalData",
@@ -1089,6 +1541,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.PersonalDataController",
+    "Method": "GetAvatar",
+    "RelativePath": "api/PersonalData/avatar/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.PersonalDataDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "MptRoomAPI.Controllers.PostController",
@@ -1333,6 +1811,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.PostThemeController",
+    "Method": "GetPostThemesByCourseId",
+    "RelativePath": "api/PostTheme/course/{course_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "course_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.PostThemeDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "MptRoomAPI.Controllers.StudentController",
@@ -1605,6 +2109,172 @@
     ]
   },
   {
+    "ContainingType": "MptRoomAPI.Controllers.SurveyAnswerController",
+    "Method": "GetSurveyAnswers",
+    "RelativePath": "api/SurveyAnswer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.SurveyAnswerDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.SurveyAnswerController",
+    "Method": "PostSurveyAnswerModel",
+    "RelativePath": "api/SurveyAnswer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "surveyAnswerDTO",
+        "Type": "MptRoomAPI.DTO.SurveyAnswerDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.SurveyAnswerDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.SurveyAnswerController",
+    "Method": "GetSurveyAnswerModel",
+    "RelativePath": "api/SurveyAnswer/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MptRoomAPI.DTO.SurveyAnswerDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.SurveyAnswerController",
+    "Method": "PutSurveyAnswerModel",
+    "RelativePath": "api/SurveyAnswer/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "surveyAnswerDTO",
+        "Type": "MptRoomAPI.DTO.SurveyAnswerDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.SurveyAnswerController",
+    "Method": "DeleteSurveyAnswerModel",
+    "RelativePath": "api/SurveyAnswer/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.SurveyAnswerController",
+    "Method": "GetSurveyAnswersByStudentId",
+    "RelativePath": "api/SurveyAnswer/post/{post_id}/student/{student_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "post_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "student_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.SurveyAnswerDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.SurveyAnswerController",
+    "Method": "GetSurveyAnswersByPost",
+    "RelativePath": "api/SurveyAnswer/post/{postId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "postId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.SurveyAnswerDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MptRoomAPI.Controllers.SurveyOptionController",
     "Method": "GetSurveyOptions",
     "RelativePath": "api/SurveyOption",
@@ -1714,6 +2384,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MptRoomAPI.Controllers.SurveyOptionController",
+    "Method": "GetSurveyOptionsByPostId",
+    "RelativePath": "api/SurveyOption/post/{post_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "post_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.SurveyOptionDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "MptRoomAPI.Controllers.TaskController",
     "Method": "GetTasks",
     "RelativePath": "api/Task",
@@ -1821,6 +2517,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.TaskController",
+    "Method": "GetTasksByPostId",
+    "RelativePath": "api/Task/post/{postId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "postId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.TaskDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "MptRoomAPI.Controllers.TaskController",
@@ -1953,6 +2675,104 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.TaskAnswerController",
+    "Method": "GetTaskAnswersByPost",
+    "RelativePath": "api/TaskAnswer/post/{post_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "post_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.TaskAnswerDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.TaskAnswerController",
+    "Method": "GetAssignedTaskAnswersByTeacher",
+    "RelativePath": "api/TaskAnswer/teacher/assigned/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MptRoomAPI.DTO.TaskAnswerDTO, MptRoomAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MptRoomAPI.Controllers.TaskAnswerController",
+    "Method": "UploadTaskFile",
+    "RelativePath": "api/TaskAnswer/upload-file",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "course",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "group",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "subject",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "student",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "studentId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "postId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

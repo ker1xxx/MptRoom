@@ -1,0 +1,31 @@
+<div class="panel-header" [style.background]="course$?.hexademicalColor"
+    [style.border-color]="course$?.hexademicalColor" (click)="navigateToCourse()">
+    <h2 class="course-title">{{ course$?.subjectName }}</h2>
+</div>
+
+<div class="info-panel" (click)="navigateToPosts()">
+    <div class="panel-header" [style.background]="darkerColors[0]">
+        <span>Посты</span>
+    </div>
+</div>
+
+<div class="info-panel" (click)="navigateToTasks()">
+    <div class="panel-header" [style.background]="darkerColors[1]">
+        <span>Задания</span>
+    </div>
+</div>
+
+<div class="info-panel" (click)="navigateToMaterials()">
+    <div class="panel-header" [style.background]="darkerColors[2]">
+        <span>Дополнительные материалы</span>
+    </div>
+</div>
+
+<div *ngIf="!course$" class="loading-skeleton">
+    <div class="loading-header"></div>
+    <div class="loading-panels">
+        <div class="loading-panel"></div>
+        <div class="loading-panel"></div>
+        <div class="loading-panel"></div>
+    </div>
+</div>

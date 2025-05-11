@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MptRoomAPI.DTO;
@@ -38,7 +41,8 @@ namespace MptRoomAPI.Controllers
                         Lastname = pd.Lastname,
                         Patronymic = pd.Patronymic,
                         PhoneNumber = pd.PhoneNumber,
-                        Email = pd.Email
+                        Email = pd.Email,
+                        AvatarAbsoluteUri = pd.AvatarAbsoluteUri,
                     })
                     .ToListAsync();
                 return Ok(personalDatas);
@@ -65,7 +69,8 @@ namespace MptRoomAPI.Controllers
                         Lastname = pd.Lastname,
                         Patronymic = pd.Patronymic,
                         PhoneNumber = pd.PhoneNumber,
-                        Email = pd.Email
+                        Email = pd.Email,
+                        AvatarAbsoluteUri = pd.AvatarAbsoluteUri,
                     })
                     .FirstOrDefaultAsync();
 
@@ -80,6 +85,102 @@ namespace MptRoomAPI.Controllers
             {
                 _logger.LogError(ex, $"Error retrieving personal data with ID {id}");
                 return StatusCode(500, "An error occurred while retrieving the personal data record.");
+            }
+        }
+
+        [HttpGet("avatar/{id}")]
+        [Authorize]
+        public async Task<ActionResult<PersonalDataDTO>> GetAvatar(int id)
+        {
+            try
+            {
+                var personalDataId = await _context.PersonalDatas.FirstOrDefaultAsync(pd => pd.PersonalDataId == id);
+
+                if (personalDataId == null)
+                {
+                    return NotFound($"User with personal data ID {id} not found.");
+                }
+
+                string directory = "D:\\mptroomfiles\\avatars\\";
+                var filePath = directory + personalDataId.PersonalDataId.ToString() + ".jpg";
+                if (filePath == null)
+                    return NotFound("Файл не найден в базе данных.");
+
+                if (!System.IO.File.Exists(filePath))
+                    return NotFound("Физический файл не найден на диске.");
+
+                var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
+                var contentType = GetContentType(filePath); // определяем тип контента
+
+                var fileName = Path.GetFileName(filePath);
+
+                return File(fileBytes, contentType, fileName);
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при получении файла с ID {FileId}", id);
+                return StatusCode(500, "Ошибка сервера при получении файла.");
+            }
+        }
+
+        [HttpPost("avatar")]
+        [Authorize]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<IActionResult> UpdateAvatar([FromForm] IFormFile file,
+        [FromForm] string userId)
+        {
+
+            try
+            {
+                if (file == null || file.Length == 0)
+                {
+                    return BadRequest("Файл пустой");
+                }
+
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == Convert.ToInt32(userId));
+
+                if (user == null)
+                    return NotFound("Пользователь не найден");
+                var personalDataId = user.PersonalDataId;
+
+                string directory = "D:\\mptroomfiles\\avatars";
+
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                var filePath = Path.Combine(directory, personalDataId.ToString() + ".jpg");
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var personalData = await _context.PersonalDatas.FirstOrDefaultAsync(pd => pd.PersonalDataId == personalDataId);
+                personalData!.AvatarAbsoluteUri = filePath;
+
+                _context.PersonalDatas.Update(personalData);
+
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetPersonalDataModel), new { id = personalData.PersonalDataId }, personalData);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogError(ex, "Concurrency error while updating personal data record");
+                return StatusCode(500, "An error occurred while updating the personal data record.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while updating personal data record");
+                return StatusCode(500, "An error occurred while updating the personal data record.");
             }
         }
 
@@ -109,7 +210,7 @@ namespace MptRoomAPI.Controllers
                 _context.Entry(personalData).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -166,7 +267,7 @@ namespace MptRoomAPI.Controllers
                 _context.PersonalDatas.Remove(personalData);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -178,6 +279,15 @@ namespace MptRoomAPI.Controllers
         private bool PersonalDataModelExists(int id)
         {
             return _context.PersonalDatas.Any(e => e.PersonalDataId == id);
+        }
+        private string GetContentType(string path)
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(path, out var contentType))
+            {
+                contentType = "application/octet-stream"; // если не определили — ставим дефолт
+            }
+            return contentType;
         }
     }
 }

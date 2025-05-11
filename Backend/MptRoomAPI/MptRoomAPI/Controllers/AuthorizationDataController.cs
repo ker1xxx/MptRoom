@@ -82,7 +82,7 @@ namespace MptRoomAPI.Controllers
 
         // PUT: api/AuthorizationData/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public async Task<IActionResult> PutAuthorizationDataModel(int? id, AuthorizationDataDTO authorizationDataDTO)
         {
             if (id == null || id != authorizationDataDTO.AuthorizationDataId)
@@ -107,7 +107,7 @@ namespace MptRoomAPI.Controllers
                 _context.Entry(authorizationData).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -169,7 +169,7 @@ namespace MptRoomAPI.Controllers
                 _context.AuthorizationDatas.Remove(authorizationDataModel);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

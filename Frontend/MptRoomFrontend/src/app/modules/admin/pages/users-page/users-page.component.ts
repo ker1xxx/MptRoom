@@ -82,11 +82,9 @@ export class UsersPageComponent {
   }
 
   private applyFilters() {
-    console.log(this.selectedGroupId);
     this.filteredStudents = this.selectedGroupId
       ? this.students.filter((s) => s.groupId === this.selectedGroupId)
       : [...this.students];
-    console.log(this.filteredStudents);
   }
 
   onGroupChange(groupId?: number) {
@@ -132,7 +130,6 @@ export class UsersPageComponent {
   }
 
   saveChanges() {
-    console.log(this.selectedItem);
     if (this.selectedItem?.userId != 0) {
       // Обновление существующего студента
       this.updateStudent();
@@ -163,12 +160,8 @@ export class UsersPageComponent {
         password: this.selectedItem!.password!, // Добавьте пароль в модель, если нужно
       }),
     ]).subscribe(([personalDataResponse, authDataResponse]) => {
-      console.log(personalDataResponse);
-      console.log(authDataResponse);
       newStudentDTO.personalDataId = personalDataResponse.personalDataId;
       newStudentDTO.authorizationDataId = authDataResponse.authorizationDataId;
-
-      console.log(newStudentDTO);
 
       // Теперь отправляем данные на создание студента
       this.api
@@ -223,7 +216,6 @@ export class UsersPageComponent {
       this.isEditMode = false;
     }
     this.isModalOpen = true;
-    console.log('isEditMode:', this.isEditMode);
   }
 
   private updateStudent() {

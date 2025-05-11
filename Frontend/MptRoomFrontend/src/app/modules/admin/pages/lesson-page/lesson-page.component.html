@@ -18,6 +18,7 @@
                 {{ teacher.lastname }} {{ teacher.name[0] }}.{{ teacher.patronymic?.[0] }}.
             </option>
         </select>
+        <button (click)="openSupersedeRequestsModal()" class="p-2 border rounded bg-white">Запросы на замены</button>
     </div>
 
     <!-- ТАБЛИЦА РАСПИСАНИЯ -->
@@ -141,5 +142,56 @@
         <div *ngIf="addLessonError" class="mt-4 text-red-600 text-sm">
             {{ addLessonError }}
         </div>
+    </div>
+
+</div>
+<div *ngIf="isSupersedeModalOpen" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 w-[800px] max-h-[80vh] overflow-y-auto relative shadow-lg">
+        <h2 class="text-xl font-bold mb-4">Запросы на замены</h2>
+
+        <div class="space-y-4">
+            <div *ngFor="let request of supersedeRequests" class="border rounded p-4">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h2 class="font-bold">{{request.teacherName}}</h2>
+                        <h3 class="font-semibold">{{ request.subjectName }}</h3>
+                        <p class="text-sm text-gray-600">{{ request.groupName }}</p>
+                        <p class="text-sm">{{ (request.dateToSupersede | russianDate).split(' ')[0] + '
+                            ' +
+                            (request.dateToSupersede | russianDate).split(' ')[1] }} ({{
+                            request.lessonSlotId + ' Пара'
+                            }})</p>
+                        <p class="text-sm">Запрос отправлен: {{ request.requestTime| russianDate }} </p>
+                    </div>
+                    <span class="text-sm px-2 py-1 rounded" [ngClass]="{
+                      'bg-yellow-100 text-yellow-800': request.supersedeRequestStatus === supersedeRequestStatus.sent,
+                      'bg-green-100 text-green-800': request.supersedeRequestStatus === supersedeRequestStatus.approved,
+                      'bg-red-100 text-red-800': request.supersedeRequestStatus === supersedeRequestStatus.declined
+                    }">
+                        {{ supersedeRequestToText(request.supersedeRequestStatus) }}
+                    </span>
+                </div>
+
+                <div class="flex gap-2 justify-end">
+                    <button (click)="updateRequestStatus(request.supersedeRequestId!, supersedeRequestStatus.approved)"
+                        class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
+                        Подтвердить
+                    </button>
+
+                    <button (click)="updateRequestStatus(request.supersedeRequestId!, supersedeRequestStatus.declined)"
+                        class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                        Отклонить
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="supersedeRequests.length === 0" class="text-center text-gray-500">
+                Нет активных запросов на замену
+            </div>
+        </div>
+
+        <button (click)="closeSupersedeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+            ✕
+        </button>
     </div>
 </div>

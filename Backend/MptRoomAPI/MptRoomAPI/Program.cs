@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+п»їusing Microsoft.EntityFrameworkCore;
 using MptRoomAPI.Models;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -6,137 +6,127 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MptRoomAPI.Services;
 using Prometheus;
+using Microsoft.Extensions.Options;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Добавление базы данных
-builder.Services.AddDbContext<MptRoomDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<IUserService, UserService>();
-
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var key = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]);
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+internal class Program
+{
+    private static void Main(string[] args)
     {
-        options.RequireHttpsMetadata = false;
-        options.SaveToken = true;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings["Issuer"],
-            ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
-        };
+        var builder = WebApplication.CreateBuilder(args);
 
-        options.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = context =>
+        // Р‘Р°Р·Р° РґР°РЅРЅС‹С…
+        builder.Services.AddDbContext<MptRoomDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        // РЎРµСЂРІРёСЃС‹
+        builder.Services.AddScoped<IUserService, UserService>();
+
+        // JWT Authentication
+        var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+        var key = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!);
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
             {
-                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
-                return Task.CompletedTask;
-            },
-            OnTokenValidated = context =>
-            {
-                Console.WriteLine($"Token validated: {context.SecurityToken}");
-                return Task.CompletedTask;
-            }
-        };
-    });
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("TeacherOnly", policy => policy.RequireRole("Teacher"));
-    options.AddPolicy("StudentOnly", policy => policy.RequireRole("Student"));
-});
-
-// Добавление контроллеров
-builder.Services.AddControllers();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAllOrigins", builder =>
- builder.WithOrigins("http://localhost:4200") // Укажите фронтенд
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials());
-});
-
-// Добавление Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    // Устанавливаем схему безопасности для Bearer Token
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please enter JWT with Bearer into field",
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecurityScheme
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                new string[] {}
-            }
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["Issuer"],
+                    ValidAudience = jwtSettings["Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+            });
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllOriginsWithCredentials", policy =>
+            {
+                policy
+                    .SetIsOriginAllowed(_ => true) // РїРѕР·РІРѕР»СЏРµС‚ Р»СЋР±РѕР№ Origin
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
         });
-});
 
-var app = builder.Build();
+        // РђРІС‚РѕСЂРёР·Р°С†РёСЏ
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+            options.AddPolicy("TeacherOnly", policy => policy.RequireRole("Teacher"));
+            options.AddPolicy("StudentOnly", policy => policy.RequireRole("Student"));
+        });
 
-app.UseCors("AllowAllOrigins");
+        // РљРѕРЅС‚СЂРѕР»Р»РµСЂС‹
+        builder.Services.AddControllers();
 
-// Включение Swagger в режиме разработки
+        // Swagger
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "My API",
+                Version = "v1"
+            });
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "JWT Authorization header using the Bearer scheme",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer"
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        // URL для вашего Swagger UI
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
     });
+        });
+
+        var app = builder.Build();
+
+        app.UseRouting();
+        app.UseCors("AllowAllOriginsWithCredentials"); // рџ’Ґ РІРѕС‚ С‚РµРїРµСЂСЊ СЂР°Р±РѕС‚Р°РµС‚ CORS
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        // Swagger
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger(options =>
+            {
+                options.RouteTemplate = "api/swagger/{documentName}/swagger.json";
+            });
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = "api/swagger";
+            });
+        }
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+
+        app.UseHttpMetrics();
+        app.MapMetrics();
+
+        app.Run();
+    }
 }
-
-//app.UseHttpsRedirection();
-builder.WebHost.UseUrls("http://localhost:5198", "https://localhost:7198");
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-
-app.UseHttpMetrics();
-
-
-var httpResponseCodes = Metrics.CreateCounter("http_response_codes", "Count of HTTP response codes", new CounterConfiguration
-{
-    LabelNames = new[] { "status_code" } // Добавляем метку для статуса
-});
-
-app.Use(async (context, next) =>
-{
-    // Выполняем запрос
-    await next.Invoke();
-
-    var statusCode = context.Response.StatusCode;
-
-    httpResponseCodes.Labels(statusCode.ToString()).Inc();
-
-});
-app.MapMetrics();
-
-app.Run();

@@ -1,0 +1,26 @@
+<div class="task-info-container" *ngIf="task$">
+    <div class="task-deadline">
+        <i class="calendar-icon"></i>
+        <span>Срок сдачи: {{ task$.dueTime | russianDate }}</span>
+    </div>
+
+    <div class="task-last-update">
+        <i class="update-icon"></i>
+        <span>Обновлено: {{ task$.lastUpdate | russianDate }}</span>
+    </div>
+</div>
+
+<div *ngIf="post$" class="task-description">
+    <strong>Описание:</strong> {{ post$.description }}
+</div>
+
+<div class="task-dashboard" *ngIf="totalAssigned !== null && totalSubmitted !== null">
+    <strong>Сдано:</strong> {{ totalSubmitted }} из {{ totalAssigned }} заданий
+</div>
+
+<!-- кнопки -->
+<div class="task-actions">
+    <button class="view-submissions-button" (click)="onViewSubmissions()">
+        📂 Посмотреть сданные работы
+    </button>
+</div>

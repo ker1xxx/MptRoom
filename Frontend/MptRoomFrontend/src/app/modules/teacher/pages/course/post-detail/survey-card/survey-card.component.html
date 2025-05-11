@@ -1,0 +1,20 @@
+<div class="survey-card">
+    <h2 class="title">{{ post.description }}</h2>
+    <p class="summary">
+        Ответили: {{ totalAnswered }} / {{ totalStudents }}
+    </p>
+
+    <div class="option-block" *ngFor="let option of options">
+        <div class="option-header" (click)="toggleOption(option.surveyOptionId!)">
+            <span class="option-text">{{ option.optionName }}</span>
+            <span class="option-count">({{ getAnswerCount(option.surveyOptionId!) }})</span>
+        </div>
+
+        <div class="respondents" *ngIf="expandedOptionId === option.surveyOptionId">
+            <div class="respondent" *ngFor="let r of getRespondents(option.surveyOptionId!)">
+                <span class="name">{{ r.fullName }}</span>
+                <span class="time">{{ r.time | russianDate}}</span>
+            </div>
+        </div>
+    </div>
+</div>

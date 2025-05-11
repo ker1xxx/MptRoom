@@ -100,7 +100,7 @@ namespace MptRoomAPI.Controllers
                 _context.Entry(housing).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -154,7 +154,7 @@ namespace MptRoomAPI.Controllers
                 _context.Housings.Remove(housing);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

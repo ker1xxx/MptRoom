@@ -115,6 +115,37 @@ namespace MptRoomAPI.Controllers
             }
         }
 
+        [HttpGet("teacher/{teacher_id}")]
+        [Authorize]
+        public async Task<ActionResult<CourseDTO>> GetCourseForTeacher(int teacher_id)
+        {
+            try
+            {
+                    var course = await _context.Courses
+                    .Where(c => c.TeacherId == teacher_id)
+                    .Select(c => new CourseDTO
+                    {
+                        CourseId = c.CourseId,
+                        GroupId = c.GroupId,
+                        SubjectId = c.SubjectId,
+                        TeacherId = c.TeacherId,
+                    })
+                    .ToListAsync();
+
+                if (course == null)
+                {
+                    return NotFound($"Course with Teacher Id {teacher_id} not found.");
+                }
+
+                return Ok(course);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving course with Teacher Id {teacher_id}");
+                return StatusCode(500, "An error occurred while retrieving the course.");
+            }
+        }
+
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PutCourseModel(int id, CourseDTO courseDTO)
@@ -139,7 +170,7 @@ namespace MptRoomAPI.Controllers
                 _context.Entry(course).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -194,7 +225,7 @@ namespace MptRoomAPI.Controllers
                 _context.Courses.Remove(course);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

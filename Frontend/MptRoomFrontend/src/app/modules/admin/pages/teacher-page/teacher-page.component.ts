@@ -27,7 +27,6 @@ export class TeacherPageComponent {
 
   ngOnInit() {
     this.loadTeachers();
-    console.log(this.teachers);
   }
 
   loadTeachers() {
@@ -95,7 +94,6 @@ export class TeacherPageComponent {
           subjects: [],
         };
     this.isModalOpen = true;
-    console.log(this.teachers);
   }
 
   closeModal() {
@@ -107,6 +105,7 @@ export class TeacherPageComponent {
     if (this.isEditMode && this.selectedTeacher?.userId) {
       // Если это режим редактирования, то обновляем персональные данные, а потом сохраняем преподавателя
       const personalDataDTO = {
+        personalDataId: this.selectedTeacher.personalDataId,
         name: this.selectedTeacher.name,
         lastname: this.selectedTeacher.lastname,
         patronymic: this.selectedTeacher.patronymic,
@@ -125,7 +124,7 @@ export class TeacherPageComponent {
             // Обновляем TeacherDTO
             const teacherDTO = {
               userId: this.selectedTeacher!.userId,
-              personalDataId: personalDataResponse.id,
+              personalDataId: this.selectedTeacher?.personalDataId,
               authorizationDataId: this.selectedTeacher!.authorizationDataId,
             };
 

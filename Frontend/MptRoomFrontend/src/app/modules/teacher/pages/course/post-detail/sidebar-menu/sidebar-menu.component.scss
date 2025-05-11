@@ -1,0 +1,199 @@
+.loading-skeleton {
+  background: var(--text-dark-color);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px;
+  
+  .loading-header {
+    height: 40px;
+    background: var(--text-dark-color);
+    border-radius: 6px;
+    margin-bottom: 20px;
+  }
+  
+  .loading-panels {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(3, 1fr);
+    
+    .loading-panel {
+      height: 120px;
+      background: var(--text-dark-color);
+      border-radius: 6px;
+    }
+  }
+}
+
+
+.panel-header {
+  padding: 10% 24px;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  transition: filter 0.2s ease;
+  border-left: none; // отключаем если не нужно
+  cursor: pointer;
+  
+  margin-top: 2vh;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.info-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+    .info-panel {
+        background-color: inherit;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: transform 0.2s ease;
+    cursor: pointer;
+
+        .panel-header {
+        font-size: 20px;
+        padding: 20px;
+        }
+
+        .panel-content {
+        padding: 16px;
+        }
+        &.active {
+        transform: translateX(10px);
+        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        
+        .panel-header {
+        filter: brightness(110%);
+        }
+    }
+  }
+}
+
+.posts-list {
+  width: 80rem;
+  margin: 24px auto;
+}
+
+.post-item {  
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 0 1px var(--block-background-color);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+    &:hover {
+    transform: translateY(-5px);
+  }
+
+  .post-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4caf50;
+
+    img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1); // Белая иконка
+    }
+  }
+
+  .post-title-block {
+    flex-grow: 1;
+
+    .post-author {
+      font-weight: 500;
+      color: #1a202c;
+    }
+
+    .post-title {
+      margin-top: 2px;
+      font-weight: 600;
+      color: var(--text-black-color);
+    }
+
+    .post-type {
+      font-size: 0.9rem;
+      color: var(--text-dark-color);
+    }
+  }
+
+  .post-date {
+    white-space: nowrap;
+    font-size: 0.85rem;
+      color: var(--text-dark-color);
+    margin-left: auto;
+  }
+
+  .post-body{
+    .post-text {
+      white-space: pre-line;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    &:hover {
+        text-decoration: underline;
+      }
+  }
+}
+
+.dropdown-container {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 20px; /* Дополнительный отступ для визуальной отделенности */
+}
+
+/* Стили для выпадающего списка с кнопками */
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 22vw; /* Ширина списка соответствует ширине кнопки */
+  z-index: 100;
+  position:absolute
+}
+
+/* Стили для кнопок внутри выпадающего списка */
+.dropdown button {
+  background-color: #f8f9fa;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: left;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  margin-bottom: 5px; /* Отступы между кнопками */
+  width: 100%; /* Ширина кнопки соответствует ширине списка */
+}
+
+.dropdown button:hover {
+  background-color: #e2e6ea;
+}
+
+/* Убираем последнюю границу между кнопками */
+.dropdown button:last-child {
+  margin-bottom: 0;
+}

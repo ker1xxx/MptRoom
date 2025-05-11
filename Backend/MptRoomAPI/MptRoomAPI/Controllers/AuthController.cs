@@ -3,8 +3,10 @@ using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Build.Execution;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
@@ -36,98 +38,86 @@ namespace MptRoomAPI.Controllers
         {
             var user = ((IUserService)_userService).Authenticate(model.Login, model.Password);
 
-            if (user == null)
-            {
-                return Unauthorized();
-            }
+            if (user == null) return Unauthorized();
+
             var accessToken = GenerateJwtToken(user);
             var refreshToken = GenerateRefreshToken();
-
             var role = ((IUserService)_userService).GetUserRole(user);
 
-            SaveRefreshToken(user, refreshToken);
+            _userService.SaveRefreshToken((int)user.UserId, refreshToken, DateTime.UtcNow.AddYears(1));
 
+            // Устанавливаем куки
             Response.Cookies.Append("access_token", (string)accessToken, new CookieOptions
             {
-                HttpOnly = false, // Защищает от доступа через JS
-                Secure = false, // Только по HTTP
-                SameSite = SameSiteMode.Strict, // Запрещает отправку cookie на сторонние сайты
-                Expires = DateTime.UtcNow.AddHours(1) // Время жизни токена
+                HttpOnly = false,
+                Secure = false,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddHours(1)
             });
 
-            return Ok(new { refreshToken, role });
+            Response.Cookies.Append("refresh_token", refreshToken, new CookieOptions
+            {
+                HttpOnly = false,
+                Secure = false,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddYears(1)
+            });
+
+            return Ok(new { role });
         }
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] RefreshTokenDTO refreshTokenDTO)
+        public async Task<ActionResult> Refresh()
         {
-            var refreshTokenEntity = await _context.RefreshTokens
-                .FirstOrDefaultAsync(rt => rt.Token == refreshTokenDTO.RefreshToken);
+            // Получаем токены из куков
+            var refreshToken = Request.Cookies["refresh_token"];
+            if (string.IsNullOrEmpty(refreshToken)) return Unauthorized();
 
-            if (refreshTokenEntity == null || refreshTokenEntity.ExpirationDate < DateTime.UtcNow)
-            {
-                return Unauthorized("Invalid or expired refresh token");
-            }
+            var storedToken = _userService.GetRefreshToken(refreshToken);
+            if (storedToken == null || storedToken.IsRevoked || storedToken.ExpirationDate < DateTime.UtcNow)
+                return Unauthorized();
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == refreshTokenEntity.UserId);
-            if (user == null)
-            {
-                return Unauthorized("User not found");
-            }
+            var user = await _userService.GetUserById(storedToken.UserId);
+            if (user == null) return Unauthorized();
 
             var newAccessToken = GenerateJwtToken(user);
             var newRefreshToken = GenerateRefreshToken();
 
-            refreshTokenEntity.Token = newRefreshToken;
-            refreshTokenEntity.ExpirationDate = DateTime.UtcNow.AddDays(30);
-            _context.SaveChanges();
+            _userService.SaveRefreshToken((int)user.UserId, newRefreshToken, DateTime.UtcNow.AddYears(1));
 
-            return Ok(new {accessToken = newAccessToken, refreshToken = newRefreshToken});
-        }
-
-        private void SaveRefreshToken(UserBase user, string refreshToken)
-        {
-            // Ищем существующий refresh token для этого пользователя
-            var existingToken = _context.RefreshTokens.FirstOrDefault(rt => rt.UserId == user.UserId);
-
-            if (existingToken != null)
+            // Обновляем куки
+            Response.Cookies.Append("access_token", (string)newAccessToken, new CookieOptions
             {
-                // Обновляем существующий refresh token
-                existingToken.Token = refreshToken;
-                existingToken.ExpirationDate = DateTime.UtcNow.AddDays(30);
-                _context.RefreshTokens.Update(existingToken);
-            }
-            else
+                HttpOnly = false,
+                Secure = false,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddHours(1)
+            });
+
+            Response.Cookies.Append("refresh_token", newRefreshToken, new CookieOptions
             {
-                // Добавляем новый refresh token
-                var refreshTokenEntity = new RefreshTokenModel
-                {
-                    UserId = (int)user.UserId,
-                    Token = refreshToken,
-                    ExpirationDate = DateTime.UtcNow.AddDays(30)
-                };
+                HttpOnly = false,
+                Secure = false,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddYears(1)
+            });
 
-                _context.RefreshTokens.Add(refreshTokenEntity);
-            }
-
-            // Сохраняем изменения в базе данных
-            _context.SaveChanges();
+            return Ok();
         }
 
         private string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
 
         private object GenerateJwtToken(UserBase user)
         {
             var claims = new List<Claim>
             {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Name, _context.AuthorizationDatas.FirstOrDefault(ad => ad.AuthorizationDataId == user.AuthorizationDataId).Login),
                 new Claim((string)ClaimTypes.SerialNumber, user.UserId.ToString()),
             };

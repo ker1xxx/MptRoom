@@ -64,11 +64,41 @@ namespace MptRoomAPI.Controllers
                 if (group == null)
                 {
                     _logger.LogError($"Attempt to find lessons for student {user_id} occurs failure");
-                    return NoContent();
+                    return Ok();
                 }
 
                 var lessons = await _context.Lessons
                     .Where(l => l.GroupId == group.GroupId)
+                    .OrderBy(l => l.DayOfWeek)
+                    .ThenBy(l => l.LessonNumberId)
+                    .Select(l => new LessonDTO
+                    {
+                        LessonId = l.LessonId,
+                        SubjectId = l.SubjectId,
+                        GroupId = l.GroupId,
+                        TeacherId = l.TeacherId,
+                        DayOfWeek = l.DayOfWeek,
+                        WeekType = l.WeekType,
+                        LessonNumberId = l.LessonNumberId,
+                        HousingId = l.HousingId,
+                    })
+                    .ToListAsync();
+                return Ok(lessons);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving lessons");
+                return StatusCode(500, "An error occurred while retrieving lessons.");
+            }
+        }
+        [HttpGet("teacher/{user_id}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<LessonDTO>>> GetLessonsForTeacher(int user_id)
+        {
+            try
+            {
+                var lessons = await _context.Lessons
+                    .Where(l => l.TeacherId == user_id)
                     .OrderBy(l => l.DayOfWeek)
                     .ThenBy(l => l.LessonNumberId)
                     .Select(l => new LessonDTO
@@ -103,7 +133,7 @@ namespace MptRoomAPI.Controllers
                 if (group == null)
                 {
                     _logger.LogError($"Attempt to find lessons for group {group_id} occurs failure");
-                    return NoContent();
+                    return Ok();
                 }
 
                 var lessons = await _context.Lessons
@@ -194,7 +224,7 @@ namespace MptRoomAPI.Controllers
                 _context.Entry(lesson).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -253,7 +283,7 @@ namespace MptRoomAPI.Controllers
                 _context.Lessons.Remove(lesson);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

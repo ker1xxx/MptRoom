@@ -4,7 +4,7 @@ import { DayOfWeekEnum } from '../../../../models/enums/day-of-week.enum';
 import { WeekTypeEnum } from '../../../../models/enums/week-type.enum';
 import { LessonViewModel } from '../../../../models/VM/lesson.viewmodel';
 import { ApiService } from '../../../../services/api.service';
-import { forkJoin, Observable, map, switchMap, of } from 'rxjs';
+import { forkJoin, Observable, map, switchMap, of, catchError } from 'rxjs';
 import { GroupDTO } from '../../../../models/DTO/group.dto';
 import { HousingDTO } from '../../../../models/DTO/housing.dto';
 import { PersonalDataDTO } from '../../../../models/DTO/personal-data.dto';
@@ -16,10 +16,15 @@ import { FormsModule } from '@angular/forms';
 import { TeacherViewModel } from '../../../../models/VM/teacher.viewmodel';
 import { AuthorizationDataDTO } from '../../../../models/DTO/authorization-data.dto';
 import { AdminHeaderComponent } from '../../shared/header/header.component';
+import { LessonSupersedeRequestViewModel } from '../../../../models/VM/lesson-supersede-request.viewmodel';
+import { LessonSupersedeRequestDTO } from '../../../../models/DTO/lesson-supersede-request.dto';
+import { SupersedeRequestStatus } from '../../../../models/enums/supersede-request-status.enum';
+import { NotificationService } from '../../../../services/notification.service';
+import { RussianDatePipe } from '../../../../helper/RussianDatePipe';
 
 @Component({
   selector: 'app-lesson-page',
-  imports: [CommonModule, FormsModule, AdminHeaderComponent],
+  imports: [CommonModule, FormsModule, AdminHeaderComponent, RussianDatePipe],
   templateUrl: './lesson-page.component.html',
   styleUrl: './lesson-page.component.scss',
 })
@@ -80,9 +85,14 @@ export class LessonScheduleComponent implements OnInit {
 
   selectedWeekType: WeekTypeEnum | null = null;
 
+  isSupersedeModalOpen = false;
+  supersedeRequests: LessonSupersedeRequestViewModel[] = [];
+  supersedeRequestStatus = SupersedeRequestStatus;
+
   constructor(
     private apiService: ApiService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -106,20 +116,19 @@ export class LessonScheduleComponent implements OnInit {
   loadLessons(): void {
     this.apiService.get<LessonDTO[]>('Lesson').subscribe({
       next: (lessonsDto) => {
-        console.log(lessonsDto); // Для логирования данных
         const lessonViewModels$ = lessonsDto.map((dto) =>
           this.mapLessonDtoToViewModel(dto)
         );
 
         forkJoin(lessonViewModels$).subscribe((viewModels) => {
-          console.log('Mapped ViewModels: ', viewModels);
           this.lessons = [...viewModels]; // Используй новый массив
           this.applyFilters();
           this.cdRef.detectChanges(); // Запускаем обновление изменений вручную
         });
       },
       error: (err) => {
-        console.error('Ошибка при получении данных:', err); // Логирование ошибки
+        console.error(err);
+        this.notificationService.show('❌ Ошибка при загрузке пар', 'error');
       },
     });
   }
@@ -156,7 +165,6 @@ export class LessonScheduleComponent implements OnInit {
   }
 
   mapLessonDtoToViewModel(dto: LessonDTO): Observable<LessonViewModel> {
-    console.log('Mapping DTO: ', dto);
     return this.apiService.getById<TeacherDTO>('Teacher', dto.teacherId).pipe(
       switchMap((teacher) => {
         // Получаем Teacher, затем делаем запрос для PersonalData
@@ -190,8 +198,11 @@ export class LessonScheduleComponent implements OnInit {
               lessonTime,
             }) => ({
               LessonId: dto.lessonId!,
+              SubjectId: subject.subjectId!,
               SubjectName: subject.subjectName,
+              GroupId: group.groupId!,
               GroupName: group.groupName,
+              TeacherId: teacherData.userId!,
               TeacherName: `${personalData.lastname} ${personalData.name[0]}. ${
                 personalData.patronymic?.[0] ? personalData.patronymic[0] : ''
               }.`,
@@ -335,8 +346,6 @@ export class LessonScheduleComponent implements OnInit {
     );
 
     const uniqueHousings = new Set(dayLessons.map((l) => l.HousingName));
-    console.log(uniqueHousings);
-    console.log(this.getHousingNameById(payload.housingId));
     if (
       uniqueHousings.size > 0 &&
       !uniqueHousings.has(this.getHousingNameById(payload.housingId))
@@ -403,7 +412,6 @@ export class LessonScheduleComponent implements OnInit {
   loadGroups() {
     this.apiService.get<GroupDTO[]>('Group').subscribe((data) => {
       this.groups = data;
-      console.log(data);
     });
   }
 
@@ -462,16 +470,22 @@ export class LessonScheduleComponent implements OnInit {
       lessonNumberId: this.selectedLessonNumber!,
     };
 
-    console.log(lessonId);
-
     this.apiService.put<LessonDTO>('Lesson', payload, lessonId).subscribe({
       next: () => {
         this.loadLessons();
         this.closeModal();
+        this.notificationService.show('✅ Пара успешно сохранена', 'success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       },
       error: (err) => {
         console.error('Ошибка обновления:', err);
         this.addLessonError = 'Ошибка при обновлении урока: ' + err.error;
+        this.notificationService.show(
+          '❌ Ошибка при добавлении пары.',
+          'error'
+        );
       },
     });
   }
@@ -509,9 +523,155 @@ export class LessonScheduleComponent implements OnInit {
         },
         error: (err) => {
           console.error('Ошибка удаления:', err);
-          alert('Не удалось удалить урок');
+          this.notificationService.show('❌ Ошибка при удалении пары', 'error');
         },
       });
     }
+  }
+
+  openSupersedeRequestsModal() {
+    this.isSupersedeModalOpen = true;
+    this.loadSupersedeRequests();
+  }
+
+  closeSupersedeModal() {
+    this.isSupersedeModalOpen = false;
+  }
+
+  private loadSupersedeRequests() {
+    this.apiService
+      .get<LessonSupersedeRequestDTO[]>('LessonSupersedeRequest')
+      .pipe(
+        switchMap((requests) =>
+          forkJoin(
+            requests.map((request) =>
+              this.mapSupersedeRequestToViewModel(request)
+            )
+          )
+        )
+      )
+      .subscribe({
+        next: (requests) => (this.supersedeRequests = requests),
+        error: (err) => console.error('Ошибка загрузки запросов:', err),
+      });
+  }
+
+  private mapSupersedeRequestToViewModel(
+    dto: LessonSupersedeRequestDTO
+  ): Observable<LessonSupersedeRequestViewModel> {
+    return this.apiService.getById<TeacherDTO>('Teacher', dto.teacherId).pipe(
+      switchMap((teacher) => {
+        if (!teacher.personalDataId) {
+          throw new Error('У преподавателя отсутствуют персональные данные');
+        }
+
+        return forkJoin({
+          teacherData: of(teacher),
+          personalData: this.apiService.getById<PersonalDataDTO>(
+            'PersonalData',
+            teacher.personalDataId
+          ),
+          group: this.apiService.getById<GroupDTO>('Group', dto.groupId),
+          subject: this.apiService.getById<SubjectDTO>(
+            'Subject',
+            dto.subjectId
+          ),
+          slot: this.apiService.getById<LessonSlotDTO>(
+            'LessonSlot',
+            dto.lessonSlotId
+          ),
+        });
+      }),
+      map(({ teacherData, personalData, group, subject, slot }) => ({
+        ...dto,
+        teacherName: `${personalData.lastname} ${personalData.name[0]}. ${
+          personalData.patronymic?.[0] ?? ''
+        }.`,
+        groupName: group.groupName,
+        subjectName: subject.subjectName,
+        lessonSlotName: `${slot.lessonStart} - ${slot.lessonEnd}`,
+        requestTime: dto.requestTime,
+        dateToSupersede: dto.dateToSupersede,
+      })),
+      catchError((error) => {
+        console.error('Ошибка загрузки данных:', error);
+        return of({
+          ...dto,
+          teacherName: 'Неизвестный преподаватель',
+          groupName: 'Группа не найдена',
+          subjectName: 'Предмет не найден',
+          lessonSlotName: 'Время не указано',
+        } as LessonSupersedeRequestViewModel);
+      })
+    );
+  }
+
+  supersedeRequestToText(status: SupersedeRequestStatus): string {
+    switch (status) {
+      case SupersedeRequestStatus.sent:
+        return 'Запрос отправлен';
+      case SupersedeRequestStatus.approved:
+        return 'Замена утверждена';
+      case SupersedeRequestStatus.declined:
+        return 'Запрос отклонен';
+    }
+  }
+
+  updateRequestStatus(requestId: number, newStatus: SupersedeRequestStatus) {
+    // Получаем полные данные запроса
+    const request = this.supersedeRequests.find(
+      (r) => r.supersedeRequestId === requestId
+    );
+
+    if (!request) {
+      this.notificationService.show('❌ Запрос не найден', 'error');
+      return;
+    }
+
+    // Формируем DTO для обновления
+    const dtoToSend: LessonSupersedeRequestDTO = {
+      supersedeRequestId: request.supersedeRequestId,
+      teacherId: request.teacherId,
+      groupId: request.groupId,
+      dateToSupersede: request.dateToSupersede,
+      lessonSlotId: request.lessonSlotId,
+      subjectId: request.subjectId,
+      requestTime: request.requestTime,
+      supersedeRequestStatus: newStatus,
+      supersedeRequestType: request.supersedeRequestType,
+    };
+
+    // Отправляем PUT запрос
+    this.apiService
+      .put<LessonSupersedeRequestDTO>(
+        'LessonSupersedeRequest',
+        dtoToSend,
+        requestId
+      )
+      .subscribe({
+        next: () => {
+          // Обновляем статус в локальном списке
+          this.supersedeRequests = this.supersedeRequests.map((r) =>
+            r.supersedeRequestId === requestId
+              ? { ...r, supersedeRequestStatus: newStatus }
+              : r
+          );
+
+          this.notificationService.show(
+            '✅ Статус успешно обновлен',
+            'success'
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        },
+        error: (err) => {
+          console.error('Ошибка обновления:', err);
+          this.notificationService.show(
+            `Ошибка обновления: ${err.message}`,
+            'error'
+          );
+        },
+      });
   }
 }

@@ -23,37 +23,6 @@ services:
     networks:
       - monitoring
 
-  influxdb:
-    image: influxdb:latest
-    ports:
-      - "8086:8086"
-    volumes:
-      - influxdb_data:/var/lib/influxdb
-      - ect_influxdb2_data:/etc/influxdb
-    restart: always
-    networks:
-      - monitoring
-
-  telegraf:
-    image: telegraf:latest
-    container_name: telegraf
-    depends_on: 
-      - influxdb
-    volumes:
-      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /sys:/rootfs/sys:ro
-      - /proc:/rootfs/proc:ro
-      - /etc:/rootfs/etc:ro
-    environment:
-      HOST_PROC: /rootfs/proc
-      HOST_SYS: /rootfs/sys
-      HOST_ETC: /rootfs/etc
-    privileged: true
-    restart: always
-    networks:
-      - monitoring
-
 networks:
   monitoring:
 

@@ -13,6 +13,9 @@ export function initializeApp(api: ApiService, auth: AuthService) {
     // Ensure `auth` is injected properly and `getUserRole` is not undefined.
     if (auth && auth.getUserRole() === 'Student') {
       return api.getStudent(); // Fetch student data only if the role is Student
+    }
+    if (auth && auth.getUserRole() === 'Teacher') {
+      return api.getTeacher();
     } else {
       return null;
     }

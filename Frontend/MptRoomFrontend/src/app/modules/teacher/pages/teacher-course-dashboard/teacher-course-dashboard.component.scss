@@ -1,0 +1,101 @@
+.work-container {
+  width: 18vw;
+  height: 24vh;
+  margin: 5% auto;
+  padding: 2%;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.courses-container{
+    margin-top: 2%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    flex-direction: row;
+    gap: 5%;
+    border-top: 2px solid var(--text-purple-color);
+    border-bottom: 2px solid var(--text-purple-color);
+    border-radius: 14px;
+}
+
+.subject-title {
+  color: var(--background-light-color);
+  font-size: 1.65rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.teacher-name {
+  color:var(--background-light-color);
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  font-style: italic;
+}
+
+.work-details {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.work-number {
+  color: #3498db;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.work-number::before {
+  content: '📌';
+  font-size: 1.1em;
+}
+
+.deadline {
+  color: #e74c3c;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  padding: 12px;
+  background: #fff5f5;
+  border-radius: 6px;
+  border-left: 4px solid #e74c3c;
+}
+
+.deadline::before {
+  content: '⏳';
+  font-size: 1.2em;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+  .work-container {
+    margin: 10px;
+    padding: 15px;
+  }
+  
+  .subject-title {
+    font-size: 1.4rem;
+  }
+  
+  .work-number {
+    font-size: 1.1rem;
+  }
+}
+
+.course-card{
+  transition: transform 0.2s ease;
+    &:hover {
+    transform: translateY(-10px);
+  }
+}

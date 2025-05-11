@@ -1,1 +1,13 @@
-<p>forbidden works!</p>
+<div class="error-container">
+    <div class="error-content">
+        <h1 class="error-code">404</h1>
+        <h2 class="error-message">Страница не найдена</h2>
+        <p class="error-description">
+            Извините, мы не смогли найти страницу, которую вы искали. Возможно, ссылка устарела или была удалена.
+        </p>
+        <div class="button-container">
+            <button class="btn-primary" (click)="goToLogin()">Перейти на страницу входа</button>
+            <button class="btn-secondary" (click)="goBack()">Назад</button>
+        </div>
+    </div>
+</div>

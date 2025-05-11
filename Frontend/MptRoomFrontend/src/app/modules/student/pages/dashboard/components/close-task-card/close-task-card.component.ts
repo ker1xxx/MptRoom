@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { TaskStatusEnum } from '../../../../../../models/enums/task-status.enum';
 import { CommonModule } from '@angular/common';
+import { RussianDatePipe } from '../../../../../../helper/RussianDatePipe';
 
 @Component({
   selector: 'close-task-card',
-  imports: [CommonModule],
+  imports: [CommonModule, RussianDatePipe],
   templateUrl: './close-task-card.component.html',
   styleUrl: './close-task-card.component.scss',
 })

@@ -17,7 +17,8 @@ namespace MptRoomAPI.Models
         public CourseModel Course { get; set; }
         public TeacherModel Teacher { get; set; }
 
-
-        public List<TaskAnswerModel> TaskAnswers { get; set; }
+        public List<AdditionalMaterialModel> Materials { get; set; }
+        public List<CommentModel> Comments { get; set; }
+        public List<TaskModel> Tasks { get; set; }
     }
 }

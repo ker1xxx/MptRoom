@@ -1,0 +1,88 @@
+<teacher-header [user]="user!"></teacher-header>
+<div class="course-container">
+    <!-- Меню слева (компонент) -->
+    <teacher-sidebar-menu [course$]="course$ | async"></teacher-sidebar-menu>
+
+    <!-- Основной контент -->
+    <div class="content-area">
+        <div *ngIf="!isLoading && post$">
+            <div class="task-container">
+                <teacher-post-header [post]="post$"></teacher-post-header>
+
+                <div class="post-content">
+                    <ng-container [ngSwitch]="post$.type">
+                        <teacher-task-card *ngSwitchCase="postType.Task" [postId]="post$.id" [user]="user!" #postContent
+                            [course$]="course$!"></teacher-task-card>
+                        <teacher-additional-material-card *ngSwitchCase="postType.AdditionalMaterials" #postContent
+                            [postId]="post$.id"></teacher-additional-material-card>
+                        <teacher-survey-card *ngSwitchCase="postType.Survey" [post]="post$" #postContent
+                            [course$]="course$ | async"></teacher-survey-card>
+                        <div *ngSwitchDefault>Тип поста не поддерживается</div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <!-- Контейнер для кнопок -->
+            <div class="button-container">
+                <button class="edit-button" (click)="onEditTask()">
+                    ✏️ Редактировать пост
+                </button>
+                <button class="delete-button" (click)="onDeleteTask()">
+                    ❌ Удалить пост
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <teacher-post-modal *ngIf="isModalOpen" [postType]="post$.type" [isEdit]="true" [post]="postDTO" [TaskDTO]="TaskDTO"
+        [SurveyOptions]="SurveyOptions" [AdditionalMaterials]="AdditionalMaterials" [postThemes]="postThemes"
+        (savePost)="onSavePost($event)" (close)="onCancel()">
+    </teacher-post-modal>
+    <div *ngIf="course$ | async as course">
+
+        <aside class="comments-sidebar">
+            <div class="comments-header">
+                <h3>Комментарии</h3>
+                <span class="comments-count">{{ Comments.length }}</span>
+            </div>
+
+            <div class="comments-list" *ngFor="let comment of Comments">
+                <div class="comment">
+                    <div class="comment-header">
+                        <div class="author-info">
+                            <img [src]="comment.authorAvatar || 'assets/images/user_icon_not_found_100px.png'"
+                                class="avatar" />
+                            <div class="author-meta">
+                                <span class="author-name">{{ comment.authorName }}</span>
+                                <span class="comment-time">{{ comment.date | russianDate }}</span>
+                            </div>
+                        </div>
+
+                        <div *ngIf="comment.authorId == user?.userId" @popupAnimation class="comment-menu-container">
+                            <button (click)="toggleMenu(comment.commentId!)" class="menu-button">⋯</button>
+
+                            <div *ngIf="selectedCommentId === comment.commentId" class="popup-menu">
+                                <button (click)="onDeleteComment(comment.commentId!)"
+                                    class="delete-button">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="comment-text">{{ comment.commentText }}</p>
+                </div>
+            </div>
+
+            <form class="new-comment" (submit)="submitComment($event)">
+                <div class="input-wrapper">
+                    <div class="comment-input" contenteditable="true" role="textbox" aria-multiline="true"
+                        (input)="onInputChange($event)" placeholder="Добавить комментарий..." #editableDiv></div>
+
+                    <button type="submit" [style.background]="course?.hexademicalColor" class="send-button">
+                        Отправить
+                    </button>
+                </div>
+            </form>
+        </aside>
+
+    </div>
+</div>

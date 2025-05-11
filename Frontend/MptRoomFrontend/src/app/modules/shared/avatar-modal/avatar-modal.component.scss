@@ -1,0 +1,152 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* затемнение */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  color: #333;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+input[type="file"] {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.preview {
+  margin-top: 1rem;
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  object-fit: contain;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0.25rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:first-of-type {
+  background-color: #4caf50;
+  color: white;
+}
+
+button:first-of-type:hover {
+  background-color: #43a047;
+}
+
+button:last-of-type {
+  background-color: #f44336;
+  color: white;
+}
+
+button:last-of-type:hover {
+  background-color: #e53935;
+}
+
+.drag-drop-zone {
+  position: relative;
+  border: 3px dashed var(--text-purple-color);
+  border-radius: 20px;
+  background: var(--background-light-color);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover:not(.dragging) {
+    border-color: var(--even-week-background-color);
+    background: var(--task-submitted-light-color);
+  }
+
+  &.dragging {
+    border-color: var(--odd-week-background-color);
+    background: var(--task-appointed-light-color);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(45deg, 
+        var(--task-submitted-light-color) 0%,
+        var(--background-light-color) 50%,
+        var(--task-submitted-light-color) 100%
+      );
+      animation: pulse-border 2s infinite;
+      z-index: -1;
+    }
+  }
+
+  .zone-content {
+    padding: 2rem;
+    text-align: center;
+  }
+}
+
+.instructions {
+  h3 {
+    color: var(--text-black-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  p {
+    color: var(--text-dark-color);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+}
+
+.formats {
+  color: var(--text-dark-color);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.file-input{
+    visibility: collapse !important;
+    display: none !important;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

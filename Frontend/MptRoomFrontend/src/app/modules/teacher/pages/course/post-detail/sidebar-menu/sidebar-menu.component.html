@@ -1,0 +1,49 @@
+<div class="panel-header" [style.background]="course$?.hexademicalColor"
+    [style.border-color]="course$?.hexademicalColor" (click)="navigateToCourse()">
+    <h2 class="course-title">{{ course$?.subjectName }}</h2>
+</div>
+
+<div class="info-panel" (click)="navigateToPosts()">
+    <div class="panel-header" [style.background]="darkerColors[0]">
+        <span>Посты</span>
+    </div>
+</div>
+
+<div class="info-panel" (click)="navigateToTasks()">
+    <div class="panel-header" [style.background]="darkerColors[1]">
+        <span>Задания</span>
+    </div>
+</div>
+
+<div class="info-panel" (click)="navigateToMaterials()">
+    <div class="panel-header" [style.background]="darkerColors[2]">
+        <span>Дополнительные материалы</span>
+    </div>
+</div>
+<div class="info-panel" (click)="toggleDropdown()">
+    <!-- Кнопка, по клику на которую появляются другие кнопки -->
+    <div class="panel-header" [style.background]="darkerColors[3]">
+        <span>Добавить публикацию</span>
+    </div>
+
+    <!-- Выпадающий список с кнопками, который появляется после клика -->
+    <div *ngIf="dropdownVisible" class="dropdown">
+        <button (click)="openCreatePostModal(PostTypeEnum.Post)">Создать пост</button>
+        <button (click)="openCreatePostModal(PostTypeEnum.Task)">Создать задание</button>
+        <button (click)="openCreatePostModal(PostTypeEnum.AdditionalMaterials)">Добавить материалы</button>
+        <button (click)="openCreatePostModal(PostTypeEnum.Survey)">Создать опрос</button>
+    </div>
+</div>
+
+<!-- Модальное окно для создания/редактирования поста -->
+<teacher-post-modal *ngIf="isModalOpen" [postType]="selectedPostType" [isEdit]="isEdit" [postThemes]="postThemes"
+    (savePost)="onSavePost($event)" (close)="onCancel()"></teacher-post-modal>
+
+<div *ngIf="!course$" class="loading-skeleton">
+    <div class="loading-header"></div>
+    <div class="loading-panels">
+        <div class="loading-panel"></div>
+        <div class="loading-panel"></div>
+        <div class="loading-panel"></div>
+    </div>
+</div>

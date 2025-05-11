@@ -1,5 +1,6 @@
-export interface AdditionalInterfaceDTO {
+export interface AdditionalMaterialDTO {
   additionalMaterialId?: number;
   uriAbsolutePath: string;
   userId: number;
+  postId: number;
 }

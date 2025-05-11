@@ -1,0 +1,127 @@
+<div class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>{{ isEdit ? 'Редактировать' : 'Создать' }} пост</h2>
+            <button class="close-btn" (click)="cancel()">×</button>
+        </div>
+
+        <form #postForm="ngForm" (ngSubmit)="save(postForm)">
+            <div class="form-group">
+                <label for="postTitle">Название</label>
+                <input type="text" id="postTitle" [(ngModel)]="selectedPost.postTitle" name="postTitle"
+                    placeholder="Введите название поста" required />
+            </div>
+
+            <div class="form-group">
+                <label for="postDescription">Описание</label>
+                <textarea id="postDescription" [(ngModel)]="selectedPost.postDescription" name="postDescription"
+                    placeholder="Введите описание поста"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="postThemeId">Тема</label>
+                <select [(ngModel)]="selectedPost.postThemeId" name="themeId" (change)="onThemeChange($event)"
+                    class="w-full p-2 border rounded">
+                    <option *ngFor="let theme of postThemes" [value]="theme.postThemeId">{{ theme.postThemeText }}
+                    </option>
+                    <option [value]="NEW_THEME_ID">Новая тема</option>
+                </select>
+
+                <!-- Появляется поле ввода для новой темы, если выбрана опция "Новая тема" -->
+                <div *ngIf="showNewThemeInput" class="mt-2">
+                    <label for="newTheme" class="block">Введите новую тему</label>
+                    <input type="text" id="newTheme" [(ngModel)]="newThemeText" name="newTheme"
+                        class="w-full p-2 border rounded" />
+                </div>
+            </div>
+
+            <div *ngIf="postType === postTypeEnum.Task">
+                <div class="task-form">
+                    <div class="form-group">
+                        <label for="dueDate">Дата сдачи</label>
+                        <input type="text" #dueDateInput class="input" [(ngModel)]="dueDate"
+                            [ngModelOptions]="{standalone: true}" placeholder="Выберите дату" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dueTime">Время сдачи</label>
+                        <input type="text" #dueTimeInput class="input" [(ngModel)]="dueTime"
+                            [ngModelOptions]="{standalone: true}" placeholder="Выберите время" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="maxMark">Максимальная оценка</label>
+                        <input type="number" id="maxMark" [(ngModel)]="selectedPost.maxMark"
+                            [ngModelOptions]="{standalone: true}" class="input" placeholder="Максимальная оценка" />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div *ngIf="postType === postTypeEnum.AdditionalMaterials">
+                <div class="form-group">
+                    <div class="upload-container">
+                        <div class="drag-drop-zone" [class.dragging]="isDragging"
+                            [class.has-file]="selectedFiles.length > 0" (drop)="onDrop($event)"
+                            (dragover)="onDragOver($event)" (dragleave)="onDragLeave()" (click)="onClickFileInput()">
+
+                            <div class="zone-content">
+                                <i class="upload-icon"></i>
+
+                                <div class="instructions" *ngIf="selectedFiles.length === 0">
+                                    <h3>Перетащите файлы сюда</h3>
+                                    <p>или нажмите для выбора</p>
+                                    <div class="formats">Поддерживаемые форматы: PNG, JPG, PDF, DOC/XLS, PPTX, TXT, ZIP,
+                                        RAR, 7ZIP</div>
+                                </div>
+
+                                <div class="file-previews" *ngIf="selectedFiles.length > 0">
+                                    <div *ngFor="let file of selectedFiles; let i = index" class="file-preview">
+                                        <div class="preview-wrapper">
+                                            <img *ngIf="previewUrls[i]" [src]="previewUrls[i]" class="file-thumbnail">
+                                            <div *ngIf="!previewUrls[i]" class="file-icon"></div>
+                                        </div>
+                                        <div class="file-meta">
+                                            <div class="file-name">{{ file.name }}</div>
+                                            <div class="file-size">{{ file.size | number }} bytes</div>
+                                            <button class="remove-file" (click)="removeFile(i)">Удалить</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="file" #fileInput class="file-input" (change)="onFileSelected($event)"
+                                accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.pptx,.zip,.rar,.7zip" multiple>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div *ngIf="postType === postTypeEnum.Survey">
+                <div class="form-group">
+                    <label for="newSurveyOption">Добавить вариант ответа</label>
+                    <div class="flex gap-2 mb-2">
+                        <input type="text" id="newSurveyOption" [(ngModel)]="newSurveyOption" name="newSurveyOption"
+                            class="flex-1 p-2 border rounded" placeholder="Введите вариант" />
+                        <button type="button" (click)="addSurveyOption()"
+                            class="px-3 py-2 bg-blue-500 text-white rounded">
+                            Добавить
+                        </button>
+                    </div>
+
+                    <div *ngFor="let option of surveyOptions; let i = index" class="flex items-center gap-2 mb-1">
+                        <span class="flex-1">{{ option }}</span>
+                        <button type="button" (click)="removeSurveyOption(i)"
+                            class="text-red-500 text-xl font-bold">×</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="cancel-btn" (click)="cancel()">Отмена</button>
+                <button type="submit" class="save-btn" [disabled]="postForm.invalid">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="post-header-container">
+    <div class="post-header-content">
+        <p class="post-title">{{ post.title }}</p>
+
+        <div class="post-meta-grid">
+            <div class="post-theme">
+                <span class="meta-label">Тема:</span>
+                <span class="meta-value">{{ post.theme }}</span>
+            </div>
+
+            <div class="post-author">
+                <span class="meta-label">Автор:</span>
+                <span class="meta-value">{{ post.author }}</span>
+            </div>
+
+            <div class="post-date">
+                <span class="meta-label">Опубликовано:</span>
+                <span class="meta-value">{{ post.date| russianDate }}</span>
+            </div>
+        </div>
+    </div>
+</div>

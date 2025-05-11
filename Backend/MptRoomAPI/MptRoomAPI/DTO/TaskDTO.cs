@@ -4,7 +4,8 @@ namespace MptRoomAPI.DTO
 {
     public class TaskDTO
     {
-        public int? PostId { get; set; }
+        public int? TaskId { get; set; }
+        public int PostId { get; set; }
         public DateTime DueTime { get; set; }
         public int SubjectId { get; set; }
         public int TeacherId { get; set; }

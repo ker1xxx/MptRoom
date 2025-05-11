@@ -5,4 +5,5 @@ export interface PersonalDataDTO {
   patronymic?: string;
   phoneNumber: string;
   email: string;
+  avatarAbsoluteUri?: string;
 }

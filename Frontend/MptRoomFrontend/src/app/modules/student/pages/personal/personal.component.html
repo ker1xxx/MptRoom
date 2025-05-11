@@ -1,0 +1,55 @@
+<student-header [user]="student"></student-header>
+
+<body class="body-main">
+    <div class="profile-container">
+        <!-- Профиль -->
+        <div class="panel profile-header">
+            <div class="avatar-wrapper">
+                <div class="avatar-image-container">
+                    <img [src]="avatarUrl || 'assets/images/user_icon_not_found_100px.png'" alt="Аватар"
+                        class="avatar-image" />
+                    <button class="avatar-change-btn" (click)="onAvatarChange()">✎</button>
+                </div>
+            </div>
+            <div class="profile-info" *ngIf="studentVM$ | async as vm">
+                <h2>{{ vm.lastname }} {{ vm.name }} {{ vm.patronymic }}</h2>
+                <p>Логин: {{ vm.login }}</p>
+                <p>Почта: {{ vm.email }}</p>
+                <p>Группа: {{ vm.groupName }}</p>
+            </div>
+        </div>
+
+        <!-- Смена пароля -->
+        <div class="panel">
+            <h3 class="panel-header">Сменить пароль</h3>
+            <div class="password-form">
+                <input [(ngModel)]="newPassword" type="password" placeholder="Новый пароль" />
+                <button (click)="changePassword()">Сменить</button>
+            </div>
+        </div>
+
+        <!-- Несданные задания -->
+        <div class="panel">
+            <h3 class="panel-header">Несданные работы: {{ unsubmittedWorksCount$ | async }}</h3>
+            <div *ngFor="let task of unsubmittedTasks$ | async">
+                <close-task-card [subject_name]="task.subjectName" [task_name]="task.taskName" [due_date]="task.dueTime"
+                    [task_status]="task.taskStatus" [sidebar_color]="task.sidebarColor">
+                </close-task-card>
+            </div>
+        </div>
+
+        <!-- Средняя оценка -->
+        <div class="panel">
+            <h3 class="panel-header">Средняя оценка по предметам</h3>
+            <div class="chart-container" *ngIf="chartData$ | async as chartData">
+                <div class="chart-wrapper">
+                    <canvas baseChart [data]="chartData" [type]="'radar'" [options]="chartOptions"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <avatar-modal *ngIf="showAvatarModal" [userId]="student.userId!" (close)="onAvatarModalClosed()"
+        (avatarUpdated)="onAvatarModalClosed()">
+    </avatar-modal>
+</body>

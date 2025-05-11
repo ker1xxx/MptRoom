@@ -1,0 +1,20 @@
+<teacher-header [user]="user$"></teacher-header>
+<div class="courses-container" *ngIf="(courses$ | async)?.length; else noCourses">
+    <div *ngFor="let course of courses$ | async" class="course-card" (click)="onCourseSelected(course)" role="button"
+        tabindex="0" [ngClass]="{'selected-course': selectedCourseId === course.courseId}">
+        <!-- Остальное содержимое без изменений -->
+        <div class="work-container" [style.background]="course.hexademicalColor">
+            <div class="subject-title">Группа: {{ course.groupName}}</div>
+            <div class="teacher-name">{{course.subjectName}}</div>
+        </div>
+
+
+    </div>
+
+</div>
+<ng-template #noCourses>
+    <div class="no-courses-message">
+        <h3>Курсы не найдены</h3>
+        <p>Пока нет доступных курсов для вашей группы</p>
+    </div>
+</ng-template>

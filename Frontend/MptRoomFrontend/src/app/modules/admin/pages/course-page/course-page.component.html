@@ -87,20 +87,6 @@
                     Выберите группу
                 </div>
             </div>
-
-            <div class="mb-4">
-                <label class="block mb-1">Предмет</label>
-                <select [(ngModel)]="selectedCourse!.subjectId" name="subjectId" required
-                    class="w-full p-2 border rounded" #subjectInput="ngModel">
-                    <option *ngFor="let subject of subjects" [value]="subject.subjectId">{{ subject.subjectName }}
-                    </option>
-                </select>
-                <div *ngIf="subjectInput.invalid && (subjectInput.dirty || subjectInput.touched)"
-                    class="text-red-500 text-sm">
-                    Выберите предмет
-                </div>
-            </div>
-
             <div class="mb-4">
                 <label class="block mb-1">Преподаватель</label>
                 <select [(ngModel)]="selectedCourse!.teacherId" name="teacherId" required

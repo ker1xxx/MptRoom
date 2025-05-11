@@ -8,7 +8,8 @@ div.close-task-card{
     background-color: var(--card-background-color);
     border-radius: 5px;
     box-shadow: 0px 1px 2px 4px rgba(0,0,0,0.1);
-    padding: 0.6em 1.2em
+    padding: 0.6em 1.2em;
+    cursor: pointer;
 }
 
 div.task-name{
@@ -25,6 +26,7 @@ div.main-block{
     display:flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: start;
 }
 
 div.mark-info-block{

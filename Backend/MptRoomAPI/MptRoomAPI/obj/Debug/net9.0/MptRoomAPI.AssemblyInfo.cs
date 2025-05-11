@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MptRoomAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7cdddc1f72684897bc1364b2ff5f6bb85244b2c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d0e3c3f10b89fadee61e0a8c5e4bc915f010706b")]
 [assembly: System.Reflection.AssemblyProductAttribute("MptRoomAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MptRoomAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

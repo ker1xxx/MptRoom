@@ -106,7 +106,7 @@ namespace MptRoomAPI.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -169,7 +169,7 @@ namespace MptRoomAPI.Controllers
                 _context.Teachers.Remove(teacherModel);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

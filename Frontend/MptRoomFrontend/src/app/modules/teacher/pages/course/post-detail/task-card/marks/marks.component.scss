@@ -1,0 +1,201 @@
+/* Base styles */
+.container {
+  transition: opacity 0.2s ease, transform 0.2s ease;   
+    border-top: 2px solid var(--text-purple-color);
+    border-bottom: 2px solid var(--text-purple-color);
+    border-radius: 14px;
+  display: flex;
+  flex-direction: row;
+  gap: 4vw;
+  padding: 20px;
+  background-color: var(--background-light-color);
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.sidebar {
+  width: 300px;
+  background: #fff;
+  border-right: 1px solid #e9ecef;
+  padding: 20px;
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* Students list */
+.students {
+  margin-top: 15px;
+}
+
+.student {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.student:hover {
+  background: #f8f9fa;
+}
+
+.student.active {
+  background: #e9f5ff;
+  border: 1px solid #cfe8ff;
+}
+
+.student__color {
+  width: 4px;
+  height: 40px;
+  border-radius: 2px;
+  margin-right: 15px;
+}
+
+.student__name {
+  font-weight: 500;
+  color: #212529;
+}
+
+.student__group {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+/* Grading section */
+.grading-section {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  color: #212529;
+}
+
+.student-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.grade-input {
+  margin: 25px 0;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+input[type="number"] {
+  width: 100px;
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.max-grade {
+  color: #6c757d;
+}
+
+.save-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.save-btn:disabled {
+  background: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* Files section */
+.files-section {
+  margin-top: 30px;
+}
+
+.files-title {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.file-item:hover {
+  transform: translateX(5px);
+  border-color: #cfe8ff;
+}
+
+.file-icon {
+  width: 40px;
+  margin-right: 15px;
+}
+
+.file-icon svg {
+  fill: #4dabf7;
+}
+
+.file-info {
+  flex: 1;
+}
+
+.file-name {
+  font-weight: 500;
+  color: #212529;
+}
+
+.file-size {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.download-btn {
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.download-btn:hover {
+  background: #f8f9fa;
+}
+
+.download-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: #6c757d;
+}
+
+.no-files {
+  text-align: center;
+  padding: 40px 0;
+  color: #adb5bd;
+}
+
+.no-files svg {
+  width: 50px;
+  height: 50px;
+  fill: currentColor;
+  margin-bottom: 15px;
+}

@@ -7,5 +7,6 @@ namespace MptRoomAPI.DTO
         public int? AdditionalMaterialId { get; set; }
         public string UriAbsolutePath { get; set; }
         public int UserId { get; set; }
+        public int? PostId { get; set; }
     }
 }

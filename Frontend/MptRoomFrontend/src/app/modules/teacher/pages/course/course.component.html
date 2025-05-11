@@ -1,0 +1,54 @@
+<teacher-header [user]="user$!"></teacher-header>
+<!-- Список постов -->
+<div *ngIf="course$" class="course-container">
+    <teacher-sidebar-menu [course$]="course$"></teacher-sidebar-menu>
+
+    <div class="content-area">
+        <div class="posts-list" *ngIf="posts$ != undefined; else noPosts">
+            <div class="post-item" *ngFor="let post of filteredPosts$">
+                <!-- Для обычных постов -->
+                <div *ngIf="post.type === PostTypeEnum.Post" class="post-content">
+                    <div class="post-header">
+                        <div class="post-icon" [style.background]="course$.hexademicalColor">
+                            <img [src]="postIcons[post.type]" alt="иконка" />
+                        </div>
+                        <div class="post-meta">
+                            <div class="post-author">Пользователь {{post.author}} добавил(а) пост</div>
+                            <div class="post-title">{{post.title}}</div>
+                            <div class="post-type">Тема: {{post.theme}}</div>
+                            <div class="post-date">{{post.date | russianDate}}</div>
+                        </div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-text">{{post.description}}</div>
+                    </div>
+                </div>
+
+                <!-- Для заданий и других типов -->
+                <div *ngIf="post.type !== PostTypeEnum.Post" class="compact-panel" (click)="onPostSelected(post)"
+                    role="button">
+                    <div class="post-header">
+                        <div class="post-icon" [style.background]="course$.hexademicalColor">
+                            <img [src]="postIcons[post.type]" alt="иконка" />
+                        </div>
+                        <div class="post-meta">
+                            <div class="panel-meta">
+                                <div class="post-type">Пользователь {{post.author}} добавил(а)
+                                    {{post.typeName.toLowerCase()}}</div>
+                                <div class="post-title">{{post.title}}</div>
+                                <div class="post-type">Тема: {{post.theme}}</div>
+                                <div class="panel-footer">
+                                    <span class="post-date">{{post.date | russianDate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #noPosts>
+            <div class="no-posts-message">Посты пока не добавлены.</div>
+        </ng-template>
+    </div>
+</div>

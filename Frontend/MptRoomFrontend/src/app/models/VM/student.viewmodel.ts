@@ -7,6 +7,8 @@ export interface StudentViewModel {
   email: string;
   login: string;
   password?: string;
+  authorizationDataId?: number;
   groupId: number;
   groupName: string;
+  avatarAbsoluteUri?: string;
 }

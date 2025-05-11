@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminHeaderComponent } from '../../shared/header/header.component';
 import { CollegeYearMap } from '../../../../models/helpers/college-year-map.model';
+import { NotificationService } from '../../../../services/notification.service';
 
 @Component({
   selector: 'admin-group-page',
@@ -37,7 +38,11 @@ export class GroupPageComponent {
   isEditMode = false;
   selectedItem: GroupDTO = this.emptyGroup();
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.api.get<GroupDTO[]>('Group').subscribe((data) => (this.groups = data));
@@ -51,7 +56,6 @@ export class GroupPageComponent {
 
   openModalForCreate() {
     this.openModal();
-    console.log(this.selectedItem);
   }
 
   closeModal() {
@@ -105,7 +109,7 @@ export class GroupPageComponent {
       this.closeModal();
     } catch (error) {
       console.error('Ошибка сохранения:', error);
-      alert('Ошибка при сохранении: ' + (error as Error).message);
+      this.notificationService.show('❌ Ошибка при сохранении группы', 'error');
     }
   }
 

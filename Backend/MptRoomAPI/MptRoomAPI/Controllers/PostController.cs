@@ -40,7 +40,9 @@ namespace MptRoomAPI.Controllers
                         PostThemeId = p.PostThemeId,
                         CourseId = p.CourseId,
                         UserId = p.UserId,
+                        Created = p.Created
                     })
+                    .OrderByDescending(p => p.Created)
                     .ToListAsync();
 
                 return Ok(posts);
@@ -69,7 +71,9 @@ namespace MptRoomAPI.Controllers
                         PostThemeId = p.PostThemeId,
                         CourseId = p.CourseId,
                         UserId = p.UserId,
+                        Created = p.Created
                     })
+                    .OrderByDescending(p => p.Created)
                     .ToListAsync();
 
                 return Ok(posts);
@@ -98,6 +102,7 @@ namespace MptRoomAPI.Controllers
                         PostThemeId = p.PostThemeId,
                         CourseId = p.CourseId,
                         UserId = p.UserId,
+                        Created = p.Created
                     })
                     .FirstOrDefaultAsync();
 
@@ -138,11 +143,12 @@ namespace MptRoomAPI.Controllers
                 post.PostThemeId = postDTO.PostThemeId;
                 post.CourseId = postDTO.CourseId;
                 post.UserId = postDTO.UserId;
+                post.Created = postDTO.Created;
 
                 _context.Entry(post).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -170,6 +176,7 @@ namespace MptRoomAPI.Controllers
                     PostThemeId = postDTO.PostThemeId,
                     CourseId = postDTO.CourseId,
                     UserId = postDTO.UserId,
+                    Created = postDTO.Created   
                 };
 
                 _context.Posts.Add(post);
@@ -201,7 +208,7 @@ namespace MptRoomAPI.Controllers
                 _context.Posts.Remove(post);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

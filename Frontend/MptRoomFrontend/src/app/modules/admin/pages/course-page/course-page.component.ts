@@ -50,11 +50,9 @@ export class CoursePageComponent implements OnInit {
       };
     });
     this.loadCourses();
-    console.log(this.courses);
     this.loadGroups();
     this.loadSubjects();
     this.loadTeachers();
-    console.log(this.filteredCourses);
   }
   loadGroups() {
     this.apiService.get<GroupDTO[]>('Group').subscribe((groups) => {
@@ -157,7 +155,6 @@ export class CoursePageComponent implements OnInit {
 
               // Добавляем завершенный объект в список курсов
               this.courses.push(courseViewModel);
-              console.log('Загруженные курсы:', this.courses);
               this.applyFilters();
             },
             error: (err) =>
@@ -174,8 +171,6 @@ export class CoursePageComponent implements OnInit {
       const groupId = Number(this.filter.groupId);
       const teacherId = Number(this.filter.teacherId);
       const subjectId = Number(this.filter.subjectId);
-      console.log('Filter:', this.filter);
-      console.log('Courses:', this.courses);
       return (
         (!groupId || course.groupId === groupId) &&
         (!teacherId || course.teacherId === teacherId) &&

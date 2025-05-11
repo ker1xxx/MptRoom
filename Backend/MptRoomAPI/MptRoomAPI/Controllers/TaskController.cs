@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MptRoomAPI.DTO;
@@ -33,22 +35,17 @@ namespace MptRoomAPI.Controllers
             try
             {
                 var tasks = await _context.Tasks
-                    .Select(t => new TaskDTO
-                    {
-                        PostId = t.PostId,
-                        DueTime = t.DueTime,
-                        SubjectId = t.SubjectId,
-                        TeacherId = t.TeacherId,
-                        CourseId = t.CourseId,
-                        TaskStatus = t.TaskStatusEnum,
-                        StudentId = t.StudentId,
-                        MaxMark = t.MaxMark,
-                        Mark = t.Mark,
-                        LastUpdate = t.LastUpdate,
-                    })
+                    .Include(t => t.Post)
+                    .Include(t => t.Student)
+                    .OrderByDescending(t => t.LastUpdate)
                     .ToListAsync();
 
-                return Ok(tasks);
+                if (tasks == null)
+                    return NotFound();
+
+                var dtos = tasks.Select(ToDTO).ToList();
+                var updatedDtos = await CheckDeadline(dtos);
+                return Ok(updatedDtos);
             }
             catch (Exception ex)
             {
@@ -65,28 +62,17 @@ namespace MptRoomAPI.Controllers
             try
             {
                 var task = await _context.Tasks
-                    .Where(t => t.PostId == id)
-                    .Select(t => new TaskDTO
-                    {
-                        PostId = t.PostId,
-                        DueTime = t.DueTime,
-                        SubjectId = t.SubjectId,
-                        TeacherId = t.TeacherId,
-                        CourseId = t.CourseId,
-                        TaskStatus = t.TaskStatusEnum,
-                        StudentId = t.StudentId,
-                        MaxMark = t.MaxMark,
-                        Mark = t.Mark,
-                        LastUpdate = t.LastUpdate,
-                    })
-                    .FirstOrDefaultAsync();
+                    .Include(t => t.Post)
+                    .Include(t => t.Student)
+                    .FirstOrDefaultAsync(t => t.TaskId == id);
 
                 if (task == null)
-                {
-                    return NotFound($"Task with ID {id} not found.");
-                }
+                    return NotFound();
 
-                return Ok(task);
+                var taskDto = ToDTO(task);
+                var updatedDtos = await CheckDeadline(new List<TaskDTO>() { taskDto });
+
+                return Ok(updatedDtos.First());
             }
             catch (Exception ex)
             {
@@ -102,37 +88,60 @@ namespace MptRoomAPI.Controllers
             try
             {
                 var tasks = await _context.Tasks
+                    .Include(t => t.Post)
+                    .Include(t => t.Student)
                     .Where(t => t.StudentId == userId)
-                    .Select(t => new TaskDTO
-                    {
-                        PostId = t.PostId,
-                        DueTime = t.DueTime,
-                        SubjectId = t.SubjectId,
-                        TeacherId = t.TeacherId,
-                        CourseId = t.CourseId,
-                        TaskStatus = t.TaskStatusEnum,
-                        StudentId = t.StudentId,
-                        MaxMark = t.MaxMark,
-                        Mark = t.Mark,
-                        LastUpdate = t.LastUpdate,
-                    })
+                    .OrderByDescending(t => t.LastUpdate)
                     .ToListAsync();
 
-                return Ok(tasks);
+                if (tasks == null)
+                    return NotFound();
+
+                var dtos = tasks.Select(ToDTO).ToList();
+                var updatedDtos = await CheckDeadline(dtos);
+                return Ok(updatedDtos);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving tasks.");
                 return StatusCode(500, "An error occurred while retrieving tasks.");
             }
-        } 
+        }
+        [HttpGet("post/{postId}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<TaskDTO>>> GetTasksByPostId(int postId)
+        {
+            try
+            {
+                var tasks = await _context.Tasks
+                    .Include(t => t.Post)
+                    .Include(t => t.Student)
+                    .Where(t => t.PostId == postId)
+                    .OrderByDescending(t => t.LastUpdate)
+                    .ToListAsync();
+
+                if (tasks == null)
+                    return NotFound();
+
+
+                var dtos = tasks.Select(ToDTO).ToList();
+                var updatedDtos = await CheckDeadline(dtos);
+                return Ok(updatedDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving tasks.");
+                return StatusCode(500, "An error occurred while retrieving tasks.");
+            }
+        }
+
 
         // PUT: api/Task/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Administrator,Teacher")]
+        [Authorize]
         public async Task<IActionResult> PutTaskModel(int id, TaskDTO taskDTO)
         {
-            if (id != taskDTO.PostId)
+            if (id != taskDTO.TaskId)
             {
                 return BadRequest("Task ID mismatch.");
             }
@@ -145,7 +154,7 @@ namespace MptRoomAPI.Controllers
                 {
                     return NotFound($"Task with ID {id} not found.");
                 }
-
+                task.TaskId = taskDTO.TaskId;
                 task.DueTime = taskDTO.DueTime;
                 task.SubjectId = taskDTO.SubjectId;
                 task.TeacherId = taskDTO.TeacherId;
@@ -160,7 +169,7 @@ namespace MptRoomAPI.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -198,16 +207,16 @@ namespace MptRoomAPI.Controllers
                 _context.Tasks.Add(task);
                 await _context.SaveChangesAsync();
 
-                taskDTO.PostId = task.PostId;
+                taskDTO.TaskId = task.TaskId;
 
-                return CreatedAtAction(nameof(GetTaskModel), new { id = taskDTO.PostId }, taskDTO);
+                return CreatedAtAction(nameof(GetTaskModel), new { id = taskDTO.TaskId }, taskDTO);
             }
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Error while creating task.");
-                if (TaskModelExists((int)taskDTO.PostId))
+                if (TaskModelExists((int)taskDTO.TaskId))
                 {
-                    return Conflict($"Task with ID {taskDTO.PostId} already exists.");
+                    return Conflict($"Task with ID {taskDTO.TaskId} already exists.");
                 }
                 return StatusCode(500, "An error occurred while creating the task.");
             }
@@ -234,13 +243,74 @@ namespace MptRoomAPI.Controllers
                 _context.Tasks.Remove(taskModel);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while deleting task.");
                 return StatusCode(500, "An error occurred while deleting the task.");
             }
+        }
+
+        private async Task<List<TaskDTO>> CheckDeadline(List<TaskDTO> taskDtos)
+        {
+            var now = DateTime.UtcNow;
+
+            var updatedTaskIds = new List<int>();
+            foreach (var dto in taskDtos)
+            {
+                if (dto.DueTime < now && dto.TaskStatus == TaskStatusEnum.Appointed)
+                {
+                    var taskModel = await _context.Tasks.FindAsync(dto.TaskId);
+                    if (taskModel != null)
+                    {
+                        taskModel.TaskStatusEnum = TaskStatusEnum.DeadlineMissed;
+                        _context.Entry(taskModel).State = EntityState.Modified;
+                        updatedTaskIds.Add((int)taskModel.TaskId);
+                    }
+                    dto.TaskStatus = TaskStatusEnum.DeadlineMissed;
+                }
+            }
+
+            if (updatedTaskIds.Count > 0)
+                await _context.SaveChangesAsync();
+
+            return taskDtos;
+        }
+
+        public static TaskDTO ToDTO(TaskModel model)
+        {
+            return new TaskDTO
+            {
+                TaskId = model.TaskId,
+                PostId = model.PostId,
+                DueTime = model.DueTime,
+                SubjectId = model.SubjectId,
+                TeacherId = model.TeacherId,
+                CourseId = model.CourseId,
+                TaskStatus = model.TaskStatusEnum,
+                StudentId = model.StudentId,
+                MaxMark = model.MaxMark,
+                Mark = model.Mark,
+                LastUpdate = model.LastUpdate,
+            };
+        }
+
+        public static TaskModel ToModel(TaskDTO taskDTO)
+        {
+            return new TaskModel
+            {
+                PostId = taskDTO.PostId,
+                DueTime = taskDTO.DueTime,
+                SubjectId = taskDTO.SubjectId,
+                TeacherId = taskDTO.TeacherId,
+                CourseId = taskDTO.CourseId,
+                TaskStatusEnum = taskDTO.TaskStatus,
+                StudentId = taskDTO.StudentId,
+                MaxMark = taskDTO.MaxMark,
+                Mark = taskDTO.Mark,
+                LastUpdate = taskDTO.LastUpdate,
+            };
         }
 
         private bool TaskModelExists(int id)

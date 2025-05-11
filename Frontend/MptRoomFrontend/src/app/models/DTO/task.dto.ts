@@ -1,7 +1,8 @@
 import { TaskStatusEnum } from '../enums/task-status.enum';
 
 export interface TaskDTO {
-  postId?: number;
+  taskId?: number;
+  postId: number;
   dueTime: string;
   subjectId: number;
   teacherId: number;
@@ -10,4 +11,5 @@ export interface TaskDTO {
   studentId: number;
   maxMark: number;
   mark?: number;
+  lastUpdate: string;
 }

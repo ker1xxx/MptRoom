@@ -100,7 +100,7 @@ namespace MptRoomAPI.Controllers
                 _context.Entry(lessonSlot).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -154,7 +154,7 @@ namespace MptRoomAPI.Controllers
                 _context.LessonSlots.Remove(lessonSlot);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

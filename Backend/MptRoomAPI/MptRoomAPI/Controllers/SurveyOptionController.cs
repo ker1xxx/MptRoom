@@ -48,7 +48,30 @@ namespace MptRoomAPI.Controllers
                 return StatusCode(500, "An error occurred while retrieving survey options.");
             }
         }
+        [HttpGet("post/{post_id}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<SurveyOptionDTO>>> GetSurveyOptionsByPostId(int post_id)
+        {
+            try
+            {
+                var surveyOptions = await _context.SurveyOptions
+                    .Where(so => so.PostId == post_id)
+                    .Select(so => new SurveyOptionDTO
+                    {
+                        SurveyOptionId = so.SurveyOptionId,
+                        PostId = so.PostId,
+                        OptionName = so.OptionName,
+                    })
+                    .ToListAsync();
 
+                return Ok(surveyOptions);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving survey options.");
+                return StatusCode(500, "An error occurred while retrieving survey options.");
+            }
+        }
         // GET: api/SurveyOption/5
         [HttpGet("{id}")]
         [Authorize]
@@ -106,7 +129,7 @@ namespace MptRoomAPI.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -163,7 +186,7 @@ namespace MptRoomAPI.Controllers
                 _context.SurveyOptions.Remove(surveyOption);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {
