@@ -207,4 +207,7 @@ export class TeacherPageComponent {
       queryParamsHandling: 'merge',
     });
   }
+  showPosts(teacher_id?: number) {
+    this.router.navigate(['admin/posts']);
+  }
 }

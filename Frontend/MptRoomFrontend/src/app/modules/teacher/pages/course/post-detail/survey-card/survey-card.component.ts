@@ -52,8 +52,6 @@ export class SurveyCardComponent implements PostContentComponent {
       .subscribe((answers) => {
         this.answers = answers;
       });
-    console.log('post', this.post);
-
     this.api
       .get<StudentDTO[]>(`Student/group/${this.post.groupId}`)
       .subscribe((students) => {
@@ -79,9 +77,6 @@ export class SurveyCardComponent implements PostContentComponent {
   }
 
   getRespondents(optionId: number): { fullName: string; time: string }[] {
-    console.log('answers', this.answers);
-    console.log('optionid', optionId);
-    console.log('students', this.students);
     return this.answers
       .filter((a) => a.surveyOptionId === optionId)
       .map((a) => {

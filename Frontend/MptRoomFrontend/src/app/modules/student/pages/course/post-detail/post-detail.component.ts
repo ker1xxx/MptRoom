@@ -291,8 +291,6 @@ export class PostDetailComponent {
       date: new Date().toISOString(),
     };
 
-    console.log(CommentText);
-
     this.api.post<CommentDTO>('Comment', commentDTO).subscribe({
       next: () => {
         this.notificationService.show(

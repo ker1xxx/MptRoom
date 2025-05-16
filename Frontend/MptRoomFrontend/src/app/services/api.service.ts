@@ -80,7 +80,6 @@ export class ApiService {
     if (current) {
       return current; // Вернем из кэша, если есть
     }
-    console.log(this.auth.getUserId());
     const data = await firstValueFrom(
       this.http
         .get<TeacherDTO>(`${this.apiUrl}/Teacher/${this.auth.getUserId()}`)
@@ -238,8 +237,6 @@ export class ApiService {
                 const matchingSlot = lessonSlots.find(
                   (slot) => slot.lessonSlotId === lesson.lessonNumberId
                 );
-                console.log(lesson);
-
                 return of({
                   LessonId: lesson.lessonId!,
                   SubjectId: subjects[index].subjectId!,

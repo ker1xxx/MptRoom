@@ -19,13 +19,6 @@ export class CloseTaskCardComponent {
   @Input() sidebar_color?: string = '#A349F2';
 
   ngOnInit() {
-    console.log(
-      this.subject_name,
-      this.task_name,
-      this.due_date,
-      this.task_status
-    );
-
     switch (this.task_status) {
       case TaskStatusEnum.Appointed:
         this.status = 'appointed-task';

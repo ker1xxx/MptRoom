@@ -83,15 +83,11 @@ export class GroupPageComponent {
   }
   async handleSave() {
     try {
-      // Преобразование в число (если нужно)
       const courseNumber = Number(this.selectedItem.courseNumber);
 
-      // Проверка валидности значения
       if (!this.collegeYears.includes(courseNumber)) {
         throw new Error('Выбран некорректный курс');
       }
-
-      // Обновляем значение
       this.selectedItem.courseNumber = courseNumber;
 
       if (this.isEditMode) {

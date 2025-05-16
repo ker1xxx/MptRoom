@@ -647,6 +647,7 @@ COPY public."AuthorizationDatas" ("AuthorizationDataId", "Login", "Password") FR
 15	docker	$2a$11$E8MNXMQ4t1arTTzKEkVLvuwtYfMW9O3.vUDOfzSU6U1DSycXof2Vu
 4	ker1xx	$2a$11$GDtzmCJ3uZSms4dfTZdwvOXL2lF1GoXJi6GEio9o2jlVav4VkNdAW
 25	bam	$2a$11$TZvt82V904CC3CC8BltFTONxZrVF5.9cuSWGSmKR..hR.6eDDlNYy
+26	sercetBotLogin	$2a$11$5a1fYWNPspDD6y7RCfXbD.JYvS7UgCdWkWa03Vf2JmVU.XQIHH6Am
 \.
 
 
@@ -723,13 +724,8 @@ COPY public."LessonSlots" ("LessonSlotId", "LessonStart", "LessonEnd") FROM stdi
 --
 
 COPY public."LessonSupressedRequests" ("SupersedeRequestId", "TeacherId", "DateToSupersede", "LessonSlotId", "SubjectId", "RequestTime", "GroupId", "SupersedeRequestStatus", "SupersedeRequestType", "AffectedLessonId") FROM stdin;
-1	5	2025-05-10	2	1	2025-05-10 04:45:38.746+03	1	2	3	\N
-2	5	2025-05-10	2	1	2025-05-10 04:45:38.749+03	1	3	3	\N
-3	5	2025-05-10	2	1	2025-05-10 04:46:24.649+03	2	3	3	\N
-4	5	2025-05-10	2	1	2025-05-10 04:46:24.646+03	2	3	3	\N
-5	5	2025-05-12	1	1	2025-05-10 07:40:32.738+03	1	2	3	22
-6	5	2025-05-12	4	1	2025-05-10 07:40:32.738+03	1	2	1	4
-7	5	2025-05-15	1	1	2025-05-11 11:14:47.982+03	1	2	1	\N
+21	5	2025-05-12	1	1	2025-05-12 22:06:28.947+03	1	2	1	4
+22	5	2025-05-13	3	1	2025-05-13 00:37:08.42+03	1	1	3	\N
 8	17	2025-05-12	5	6	2025-05-11 11:37:05.985+03	1	2	3	\N
 \.
 
@@ -823,15 +819,14 @@ COPY public."PostThemes" ("PostThemeId", "PostThemeText", "CourseId") FROM stdin
 --
 
 COPY public."Posts" ("PostId", "PostTitle", "PostDescription", "PostType", "PostThemeId", "CourseId", "UserId", "AdministratorModelUserId", "StudentModelUserId", "Created") FROM stdin;
-7	тест пост имя	э ва гу вэээээ как у них горит холодный флоу в моей крови ледокаин	0	4	1	5	\N	\N	2025-04-24 19:25:05.955+03
 10	тест задание	тест задание описание 	3	3	2	18	\N	\N	2025-04-30 14:33:04.733+03
 16	тест материала	Тестирование дополнительного материала но вы все равно посмотрите внимательно!!	1	6	2	18	\N	\N	2025-05-02 04:16:07.151+03
 17	ВАЖНЫЙ ОПРОС	Как у вас делишки?)))))	2	8	1	5	\N	\N	2025-05-02 05:21:24.281+03
 20	Круто или нет	круто?	2	2	2	18	\N	\N	2025-05-02 07:13:06.724+03
-22	тут свага?	тут или нет???	2	7	1	5	\N	\N	2025-05-03 14:50:30.021+03
 28	Практическая работа № 11	описано задание практической работы	3	10	8	17	\N	\N	2025-05-07 21:07:13.492+03
 31	Практическая работа № 10	описание задания практоса 10	3	11	1	5	\N	\N	2025-05-09 06:34:35.927+03
 32	Практическая работа № 5	практос	3	12	8	17	\N	\N	2025-05-11 11:48:09.719+03
+7	тест пост имя	тест пост	0	4	1	5	\N	\N	2025-04-24 19:25:05.955+03
 \.
 
 
@@ -840,11 +835,11 @@ COPY public."Posts" ("PostId", "PostTitle", "PostDescription", "PostType", "Post
 --
 
 COPY public."RefreshTokens" ("RefreshTokenId", "UserId", "Token", "ExpirationDate", "IsRevoked") FROM stdin;
-13	4	wBu/iHg9y9ov5K9jY0KpxE6calq9O72Jqb8o0RcRJGc=	2026-05-11 23:34:07.815908+03	f
-14	3	mrViG9C2Da6vXHE2QlMHTz18mVhQH1oHZUjLHgGpVjQ=	2026-05-11 23:34:58.680765+03	f
 17	28	udyFL/9UvFdXGHxaBdYQ6jnpv52dCMOrMosS0J3UHqc=	2026-05-11 23:35:43.140547+03	f
-15	5	+836mBhiiIlEBfwAMy0MaP/fDovEqEfUOE/O24gJ6jQ=	2026-05-11 23:36:15.791999+03	f
 11	18	QZZ7aP/qo7LxWJqESzoG/X34ld/r9vZvq4xsQp0zjDs=	2026-05-11 23:36:23.039612+03	f
+15	5	bKBUuweNVBOYtn6MKhoqq+bGLsSaYQFKha6c99eCPxo=	2026-05-13 00:38:07.707574+03	f
+13	4	V//hnNUpqtb7G/q/kNgoNH2G6LTyyPtunl1wCq6YNfg=	2026-05-13 00:43:31.466042+03	f
+14	3	YT40heR8gytTdoquoDrLWp/ESlVotFkfmA3aut5jkDw=	2026-05-13 00:44:01.138386+03	f
 16	17	RKFI6c2tLDa0sR1Rn+p3WZ+9Z2csmQzbq/eUIe18V/g=	2026-05-11 11:19:58.562579+03	f
 \.
 
@@ -872,7 +867,6 @@ COPY public."Subjects" ("SubjectId", "SubjectName", "HexademicalColor") FROM std
 COPY public."SurveyAnswers" ("SurveyOptionId", "SurveyAnswerId", "StudentId", "PostId", "CommitTime") FROM stdin;
 1	2	4	17	2025-05-02 06:57:06.39+03
 7	3	4	20	2025-05-02 07:13:16.181+03
-9	4	4	22	2025-05-03 14:52:00.496+03
 \.
 
 
@@ -886,8 +880,6 @@ COPY public."SurveyOptions" ("SurveyOptionId", "PostId", "OptionName") FROM stdi
 2	17	Пойдет...
 6	20	круто
 7	20	не круто
-9	22	свага присутствует
-10	22	свага отсутствует
 \.
 
 
@@ -984,7 +976,7 @@ SELECT pg_catalog.setval('public."AddtionalMaterials_AddtionalMaterialId_seq"', 
 -- Name: AuthorizationDatas_AuthorizationDataId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."AuthorizationDatas_AuthorizationDataId_seq"', 25, true);
+SELECT pg_catalog.setval('public."AuthorizationDatas_AuthorizationDataId_seq"', 26, true);
 
 
 --
@@ -1026,7 +1018,7 @@ SELECT pg_catalog.setval('public."LessonSlotModel_LessonSlotId_seq"', 5, true);
 -- Name: LessonSupressedRequests_SupersedeRequestId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."LessonSupressedRequests_SupersedeRequestId_seq"', 8, true);
+SELECT pg_catalog.setval('public."LessonSupressedRequests_SupersedeRequestId_seq"', 22, true);
 
 
 --
@@ -1103,7 +1095,7 @@ SELECT pg_catalog.setval('public."Tasks_TaskId_seq"', 18, true);
 -- Name: Users_UserId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Users_UserId_seq"', 28, true);
+SELECT pg_catalog.setval('public."Users_UserId_seq"', 29, true);
 
 
 --

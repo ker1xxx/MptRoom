@@ -14,6 +14,7 @@ import { AuthorizationDataDTO } from '../../../../models/DTO/authorization-data.
 import { TeacherViewModel } from '../../../../models/VM/teacher.viewmodel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostViewModel } from '../../../../models/VM/post.viewmodel';
+import { NotificationService } from '../../../../services/notification.service';
 
 @Component({
   selector: 'admin-course-management',
@@ -36,7 +37,12 @@ export class CoursePageComponent implements OnInit {
     subjectId: '',
   };
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute) {}
+  constructor(
+    private apiService: ApiService,
+    private route: ActivatedRoute,
+    private notificationService: NotificationService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -157,12 +163,23 @@ export class CoursePageComponent implements OnInit {
               this.courses.push(courseViewModel);
               this.applyFilters();
             },
-            error: (err) =>
+            error: (err) => {
               console.error('Ошибка загрузки данных о курсе:', err),
+                this.notificationService.show(
+                  '❌ Ошибка загрузки данных о курсе',
+                  'error'
+                );
+            },
           });
         });
       },
-      error: (err) => console.error('Ошибка загрузки курсов:', err),
+      error: (err) => {
+        console.error('Ошибка загрузки курсов:', err),
+          this.notificationService.show(
+            '❌ Ошибка загрузки данных о курсе',
+            'error'
+          );
+      },
     });
   }
 
@@ -228,12 +245,14 @@ export class CoursePageComponent implements OnInit {
         .subscribe(() => {
           this.loadCourses();
           this.closeModal();
+          this.notificationService.show('✅ Курс успешно сохранен', 'success');
         });
     } else {
       // Создание нового курса
       this.apiService.post('Course', this.selectedCourse).subscribe(() => {
         this.loadCourses();
         this.closeModal();
+        this.notificationService.show('✅ Курс успешно сохранен', 'success');
       });
     }
   }
@@ -246,5 +265,8 @@ export class CoursePageComponent implements OnInit {
       this.loadCourses();
       this.closeModal();
     });
+  }
+  showPosts() {
+    this.router.navigate(['admin/posts']);
   }
 }

@@ -1,6 +1,6 @@
 <student-header [user]="student$!"></student-header>
-<div *ngIf="course$" class="course-container">
-    <app-sidebar-menu [course$]="course$"></app-sidebar-menu>
+<div class="course-container">
+    <app-sidebar-menu [course$]="course$?? null"></app-sidebar-menu>
 
     <div class="content-area">
 
@@ -9,7 +9,7 @@
                 <!-- Для обычных постов -->
                 <div *ngIf="post.type === PostTypeEnum.Post" class="post-content">
                     <div class="post-header">
-                        <div class="post-icon" [style.background]="course$.hexademicalColor">
+                        <div class="post-icon" [style.background]="course$?.hexademicalColor">
                             <img [src]="postIcons[post.type]" alt="иконка" />
                         </div>
 
@@ -33,7 +33,7 @@
                 <div *ngIf="post.type !== PostTypeEnum.Post" class="compact-panel" (click)="onPostSelected(post)"
                     role="button">
                     <div class="post-header">
-                        <div class="post-icon" [style.background]="course$.hexademicalColor">
+                        <div class="post-icon" [style.background]="course$?.hexademicalColor">
                             <img [src]="postIcons[post.type]" alt="иконка" />
                         </div>
                         <div class="post-meta">

@@ -69,7 +69,6 @@ export class TaskCardComponent {
           });
         });
       }
-      console.log(this.additionalMaterials$);
     });
   }
   getPostThemed(themeId: number): Observable<PostThemeDTO> {
@@ -121,7 +120,6 @@ export class TaskCardComponent {
         this.additionalMaterials$ = mats.filter(
           (am) => am.userId == this.student.userId
         );
-        console.log('mats', mats);
       });
   }
 
@@ -192,7 +190,6 @@ export class TaskCardComponent {
               description: post.description,
               lastUpdate: taskForStudent!.lastUpdate,
             };
-            console.log(task);
 
             return viewModel;
           })
@@ -264,7 +261,6 @@ export class TaskCardComponent {
 
       this.api.post('additionalmaterial', formData).subscribe(
         (response) => {
-          console.log('Файл успешно загружен!', response);
           const newMatId = response.additionalMaterialId;
           const taskAnswerDTOToSend = {
             additionalMaterialId: newMatId,
@@ -275,12 +271,8 @@ export class TaskCardComponent {
           this.api
             .post<TaskAnswerDTO>('TaskAnswer', taskAnswerDTOToSend)
             .subscribe(
-              (response) => {
-                console.log('Ответ успешно прикреплен', response);
-              },
-              (error) => {
-                console.log('Ошибка прикрепления TaskAnswer', error);
-              }
+              (response) => {},
+              (error) => {}
             );
         },
         (error) => {
@@ -302,12 +294,10 @@ export class TaskCardComponent {
         mark: this.task$.mark,
         lastUpdate: this.task$.lastUpdate,
       };
-      console.log(taskDTOToSend);
       this.api
         .put<TaskDTO>('task', taskDTOToSend, taskDTOToSend.taskId!)
         .subscribe(
           (response) => {
-            console.log('Задание успешно обновлено!', response);
             this.snackBar.open('Файл успешно загружен', 'Закрыть', {
               duration: 3000,
             });
@@ -322,12 +312,9 @@ export class TaskCardComponent {
   }
 
   removeFileFromServer(materialId: number) {
-    console.log(materialId);
-
     // Удаляем файл
     this.api.delete('additionalmaterial', materialId).subscribe(() => {
       this.showToast('Файл успешно удален');
-      console.log(this.selectedFiles);
       const index = this.additionalMaterials$!.findIndex(
         (m) => m.additionalMaterialId === materialId
       );
@@ -338,7 +325,6 @@ export class TaskCardComponent {
       // Проверяем, есть ли еще файлы после удаления
       if (this.additionalMaterials$!.length === 0) {
         this.changePostStatusToAppointed();
-        console.log('status changed');
       }
     });
   }
@@ -361,12 +347,8 @@ export class TaskCardComponent {
 
     // Отправляем запрос для изменения статуса
     this.api.put<TaskDTO>('task', taskDTOToSend, postId).subscribe(
-      (response) => {
-        console.log('Статус поста изменен на appointed', response);
-      },
-      (error) => {
-        console.error('Ошибка при изменении статуса поста', error);
-      }
+      (response) => {},
+      (error) => {}
     );
   }
 

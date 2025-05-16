@@ -40,7 +40,6 @@ export class SurveyCardComponent {
         )
         .subscribe(
           (result) => {
-            console.log(result);
             if (result.length != 0) {
               this.submitted = true;
               this.selectedOption = this.options$.find(
@@ -50,7 +49,6 @@ export class SurveyCardComponent {
           },
           (error) => {
             this.submitted = false;
-            console.log(error);
           }
         );
     });
@@ -68,11 +66,8 @@ export class SurveyCardComponent {
       (response) => {
         this.submitted = true;
       },
-      (error) => {
-        console.log('Ошибка при добавлении ответа на опрос', error);
-      }
+      (error) => {}
     );
-    console.log('Выбранный вариант:', this.selectedOption);
     this.submitted = true;
   }
 }

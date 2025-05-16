@@ -83,7 +83,6 @@ export class TaskCardComponent implements PostContentComponent {
           this.post$ = post;
           this.taskToViewModel(this.post$).subscribe((task) => {
             this.task$ = task;
-            console.log('task', task);
             this.countSubmittedAndAssigned();
           });
         });
@@ -171,8 +170,6 @@ export class TaskCardComponent implements PostContentComponent {
                       groupId: 0, // можно дополнить
                       subjectId: course?.subjectId!,
                     };
-                    console.log('postviewmodel', viewModel);
-
                     return viewModel;
                   })
                 )
@@ -190,7 +187,6 @@ export class TaskCardComponent implements PostContentComponent {
       switchMap((course) =>
         this.api.getById<TaskDTO[]>('task/post', post.id!).pipe(
           map((tasks: TaskDTO[]) => {
-            console.log('taskdto', tasks);
             const task = tasks[0];
             if (!task) throw new Error('Нет данных task[0]');
 
@@ -281,7 +277,6 @@ export class TaskCardComponent implements PostContentComponent {
   getFileName(uri: string): string | undefined {
     if (!uri) return undefined;
     const fileName = uri.split('\\').pop(); // Получаем последнее слово в путис
-    console.log(fileName);
     if (!fileName) return undefined;
 
     return fileName;
@@ -293,8 +288,6 @@ export class TaskCardComponent implements PostContentComponent {
 
   async onViewSubmissions() {
     const course = await firstValueFrom(this.course$!);
-    console.log(course);
-    console.log(this.post$);
     const courseHash = encodeId(course?.courseId!);
     const postHash = encodeId(this.post$.id);
     this.route.navigate(['teacher', 'course', courseHash, postHash, 'marks']);
@@ -305,7 +298,6 @@ export class TaskCardComponent implements PostContentComponent {
       .get<any[]>(`task/post/${this.task$.postId}`)
       .subscribe((submissions) => {
         this.totalAssigned = submissions.length;
-        console.log('submissions', submissions);
         this.totalSubmitted = submissions.filter(
           (s) =>
             s.taskStatus === TaskStatusEnum.Submitted ||

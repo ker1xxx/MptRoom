@@ -118,10 +118,8 @@ export class PreviewModalComponent {
   }
 
   private extractFileName(path: string): string {
-    console.log(path);
     if (!path) return '';
     const fileName = path.split('\\').pop(); // Получаем последнее слово в путис
-    console.log(fileName);
     if (!fileName) return '';
 
     return fileName;

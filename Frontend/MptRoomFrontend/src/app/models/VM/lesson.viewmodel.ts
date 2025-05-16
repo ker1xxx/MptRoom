@@ -18,4 +18,5 @@ export interface LessonViewModel {
   modificationType?: SupersedeRequestType;
   newLessonSlot?: string;
   originalLessonSlot?: string;
+  supersededBy?: LessonViewModel;
 }

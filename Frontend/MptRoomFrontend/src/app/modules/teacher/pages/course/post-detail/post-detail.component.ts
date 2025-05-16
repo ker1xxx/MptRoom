@@ -324,7 +324,6 @@ export class PostDetailComponent {
   async onSavePost(postData: any): Promise<void> {
     const isNewTheme = postData.postThemeId === -1;
     const course = await firstValueFrom(this.course$!);
-    console.log('updatePostData', postData);
     if (isNewTheme && postData.newThemeText) {
       // 1. Создать новую тему в БД
       const postThemeDTO: PostThemeDTO = {
@@ -361,8 +360,6 @@ export class PostDetailComponent {
             .getById<TaskDTO[]>('task/post', postDto.postId!)
             .pipe(
               switchMap((tasks: TaskDTO[]) => {
-                console.log(tasks);
-                console.log('newtaskdata', task);
                 const taskRequests = tasks.map((currentTask) => {
                   const taskDTO: TaskDTO = {
                     taskId: currentTask.taskId,
@@ -452,17 +449,13 @@ export class PostDetailComponent {
       date: new Date().toISOString(),
     };
 
-    console.log(CommentText);
-
     this.api.post<CommentDTO>('Comment', commentDTO).subscribe({
       next: () => {
         this.notificationService.show(
           '✅ Комментарий успешно добавлен',
           'success'
         );
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        this.router.navigate([history.back()]);
       },
       error: (err) => {
         console.error(err);

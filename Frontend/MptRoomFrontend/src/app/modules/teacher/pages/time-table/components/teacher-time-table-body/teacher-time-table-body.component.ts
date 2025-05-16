@@ -539,7 +539,7 @@ export class TeacherTimeTableBodyComponent {
       teacherId: 1, // Заполните данными
       groupId: 0,
       dateToSupersede: '',
-      lessonSlotId: 0,
+      lessonSlotId: -1,
       subjectId: 0,
       requestTime: new Date().toISOString(),
       supersedeRequestStatus: SupersedeRequestStatus.sent,
@@ -547,19 +547,27 @@ export class TeacherTimeTableBodyComponent {
     };
   }
 
-  submitSubstituteRequest() {
+  async submitSubstituteRequest() {
     if (!this.newSubstitute.groupId || !this.newSubstitute.subjectId) {
       this.notificationService.show('❌ Выберите группу и предмет', 'error');
       return;
     }
-    const dtoToSend: LessonSupersedeRequestDTO = {
+
+    if (this.newSubstitute.lessonSlotId === -1) {
+      const lesson = await this.api
+        .getById<LessonDTO>('Lesson', this.newSubstitute.affectedLessonId!)
+        .toPromise();
+
+      this.newSubstitute.lessonSlotId = lesson!.lessonNumberId;
+    }
+    const dtoToSend = {
       teacherId: this.TeacherId,
       groupId: this.newSubstitute.groupId,
       subjectId: this.newSubstitute.subjectId,
       dateToSupersede: this.newSubstitute.dateToSupersede,
       lessonSlotId: Number(this.newSubstitute.lessonSlotId),
       supersedeRequestType: this.newSubstitute.supersedeRequestType,
-      affectedLessonId: this.selectedLesson?.LessonId,
+      affectedLessonId: this.newSubstitute.affectedLessonId,
       requestTime: new Date().toISOString(),
       supersedeRequestStatus: SupersedeRequestStatus.sent,
     };

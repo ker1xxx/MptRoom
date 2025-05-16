@@ -88,6 +88,18 @@
                 </div>
             </div>
             <div class="mb-4">
+                <label class="block mb-1">Предмет</label>
+                <select [(ngModel)]="selectedCourse!.subjectId" name="subjectId" required
+                    class="w-full p-2 border rounded" #subjectInput="ngModel">
+                    <option *ngFor="let subject of subjects" [value]="subject.subjectId">{{ subject.subjectName }}
+                    </option>
+                </select>
+                <div *ngIf="subjectInput.invalid && (subjectInput.dirty || subjectInput.touched)"
+                    class="text-red-500 text-sm">
+                    Выберите предмет
+                </div>
+            </div>
+            <div class="mb-4">
                 <label class="block mb-1">Преподаватель</label>
                 <select [(ngModel)]="selectedCourse!.teacherId" name="teacherId" required
                     class="w-full p-2 border rounded" #teacherInput="ngModel">
@@ -102,7 +114,7 @@
             </div>
 
             <div class="mt-4 flex justify-between gap-2">
-                <button routerLink="/admin/posts" class="px-4 py-2 bg-yellow-500 text-white rounded">
+                <button (click)="showPosts()" class="px-4 py-2 bg-yellow-500 text-white rounded">
                     Посты
                 </button>
             </div>

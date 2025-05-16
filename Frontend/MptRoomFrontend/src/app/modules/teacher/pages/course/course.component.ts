@@ -112,8 +112,6 @@ export class CourseComponent {
           this.route.navigate(['/404']);
         },
       });
-    console.log(this.course$);
-    console.log('posts', this.posts$);
   }
 
   getCourseWithPosts(): Observable<{
@@ -154,7 +152,6 @@ export class CourseComponent {
               teacherName,
               hexademicalColor: subject.hexademicalColor,
             };
-            console.log(courseVM);
             return this.getPostViewModelsByCourse(this.courseId).pipe(
               map((postViewModels) => ({
                 course: courseVM,
@@ -174,24 +171,19 @@ export class CourseComponent {
     switch (routePath) {
       case 'posts':
         this.filteredPosts$ = this.filterByPostType(PostTypeEnum.Post);
-        console.log('фильтрация постов');
         break;
       case 'tasks':
         this.filteredPosts$ = this.filterByPostType(PostTypeEnum.Task);
-        console.log('фильтрация заданий');
         break;
       case 'materials':
         this.filteredPosts$ = this.filterByPostType(
           PostTypeEnum.AdditionalMaterials
         );
-        console.log('фильтрация материалов');
         break;
       default:
         this.filteredPosts$ = this.posts$; // По умолчанию показываем все посты
-        console.log('фильтрация отсутствует');
         break;
     }
-    console.log(this.filteredPosts$);
   }
 
   // Метод для фильтрации по типу поста
@@ -244,8 +236,6 @@ export class CourseComponent {
                     groupId: 0,
                     subjectId: 0,
                   };
-                  console.log('viewmodel', viewModel);
-
                   return viewModel;
                 })
               );

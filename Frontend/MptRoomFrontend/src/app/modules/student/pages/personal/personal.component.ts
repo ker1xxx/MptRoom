@@ -148,7 +148,6 @@ export class PersonalComponent implements OnDestroy {
         });
         this.studentVM$ = this.convertToViewModels(student);
         this.unsubmittedTasks$ = this.getUnsubmitterWorks();
-        console.log(this.unsubmittedTasks$);
         this.unsubmittedWorksCount$ = this.getUnsubmittedWorksCount();
         this.subjectsWithAverages$ = this.subjects$.pipe(
           switchMap((subjects) =>

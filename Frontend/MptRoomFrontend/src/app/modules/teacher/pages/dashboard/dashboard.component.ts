@@ -92,7 +92,6 @@ export class TeacherDashboardComponent {
         })
       )
       .subscribe((requests) => {
-        console.log('Supersede request', requests);
         this.supersedeRequests$.next(requests);
       });
   }

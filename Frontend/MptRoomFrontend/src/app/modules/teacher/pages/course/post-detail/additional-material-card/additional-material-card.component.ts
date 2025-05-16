@@ -55,7 +55,6 @@ export class AdditionalMaterialCardComponent implements PostContentComponent {
       .get<AdditionalMaterialDTO[]>(`AdditionalMaterial/post/${postId}`)
       .subscribe((mats) => {
         this.additionalMaterials$ = mats;
-        console.log(mats);
       });
   }
 
@@ -85,8 +84,7 @@ export class AdditionalMaterialCardComponent implements PostContentComponent {
 
   getFileName(uri: string): string | undefined {
     if (!uri) return undefined;
-    const fileName = uri.split('\\').pop(); // Получаем последнее слово в пути
-    console.log(fileName);
+    const fileName = uri.split('/').pop(); // Получаем последнее слово в пути
     if (!fileName) return undefined;
 
     return fileName;
@@ -97,12 +95,9 @@ export class AdditionalMaterialCardComponent implements PostContentComponent {
   }
 
   removeFileFromServer(materialId: number) {
-    console.log(materialId);
-
     // Удаляем файл
     this.api.delete('additionalmaterial', materialId).subscribe(() => {
       this.showToast('Файл успешно удален');
-      console.log(this.selectedFiles);
       const index = this.additionalMaterials$!.findIndex(
         (m) => m.additionalMaterialId === materialId
       );

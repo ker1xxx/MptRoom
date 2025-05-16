@@ -16,7 +16,6 @@ export class RecentMarkCardComponent {
   @Input() sidebar_color?: string = '#A349F2';
 
   ngOnInit() {
-    console.log(this.subject_name, this.task_name, this.due_date, this.mark);
     const current_mark = Number(this.mark.split('/')[0]);
     const max_mark = Number(this.mark.split('/')[1]);
     const mark_percentage = current_mark / max_mark;
@@ -24,6 +23,5 @@ export class RecentMarkCardComponent {
     else if (0.6 >= mark_percentage && mark_percentage > 0.4)
       this.status = 'satisfactorily-mark';
     else this.status = 'bad-mark';
-    console.log(mark_percentage);
   }
 }

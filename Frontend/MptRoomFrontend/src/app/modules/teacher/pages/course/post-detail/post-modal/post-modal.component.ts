@@ -195,7 +195,6 @@ export class PostModalComponent {
   save(form: any): void {
     if (form.invalid) return;
     const dueDateTimeUtc = this.getUtcDueDateTime();
-    console.log(this.selectedPost.maxMark);
     const formValue = {
       ...form.value,
       maxMark: this.selectedPost.maxMark,

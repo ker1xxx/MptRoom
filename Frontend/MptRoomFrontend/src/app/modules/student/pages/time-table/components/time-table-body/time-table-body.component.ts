@@ -30,7 +30,6 @@ export class TimeTableBodyComponent implements OnDestroy {
   ngOnInit() {
     const weekType = this.getCurrentWeekType();
     this.week_type_class = weekType + '-week';
-    console.log(this.week_type_class);
   }
   // 2. Добавляем состояния загрузки
   isLoading = true;

@@ -22,7 +22,7 @@
         <div class="time-table-block">
             <p class="block-name">Расписание на {{ dayName }}, {{ today }}</p>
             <div class="time-table-main-block">
-                <ng-container *ngIf="lessonSlotRows$ | async as rows; else loading">
+                <ng-container *ngIf="lessonSlotRows as rows; else loading">
                     <div class="schedule-grid">
                         <div *ngIf="hasNoLessons(rows)" class="no-tasks">
                             Нет расписания на текущую дату
@@ -47,33 +47,25 @@
                             </div>
 
                             <!-- Status -->
-                            <div class="status-cell">
-                                <ng-container *ngIf="row.original?.isModified || row.supersede">
-                                    <div class="status-badge"
-                                        [ngClass]="getModificationClass((row.original ?? row.supersede)?.modificationType)">
-                                        {{ getStatusText(row.original ?? row.supersede!) }}
-                                    </div>
-                                </ng-container>
-                            </div>
-
+                            <ng-container *ngIf="row.original; else supersede">
+                                <div class="status-badge"
+                                    [ngClass]="getModificationClass(row.original.modificationType)">
+                                    {{ getStatusText(row.original) }}
+                                </div>
+                            </ng-container>
+                            <ng-template #supersede>
+                                <div class="status-badge"
+                                    [ngClass]="getModificationClass(row.supersede?.modificationType)">
+                                    {{ getStatusText(row.supersede) }}
+                                </div>
+                            </ng-template>
                             <!-- Actual -->
                             <div class="actual-cell">
                                 <div class="actual-cell">
-                                    <ng-container *ngIf="row.original?.isModified && row.supersede">
+                                    <ng-container *ngIf="row.supersede">
                                         <time-table-card [lesson_time]="row.supersede.newLessonSlot || ''"
                                             [lesson_name]="row.supersede.SubjectName || ''"
                                             [teacher_name]="row.supersede.TeacherName || ''" [isModified]="true"
-                                            [modificationType]="getStatusText(row.supersede)"
-                                            [sidebar_color]="row.supersede.HexademicalColor">
-                                        </time-table-card>
-                                    </ng-container>
-
-                                    <ng-container *ngIf="!row.original && row.supersede">
-                                        <time-table-card
-                                            [lesson_time]="row.supersede.LessonTime || row.supersede.newLessonSlot || ''"
-                                            [lesson_name]="row.supersede.SubjectName || ''"
-                                            [teacher_name]="row.supersede.TeacherName || ''"
-                                            [isModified]="row.supersede.isModified"
                                             [modificationType]="getStatusText(row.supersede)"
                                             [sidebar_color]="row.supersede.HexademicalColor">
                                         </time-table-card>
@@ -93,7 +85,7 @@
         <div class="close-task-block">
             <p class="block-name">Ближайшие задания</p>
             <div class="time-table-main-block">
-                <div *ngIf="tasks$ | async as tasks; else loading">
+                <div *ngIf="tasks; else loading">
                     <div *ngIf="tasks.length === 0" class="no-tasks">
                         Нет ближайших заданий
                     </div>

@@ -70,7 +70,7 @@ export class AdditionalMaterialCardComponent {
 
   getFileName(uri: string): string | undefined {
     if (!uri) return undefined;
-    const fileName = uri.split('\\').pop(); // Получаем последнее слово в путис
+    const fileName = uri.split('/').pop(); // Получаем последнее слово в путис
     if (!fileName) return undefined;
 
     return fileName;

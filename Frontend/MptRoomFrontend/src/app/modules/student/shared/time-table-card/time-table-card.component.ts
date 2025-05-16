@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { LessonTimePipe } from '../../../../helper/LessonTimePipe';
 
 @Component({
   selector: 'time-table-card',
-  imports: [CommonModule, LessonTimePipe],
+  imports: [CommonModule],
   templateUrl: './time-table-card.component.html',
   styleUrl: './time-table-card.component.scss',
 })

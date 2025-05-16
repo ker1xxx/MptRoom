@@ -20,13 +20,11 @@ export class LoaderService {
   ): void {
     const currentValue = subject.getValue();
     if (!forceRefresh && currentValue && currentValue.length > 0) {
-      console.log('[LoaderService] Используем кэш');
       return;
     }
 
     fetchFn()
       .pipe(
-        tap((data) => console.log('[LoaderService] Загружены данные:', data)),
         switchMap((data: T) => {
           const result = mapperFn ? mapperFn(data) : (data as unknown as R[]);
           return of(result);
@@ -51,8 +49,6 @@ export class LoaderService {
         ? cacheData.length > 0
         : Object.keys(cacheData).length > 0)
     ) {
-      console.log('Данные загружены из кеша');
-      console.log('cache data:', cacheData);
       return; // Используем кэшированные данные, если они уже есть
     }
 

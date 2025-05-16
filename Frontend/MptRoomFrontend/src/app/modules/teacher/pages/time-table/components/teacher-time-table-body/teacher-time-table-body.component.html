@@ -50,7 +50,7 @@
         </div>
     </div>
     <div>
-        <p class="block-name">Расписание</p>
+        <p class="block-name">Замены</p>
         <div class="supersede-panel">
             <button class="add-request-btn" (click)="openModal()">+ Добавить замену</button>
 
@@ -62,7 +62,8 @@
                             (sub.dateToSupersede | russianDate).split(' ')[1] }}</span>
                         <span class="status"
                             [ngClass]="supersedeRequestToText(sub.supersedeRequestStatus).toLowerCase()">
-                            {{ sub.supersedeRequestStatus === SupersedeRequestStatus.approved ? '✅' : '⏳' }}
+                            {{ sub.supersedeRequestStatus === SupersedeRequestStatus.approved ? '✅' :
+                            sub.supersedeRequestStatus === SupersedeRequestStatus.sent ? '⏳' : '❌' }}
                         </span>
                     </div>
                     <div class="substitute-body">
@@ -126,7 +127,7 @@
                     <label>Выберите пару:</label>
                     <select [(ngModel)]="newSubstitute.affectedLessonId" (change)="generateAvailableDates()"
                         name="existingLesson" required>
-                        <option *ngFor="let lesson of availableLessons" [ngValue]="lesson">
+                        <option *ngFor="let lesson of availableLessons" [ngValue]="lesson.LessonId">
                             {{ translateDay(lesson.DayOfWeek) }} {{ lesson.LessonTime | lessonTime }}
                         </option>
                     </select>

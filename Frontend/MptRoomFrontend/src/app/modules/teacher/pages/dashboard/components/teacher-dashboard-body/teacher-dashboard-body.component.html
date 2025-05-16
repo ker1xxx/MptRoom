@@ -31,33 +31,26 @@
                                 </div>
 
                                 <!-- Status -->
-                                <div class="status-cell">
-                                    <ng-container *ngIf="row.original?.isModified || row.supersede">
-                                        <div class="status-badge"
-                                            [ngClass]="getModificationClass((row.original ?? row.supersede)?.modificationType)">
-                                            {{ getStatusText(row.original ?? row.supersede!) }}
-                                        </div>
-                                    </ng-container>
-                                </div>
+                                <ng-container *ngIf="row.original; else supersede">
+                                    <div class="status-badge"
+                                        [ngClass]="getModificationClass(row.original.modificationType)">
+                                        {{ getStatusText(row.original) }}
+                                    </div>
+                                </ng-container>
+                                <ng-template #supersede>
+                                    <div class="status-badge"
+                                        [ngClass]="getModificationClass(row.supersede?.modificationType)">
+                                        {{ getStatusText(row.supersede) }}
+                                    </div>
+                                </ng-template>
 
                                 <!-- Actual -->
                                 <div class="actual-cell">
                                     <div class="actual-cell">
-                                        <ng-container *ngIf="row.original?.isModified && row.supersede">
+                                        <ng-container *ngIf="row.supersede">
                                             <teacher-time-table-card [lesson_time]="row.supersede.newLessonSlot || ''"
                                                 [lesson_name]="row.supersede.SubjectName || ''"
-                                                [group_name]="row.supersede.GroupName || ''" [isModified]="true"
-                                                [modificationType]="getStatusText(row.supersede)"
-                                                [sidebar_color]="row.supersede.HexademicalColor">
-                                            </teacher-time-table-card>
-                                        </ng-container>
-
-                                        <ng-container *ngIf="!row.original && row.supersede">
-                                            <teacher-time-table-card
-                                                [lesson_time]="row.supersede.LessonTime || row.supersede.newLessonSlot || ''"
-                                                [lesson_name]="row.supersede.SubjectName || ''"
-                                                [group_name]="row.supersede.GroupName || ''"
-                                                [isModified]="row.supersede.isModified"
+                                                [group_name]="row.supersede.GroupName|| ''" [isModified]="true"
                                                 [modificationType]="getStatusText(row.supersede)"
                                                 [sidebar_color]="row.supersede.HexademicalColor">
                                             </teacher-time-table-card>

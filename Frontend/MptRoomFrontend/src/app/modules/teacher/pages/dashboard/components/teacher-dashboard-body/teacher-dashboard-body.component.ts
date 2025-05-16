@@ -64,9 +64,8 @@ export class TeacherDashboardBodyComponent implements OnChanges {
       original: processed.original.find((l) => l.LessonNumber === slot),
       supersede: processed.supersedes.find((l) => l.LessonNumber === slot),
     }));
-
-    console.log('Processed rows:', this.lessonSlotRows);
   }
+
   get isScheduleEmpty(): boolean {
     return this.lessonSlotRows?.every((row) => !row.original && !row.supersede);
   }
@@ -112,19 +111,30 @@ export class TeacherDashboardBodyComponent implements OnChanges {
     this.supersedeRequests!.forEach((request) => {
       if (request.dateToSupersede !== today) return;
 
-      // Обработка добавленных/замененных пар
-      if (request.supersedeRequestType === SupersedeRequestType.added) {
-        const newLesson = this.createLessonFromSupersede(request);
-        supersedeLessons.push(newLesson);
+      const newLesson = this.createLessonFromSupersede(request);
+      supersedeLessons.push(newLesson);
+
+      // Обработка замены: удаляем оригинальный урок
+      if (request.supersedeRequestType === SupersedeRequestType.replaced) {
+        const index = originalLessons.findIndex(
+          (l) => l.LessonId === request.affectedLessonId
+        );
+        if (index !== -1) originalLessons.splice(index, 1);
       }
 
-      // Модификация существующих уроков
-      const originalLesson = originalLessons.find(
-        (l) => l.LessonId === request.affectedLessonId
-      );
-
-      if (originalLesson) {
-        this.modifyOriginalLesson(originalLesson, request);
+      // Обработка переноса/отмены: модифицируем оригинал
+      if (
+        request.supersedeRequestType === SupersedeRequestType.moved ||
+        request.supersedeRequestType === SupersedeRequestType.canceled
+      ) {
+        const originalLesson = originalLessons.find(
+          (l) => l.LessonId === request.affectedLessonId
+        );
+        if (originalLesson) {
+          originalLesson.isModified = true;
+          originalLesson.modificationType = request.supersedeRequestType;
+          originalLesson.LessonTime = request.lessonSlotName; // Для moved
+        }
       }
     });
 
@@ -132,19 +142,6 @@ export class TeacherDashboardBodyComponent implements OnChanges {
       original: this.filterAndSort(originalLessons),
       supersedes: this.filterAndSort(supersedeLessons),
     };
-  }
-
-  private modifyOriginalLesson(
-    lesson: LessonViewModel,
-    request: LessonSupersedeRequestViewModel
-  ): void {
-    lesson.isModified = true;
-    lesson.modificationType = request.supersedeRequestType;
-    lesson.newLessonSlot = request.lessonSlotName;
-
-    if (request.supersedeRequestType === SupersedeRequestType.replaced) {
-      lesson.LessonTime = request.lessonSlotName;
-    }
   }
 
   navigateToTask(obj: any) {
@@ -173,8 +170,14 @@ export class TeacherDashboardBodyComponent implements OnChanges {
   private createLessonFromSupersede(
     request: LessonSupersedeRequestViewModel
   ): LessonViewModel {
+    // Определяем тип модификации
+    let modificationType = request.supersedeRequestType;
+    if (modificationType === SupersedeRequestType.replaced) {
+      modificationType = SupersedeRequestType.added;
+    }
+
     return {
-      LessonId: Math.random(), // Используем ID из запроса
+      LessonId: Math.random(), // Используем ID запроса
       SubjectId: request.subjectId,
       SubjectName: request.subjectName,
       GroupId: request.groupId,
@@ -186,7 +189,7 @@ export class TeacherDashboardBodyComponent implements OnChanges {
       HexademicalColor: request.hexademicalColor || '#CCCCCC',
       LessonTime: request.lessonSlotName,
       isModified: true,
-      modificationType: SupersedeRequestType.added,
+      modificationType: modificationType,
       WeekType: '',
       HousingName: '',
       newLessonSlot: '',
@@ -194,26 +197,45 @@ export class TeacherDashboardBodyComponent implements OnChanges {
     };
   }
 
-  // Остальные методы остаются без изменений
-  getModificationClass(modificationType?: SupersedeRequestType): string {
-    return modificationType
-      ? SupersedeRequestType[modificationType].toLowerCase()
-      : '';
-  }
+  getStatusText(lesson?: LessonViewModel): string {
+    if (!lesson) return '';
 
-  getStatusText(lesson: LessonViewModel): string {
     switch (lesson.modificationType) {
       case SupersedeRequestType.added:
         return 'Добавлено';
+
       case SupersedeRequestType.replaced:
         return 'Заменено';
+
       case SupersedeRequestType.moved:
-        return 'Перенесено';
+        if (!lesson.LessonTime) return 'Некорректные данные о времени';
+
+        const [startLessonTime, endLessonTime] = lesson.LessonTime.split('-');
+
+        const formattedStart = startLessonTime.trim().slice(0, 5); // формат HH:mm
+        const formattedEnd = endLessonTime.trim().slice(0, 5);
+
+        return `Перенесено на ${formattedStart} - ${formattedEnd}`;
+
       case SupersedeRequestType.canceled:
         return 'Отменено (с отработкой)';
+
       default:
         return '';
     }
+  }
+
+  // Остальные методы остаются без изменений
+  getModificationClass(
+    modificationType: SupersedeRequestType | undefined
+  ): string {
+    if (!modificationType) return '';
+
+    // Получаем строковое представление Enum
+    const typeString = SupersedeRequestType[modificationType];
+
+    // Приводим к нижнему регистру для соответствия CSS-классам
+    return typeString.toLowerCase();
   }
 
   private getEnglishDayOfWeek(date: Date): string {

@@ -100,8 +100,6 @@ export class CourseComponent {
       .subscribe({
         next: (result) => {
           if (!result) return;
-          console.log(result.course?.groupId);
-          console.log(this.student$?.groupId);
           if (
             result.course &&
             result.course.groupId === this.student$?.groupId

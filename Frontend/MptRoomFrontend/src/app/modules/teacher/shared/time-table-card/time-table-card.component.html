@@ -28,8 +28,7 @@
     <div class="main-block">
         <div class="lesson-time">
             <span [class.strikethrough]="modificationType === 'replaced' && originalLessonSlot">
-                {{ modificationType === 'replaced' && originalLessonSlot ? originalLessonSlot: lesson_time |
-                lessonTime}}
+                {{ modificationType === 'replaced' && originalLessonSlot ? originalLessonSlot: lesson_time}}
             </span>
         </div>
         <div class="lesson-name">{{ subject_name }}</div>

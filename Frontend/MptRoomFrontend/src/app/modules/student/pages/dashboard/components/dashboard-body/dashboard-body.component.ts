@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { GradeViewModel } from '../../../../../../models/VM/grade.viewmodel';
 import { LessonViewModel } from '../../../../../../models/VM/lesson.viewmodel';
@@ -13,6 +19,7 @@ import { SupersedeRequestStatus } from '../../../../../../models/enums/supersede
 import { SupersedeRequestType } from '../../../../../../models/enums/supersede-type-request.enum';
 import { FormsModule } from '@angular/forms';
 import { encodeId } from '../../../../../../helper/util';
+import { LessonTimePipe } from '../../../../../../helper/LessonTimePipe';
 
 @Component({
   selector: 'student-dashboard-body',
@@ -23,17 +30,17 @@ import { encodeId } from '../../../../../../helper/util';
     RecentMarkCardComponent,
     TimeTableCardComponent,
     CloseTaskCardComponent,
+    LessonTimePipe,
   ],
   templateUrl: './dashboard-body.component.html',
   styleUrl: './dashboard-body.component.scss',
 })
 export class DashboardBodyComponent implements OnChanges {
-  @Input() schedule$ = new BehaviorSubject<LessonViewModel[] | null>(null);
+  @Input() schedule: LessonViewModel[] | null = [];
   @Input() grades$!: Observable<GradeViewModel[]>;
-  @Input() tasks$!: Observable<TaskViewModel[]>;
-  @Input() supersedeRequests$!: BehaviorSubject<
-    LessonSupersedeRequestViewModel[]
-  >;
+  @Input() tasks: TaskViewModel[] | null = [];
+  @Input() supersedeRequests: LessonSupersedeRequestViewModel[] | null = [];
+
   combinedData$!: Observable<{
     original: LessonViewModel[];
     supersedes: LessonViewModel[];
@@ -46,35 +53,32 @@ export class DashboardBodyComponent implements OnChanges {
   SupersedeRequestType = SupersedeRequestType;
 
   readonly LESSON_SLOTS = [1, 2, 3, 4, 5];
-  lessonSlotRows$!: Observable<
-    {
-      slot: number;
-      original: LessonViewModel | undefined;
-      supersede: LessonViewModel | undefined;
-    }[]
-  >;
+  lessonSlotRows: {
+    slot: number;
+    original: LessonViewModel | undefined;
+    supersede: LessonViewModel | undefined;
+  }[] = [];
 
-  ngOnChanges(): void {
-    if (this.schedule$) {
-      this.combinedData$ = this.schedule$.pipe(
-        map((schedule) => this.processScheduleWithSupersedes(schedule || []))
-      );
-      this.lessonSlotRows$ = this.combinedData$.pipe(
-        map((data) => {
-          return this.LESSON_SLOTS.map((slot) => {
-            const original = data.original.find((l) => l.LessonNumber === slot);
-            const supersede = data.supersedes.find(
-              (l) => l.LessonNumber === slot
-            );
-            return { slot, original, supersede };
-          });
-        })
-      );
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.hasChanges(changes)) {
+      this.processCombinedData();
     }
+  }
+
+  private processCombinedData(): void {
+    const processed = this.processScheduleWithSupersedes();
+    this.lessonSlotRows = this.LESSON_SLOTS.map((slot) => ({
+      slot,
+      original: processed.original.find((l) => l.LessonNumber === slot),
+      supersede: processed.supersedes.find((l) => l.LessonNumber === slot),
+    }));
   }
 
   hasNoLessons(rows: { original?: any; supersede?: any }[]): boolean {
     return rows.every((row) => !row.original && !row.supersede);
+  }
+  private hasChanges(changes: SimpleChanges): boolean {
+    return !!changes['schedule'] || !!changes['supersedeRequests'];
   }
 
   constructor(private router: Router) {
@@ -106,61 +110,49 @@ export class DashboardBodyComponent implements OnChanges {
       'Декабря',
     ];
 
-    const today = new Date(2025, 4, 12);
+    const today = new Date();
     this.dayName = daysOfWeek[today.getDay()];
     this.today = `${today.getDate()} ${monthsOfYear[today.getMonth()]}`;
   }
 
-  private processScheduleWithSupersedes(lessons: LessonViewModel[]): {
+  private processScheduleWithSupersedes(): {
     original: LessonViewModel[];
     supersedes: LessonViewModel[];
   } {
-    if (!this.supersedeRequests$?.value)
-      return { original: lessons, supersedes: [] };
-
     const today = new Date().toISOString().split('T')[0];
-    const supersedes = this.supersedeRequests$.value;
-
-    const originalLessons = lessons.map((lesson) => ({ ...lesson }));
+    const originalLessons = [...this.schedule!];
     const supersedeLessons: LessonViewModel[] = [];
-    console.log('supersedes', supersedes);
-    supersedes.forEach((supersede) => {
-      if (supersede.dateToSupersede !== today) return;
 
-      // Автоматическое определение типа для добавленных пар
-      if (supersede.supersedeRequestType === SupersedeRequestType.added) {
-        const existingLesson = originalLessons.find(
-          (l) => l.LessonNumber === supersede.lessonSlotId
+    this.supersedeRequests!.forEach((request) => {
+      if (request.dateToSupersede !== today) return;
+
+      const newLesson = this.createLessonFromSupersede(request);
+      supersedeLessons.push(newLesson);
+
+      // Обработка замены: удаляем оригинальный урок
+      if (request.supersedeRequestType === SupersedeRequestType.replaced) {
+        const index = originalLessons.findIndex(
+          (l) => l.LessonId === request.affectedLessonId
         );
-
-        const newLesson = this.createLessonFromSupersede(supersede);
-        newLesson.modificationType = existingLesson
-          ? SupersedeRequestType.replaced
-          : SupersedeRequestType.added;
-        newLesson.LessonTime = supersede.lessonSlotName;
-        supersedeLessons.push(newLesson);
+        if (index !== -1) originalLessons.splice(index, 1);
       }
 
-      // Обработка других типов изменений
-      const originalLesson = originalLessons.find(
-        (l) => l.LessonId === supersede.affectedLessonId
-      );
-
-      console.log('original lessons', originalLesson);
-      console.log('supersede', supersede);
-
-      if (originalLesson) {
-        originalLesson.isModified = true;
-        originalLesson.modificationType =
-          supersede.supersedeRequestType === SupersedeRequestType.added
-            ? SupersedeRequestType.replaced
-            : supersede.supersedeRequestType;
-
-        // Исправляем источник времени
-        originalLesson.newLessonSlot = supersede.lessonSlotName;
-        originalLesson.LessonTime = supersede.lessonSlotName; // Обновляем основное время
+      // Обработка переноса/отмены: модифицируем оригинал
+      if (
+        request.supersedeRequestType === SupersedeRequestType.moved ||
+        request.supersedeRequestType === SupersedeRequestType.canceled
+      ) {
+        const originalLesson = originalLessons.find(
+          (l) => l.LessonId === request.affectedLessonId
+        );
+        if (originalLesson) {
+          originalLesson.isModified = true;
+          originalLesson.modificationType = request.supersedeRequestType;
+          originalLesson.LessonTime = request.lessonSlotName; // Для moved
+        }
       }
     });
+
     return {
       original: this.filterAndSort(originalLessons),
       supersedes: this.filterAndSort(supersedeLessons),
@@ -184,12 +176,8 @@ export class DashboardBodyComponent implements OnChanges {
       Friday: 5,
       Saturday: 6,
     };
-    console;
     return lessons
-      .filter(
-        (lesson) =>
-          dayMapping[lesson.DayOfWeek] === new Date(2025, 4, 12, 7).getDay()
-      )
+      .filter((lesson) => dayMapping[lesson.DayOfWeek] === new Date().getDay())
       .sort((a, b) => a.LessonNumber - b.LessonNumber);
   }
 
@@ -206,39 +194,58 @@ export class DashboardBodyComponent implements OnChanges {
   }
 
   private createLessonFromSupersede(
-    supersede: LessonSupersedeRequestViewModel
+    request: LessonSupersedeRequestViewModel
   ): LessonViewModel {
+    // Определяем тип модификации
+    let modificationType = request.supersedeRequestType;
+    if (modificationType === SupersedeRequestType.replaced) {
+      modificationType = SupersedeRequestType.added;
+    }
+
     return {
-      LessonId: -Math.random(),
-      SubjectId: supersede.subjectId,
-      SubjectName: supersede.subjectName,
-      GroupId: supersede.groupId,
-      GroupName: supersede.groupName,
-      TeacherId: supersede.teacherId,
-      TeacherName: supersede.teacherName,
-      DayOfWeek: this.getEnglishDayOfWeek(new Date(2025, 4, 12, 7)),
-      WeekType: '',
-      LessonNumber: supersede.lessonSlotId,
-      HousingName: '',
-      HexademicalColor: supersede.hexademicalColor || '#CCCCCC',
-      LessonTime: supersede.lessonSlotName,
+      LessonId: Math.random(), // Используем ID запроса
+      SubjectId: request.subjectId,
+      SubjectName: request.subjectName,
+      GroupId: request.groupId,
+      GroupName: request.groupName,
+      TeacherId: request.teacherId,
+      TeacherName: request.teacherName,
+      DayOfWeek: this.getEnglishDayOfWeek(new Date(request.dateToSupersede)),
+      LessonNumber: request.lessonSlotId,
+      HexademicalColor: request.hexademicalColor || '#CCCCCC',
+      LessonTime: request.lessonSlotName,
       isModified: true,
-      modificationType: SupersedeRequestType.added,
-      newLessonSlot: supersede.lessonSlotName,
+      modificationType: modificationType,
+      WeekType: '',
+      HousingName: '',
+      newLessonSlot: '',
       originalLessonSlot: '',
     };
   }
 
-  getStatusText(lesson: LessonViewModel): string {
+  getStatusText(lesson?: LessonViewModel): string {
+    if (!lesson) return '';
+
     switch (lesson.modificationType) {
       case SupersedeRequestType.added:
         return 'Добавлено';
+
       case SupersedeRequestType.replaced:
         return 'Заменено';
+
       case SupersedeRequestType.moved:
-        return `Перенесено`;
+        if (!lesson.LessonTime) return 'Некорректные данные о времени';
+
+        const [startLessonTime, endLessonTime] = lesson.LessonTime.split('-');
+
+        const formattedStart = startLessonTime.trim().slice(0, 5); // формат HH:mm
+        const formattedEnd = endLessonTime.trim().slice(0, 5);
+
+        return `Перенесено на ${formattedStart} - ${formattedEnd}`;
+
       case SupersedeRequestType.canceled:
         return 'Отменено (с отработкой)';
+
       default:
         return '';
     }

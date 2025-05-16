@@ -475,9 +475,6 @@ export class LessonScheduleComponent implements OnInit {
         this.loadLessons();
         this.closeModal();
         this.notificationService.show('✅ Пара успешно сохранена', 'success');
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
       },
       error: (err) => {
         console.error('Ошибка обновления:', err);
@@ -551,7 +548,18 @@ export class LessonScheduleComponent implements OnInit {
         )
       )
       .subscribe({
-        next: (requests) => (this.supersedeRequests = requests),
+        next: (requests) =>
+          (this.supersedeRequests = requests.sort((a, b) => {
+            const aIsSent =
+              a.supersedeRequestStatus === SupersedeRequestStatus.sent;
+            const bIsSent =
+              b.supersedeRequestStatus === SupersedeRequestStatus.sent;
+
+            // Сначала элементы со статусом sent
+            if (aIsSent && !bIsSent) return -1;
+            if (!aIsSent && bIsSent) return 1;
+            return 0;
+          })),
         error: (err) => console.error('Ошибка загрузки запросов:', err),
       });
   }
@@ -592,6 +600,7 @@ export class LessonScheduleComponent implements OnInit {
         lessonSlotName: `${slot.lessonStart} - ${slot.lessonEnd}`,
         requestTime: dto.requestTime,
         dateToSupersede: dto.dateToSupersede,
+        affectedLessonId: dto.affectedLessonId,
       })),
       catchError((error) => {
         console.error('Ошибка загрузки данных:', error);
@@ -601,6 +610,7 @@ export class LessonScheduleComponent implements OnInit {
           groupName: 'Группа не найдена',
           subjectName: 'Предмет не найден',
           lessonSlotName: 'Время не указано',
+          affectedLessonId: 0,
         } as LessonSupersedeRequestViewModel);
       })
     );
@@ -637,6 +647,7 @@ export class LessonScheduleComponent implements OnInit {
       lessonSlotId: request.lessonSlotId,
       subjectId: request.subjectId,
       requestTime: request.requestTime,
+      affectedLessonId: request.affectedLessonId,
       supersedeRequestStatus: newStatus,
       supersedeRequestType: request.supersedeRequestType,
     };
@@ -661,14 +672,11 @@ export class LessonScheduleComponent implements OnInit {
             '✅ Статус успешно обновлен',
             'success'
           );
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
         },
         error: (err) => {
           console.error('Ошибка обновления:', err);
           this.notificationService.show(
-            `Ошибка обновления: ${err.message}`,
+            `❌ Ошибка обновления: ${err.message}`,
             'error'
           );
         },
